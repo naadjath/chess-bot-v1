@@ -1,0 +1,21 @@
+# --- Coeur du projet (Semaine 1 : marche avec n'importe quel Python 3.10+) ---
+chess>=1.10.0          # regles du jeu, PGN, communication UCI avec Stockfish
+numpy>=1.26
+scipy>=1.11            # intervalles de confiance sur le score / Elo
+tqdm>=4.66             # barres de progression
+psutil>=5.9            # surveillance RAM/CPU pendant l'entrainement
+
+# --- Lecture des archives Lichess (.pgn.zst) ---
+# Inutile si vous travaillez sur des .pgn non compresses.
+zstandard>=0.22
+
+# --- Modele (Semaine 2+ : necessite Python 3.11 ou 3.12, voir README) ---
+# torch>=2.4
+# datasets>=2.20
+# pyarrow>=16
+
+# --- Application (Semaine 4) ---
+# gradio>=4.40
+
+# --- Dev ---
+pytest>=8.0

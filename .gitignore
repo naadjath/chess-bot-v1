@@ -1,0 +1,33 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Donnees brutes et derivees : trop lourdes pour Git, et entierement
+# reconstructibles avec scripts/prepare_data.py
+data/
+*.pgn.zst
+*.parquet
+*.npz
+
+# Poids de modeles
+checkpoints/
+*.pt
+*.pth
+
+# Binaire Stockfish
+bin/
+
+# Resultats : on garde les rapports et figures, pas les milliers de PGN
+results/games/
+
+# Fichiers regenerables : les pages HTML sont produites par tools/build_html.py
+# a partir des .md, et l'archive par tools/make_zip.py. Seules les sources
+# comptent dans l'historique.
+POUR RAJAA/
+*.zip
+
+.vscode/
+.idea/
+.DS_Store
