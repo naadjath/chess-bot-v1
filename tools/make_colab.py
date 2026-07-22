@@ -78,11 +78,14 @@ print("\\nGPU pret.")
     md("""
 ## 2. Récupérer le code
 
-**Option A — depuis GitHub (recommandé).** Remplacez l'adresse par celle de votre dépôt.
-Si le dépôt est privé, rendez-le public le temps de l'entraînement, ou utilisez l'option B.
+**Option A — depuis GitHub (recommandé).** L'adresse du dépôt est déjà renseignée,
+il n'y a rien à modifier : exécutez simplement la cellule.
+
+*(Si vous travaillez sur une copie personnelle du projet, remplacez `REPO_URL`
+par l'adresse de votre propre dépôt.)*
 """),
     code("""
-REPO_URL = "https://github.com/VOTRE-COMPTE/chess-bot-v1.git"   # <-- a modifier
+REPO_URL = "https://github.com/naadjath/chess-bot-v1.git"
 
 import os, shutil
 if os.path.exists("chess-bot-v1"):
