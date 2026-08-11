@@ -210,12 +210,29 @@ Utile pour le rapport : une figure vaut mieux qu'un paragraphe.
 import chess.svg
 from IPython.display import display, HTML
 
+# Echiquier en noir et blanc, comme un vrai jeu et comme notre application.
+# Par defaut, python-chess dessine un plateau marron ; on impose notre palette.
+ECHIQUIER_NB = {
+    "square light": "#f0f0f0",          # cases claires
+    "square dark": "#595959",           # cases foncees
+    "square light lastmove": "#f0f0f0",
+    "square dark lastmove": "#595959",
+    "margin": "#ffffff",
+    "coord": "#000000",
+    "arrow green": "#b8536e",           # la fleche du coup, en rose
+}
+
 index = 12345
 board = decode_board(tokens[index])
 move = VOCAB.move_at(int(labels[index]))
 
 print(f"Le joueur au trait a joue : {board.san(move)}")
-display(HTML(chess.svg.board(board, arrows=[(move.from_square, move.to_square)], size=340)))
+display(HTML(chess.svg.board(
+    board,
+    arrows=[(move.from_square, move.to_square)],
+    colors=ECHIQUIER_NB,
+    size=340,
+)))
 """),
 
     md("""
