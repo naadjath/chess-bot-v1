@@ -104,21 +104,28 @@ ci-dessous et choisissez le fichier.
 *(N'exécutez cette cellule que si vous n'avez pas utilisé l'option A.)*
 """),
     code("""
-from google.colab import files
-import zipfile, os, shutil
+# Cette cellule est DESACTIVEE par defaut : elle ne sert que si vous n'avez pas
+# utilise l'option A (git clone). Pour l'activer, passez la valeur a True.
+UTILISER_OPTION_B = False
 
-uploaded = files.upload()
-name = next(iter(uploaded))
+if UTILISER_OPTION_B:
+    from google.colab import files
+    import zipfile, os, shutil
 
-if os.path.exists("chess-bot-v1"):
-    shutil.rmtree("chess-bot-v1")
-with zipfile.ZipFile(name) as archive:
-    archive.extractall(".")
+    uploaded = files.upload()
+    name = next(iter(uploaded))
 
-# L'archive peut contenir un dossier racine : on se place dedans.
-target = "chess-bot-v1" if os.path.isdir("chess-bot-v1") else name.replace(".zip", "")
-%cd {target}
-!ls
+    if os.path.exists("chess-bot-v1"):
+        shutil.rmtree("chess-bot-v1")
+    with zipfile.ZipFile(name) as archive:
+        archive.extractall(".")
+
+    target = "chess-bot-v1" if os.path.isdir("chess-bot-v1") else name.replace(".zip", "")
+    os.chdir(target)
+    print("Place dans :", os.getcwd())
+    print(os.listdir())
+else:
+    print("Option B ignoree (vous avez utilise l'option A, c'est parfait).")
 """),
 
     md("## 3. Installer les dépendances"),
@@ -242,8 +249,16 @@ Le modèle par défaut fait **6,9 M de paramètres**. Sur un T4, comptez quelque
 dizaines de minutes pour 4 époques sur 1 million de positions — la cellule
 affiche le temps réel.
 
-Les poids sont sauvegardés **à chaque époque** dans `checkpoints/` : si la session
-est coupée, vous ne perdez qu'une époque.
+### Sécurité : sauvegarde sur votre Google Drive
+
+Colab gratuit peut se **déconnecter à tout moment**, et tout ce qui est stocké sur
+la machine est alors perdu. Pour ne jamais perdre le modèle, on l'enregistre
+directement sur votre Google Drive, **à chaque époque**. Même si la session est
+coupée, le meilleur modèle obtenu jusque-là reste sauvegardé.
+
+> Au lancement, une fenêtre vous demandera d'autoriser l'accès à votre Drive :
+> choisissez votre compte Google et cliquez sur *Autoriser*. C'est sûr — c'est
+> votre propre Drive.
 
 ### Interpréter les chiffres pendant l'entraînement
 
@@ -263,12 +278,23 @@ D_MODEL    = 256
 COUCHES    = 8
 TETES      = 8
 
+# On branche Google Drive et on y enregistre les poids : ainsi, meme si Colab
+# se deconnecte, le modele entraine survit et se retrouve dans votre Drive.
+from google.colab import drive
+drive.mount("/content/drive")
+
+import os
+DOSSIER_POIDS = "/content/drive/MyDrive/chess-bot-v1/checkpoints"
+os.makedirs(DOSSIER_POIDS, exist_ok=True)
+print("Les poids seront sauvegardes dans :", DOSSIER_POIDS)
+
 import time
 start = time.time()
 
-!python -m scripts.train --epochs {EPOQUES} --batch-size {BATCH} --d-model {D_MODEL} --layers {COUCHES} --heads {TETES} --eval-every 200 --device cuda
+!python -m scripts.train --epochs {EPOQUES} --batch-size {BATCH} --d-model {D_MODEL} --layers {COUCHES} --heads {TETES} --eval-every 200 --device cuda --output "{DOSSIER_POIDS}"
 
 print(f"\\nEntrainement termine en {(time.time() - start) / 60:.1f} min")
+print("Modele sauvegarde sur votre Drive — il ne sera pas perdu meme en cas de deconnexion.")
 """),
 
     md("""
@@ -286,7 +312,8 @@ import json, os
 import matplotlib.pyplot as plt
 
 os.makedirs("results", exist_ok=True)
-history = json.load(open("checkpoints/history.json", encoding="utf-8"))
+# L'historique a ete sauvegarde sur le Drive, a cote des poids.
+history = json.load(open(f"{DOSSIER_POIDS}/history.json", encoding="utf-8"))
 
 fig, axes = plt.subplots(1, 3, figsize=(15, 4.2))
 
@@ -312,6 +339,8 @@ for ax in axes:
     ax.spines[["top", "right"]].set_visible(False)
 
 plt.tight_layout()
+# La figure va sur le Drive elle aussi, pour le rapport.
+plt.savefig(f"{DOSSIER_POIDS}/courbes_entrainement.png", dpi=160, bbox_inches="tight")
 plt.savefig("results/courbes_entrainement.png", dpi=160, bbox_inches="tight")
 plt.show()
 
@@ -332,9 +361,10 @@ Stockfish installé — voir le README.)*
     code("""
 !mkdir -p results
 
+MODELE = f"neural:{DOSSIER_POIDS}/best.pt"
 for adversaire in ["random", "greedy", "minimax:2"]:
     print(f"\\n{'=' * 66}")
-    !python -m scripts.run_match --bot neural --opponent {adversaire} --games 40 --seed 1
+    !python -m scripts.run_match --bot "{MODELE}" --opponent {adversaire} --games 40 --seed 1
 """),
 
     md("""
@@ -350,7 +380,7 @@ C'est une excellente diapositive de soutenance.
 import chess
 from src.engine.neural_bot import NeuralBot
 
-bot = NeuralBot.from_checkpoint("checkpoints/best.pt", temperature=0.0)
+bot = NeuralBot.from_checkpoint(f"{DOSSIER_POIDS}/best.pt", temperature=0.0)
 board = chess.Board()
 
 print("Position de depart — ce que le reseau propose :\\n")
@@ -360,46 +390,27 @@ for move, probability in bot.explain(board, top_k=8):
 """),
 
     md("""
-## 8. Récupérer les poids
+## 8. Récupérer les poids sur votre PC
 
-**Ne sautez pas cette étape.** Tout ce qui est sur Colab disparaît à la fermeture
-de la session.
+**Bonne nouvelle : le modèle est déjà en sécurité sur votre Google Drive**
+(dossier `MyDrive/chess-bot-v1/checkpoints`), il ne sera pas perdu.
 
-Le fichier `best.pt` fait quelques dizaines de Mo. Une fois téléchargé, placez-le
-dans `checkpoints/best.pt` sur votre PC : le Transformer apparaîtra
-automatiquement comme adversaire dans l'application de jeu.
+Cette cellule le télécharge en plus sur votre ordinateur. Une fois téléchargé,
+placez `best.pt` dans le dossier `checkpoints/` du projet sur votre PC : le
+Transformer apparaîtra alors comme adversaire dans l'application de jeu.
 """),
     code("""
 from google.colab import files
 import os
 
-for chemin in ["checkpoints/best.pt", "checkpoints/history.json", "results/courbes_entrainement.png"]:
+for nom in ["best.pt", "history.json", "courbes_entrainement.png"]:
+    chemin = f"{DOSSIER_POIDS}/{nom}"
     if os.path.exists(chemin):
         taille = os.path.getsize(chemin) / 1e6
-        print(f"Telechargement de {chemin} ({taille:.1f} Mo)")
+        print(f"Telechargement de {nom} ({taille:.1f} Mo)")
         files.download(chemin)
     else:
-        print(f"Absent : {chemin}")
-"""),
-
-    md("""
-### Variante : sauvegarder sur Google Drive
-
-Plus sûr que le téléchargement si votre connexion est instable, et pratique pour
-partager les poids avec votre binôme.
-"""),
-    code("""
-from google.colab import drive
-import shutil, os
-
-drive.mount("/content/drive")
-
-destination = "/content/drive/MyDrive/chess-bot-v1"
-os.makedirs(destination, exist_ok=True)
-for chemin in ["checkpoints/best.pt", "checkpoints/history.json"]:
-    if os.path.exists(chemin):
-        shutil.copy(chemin, destination)
-        print(f"Copie : {chemin} -> {destination}")
+        print(f"Absent : {nom}")
 """),
 
     md("""
