@@ -22,11 +22,14 @@ ouverte Lichess, encodage des positions, entraînement d'un Transformer encodeur
 de 6,86 millions de paramètres par clonage comportemental, puis évaluation du
 niveau de jeu en Elo face à des adversaires de référence et à Stockfish bridé.
 
-Notre modèle atteint une exactitude de prédiction (top-1) de **[22,7 % → à mettre
-à jour après l'entraînement final]** sur des positions jamais vues, et un niveau
-estimé de **[À COMPLÉTER]** Elo. Au-delà de la performance brute, ce travail met
-l'accent sur la **rigueur de la mesure** (intervalles de confiance, alternance des
-couleurs, jeux de validation séparés) et sur la reproductibilité.
+Notre modèle atteint une exactitude de prédiction (top-1) de **22,7 %** sur des
+positions jamais vues, et un niveau de jeu estimé à **environ 230-300 Elo** (niveau
+grand débutant). Il apprend visiblement des principes d'ouverture — dans la
+position de départ, il propose spontanément des coups classiques (Cf3, Cc3, d4,
+c4) sans qu'aucune règle ne lui ait été enseignée — mais reste trop faible pour
+convertir ses positions. Au-delà de la performance brute, ce travail met l'accent
+sur la **rigueur de la mesure** (intervalles de confiance de Wilson, alternance
+des couleurs, jeux de validation séparés) et sur la reproductibilité.
 
 **Mots-clés :** apprentissage automatique, Transformer, échecs, clonage
 comportemental, évaluation Elo.
@@ -272,7 +275,7 @@ le coup joué ?) et la **top-5** (le bon coup est-il dans ses 5 propositions ?).
 
 *(Insérer ici la figure `courbes_entrainement.png` : perte, top-1, top-5.)*
 
-**Résultats d'un premier entraînement (4 époques), à titre indicatif :**
+**Résultats de l'entraînement (4 époques sur 1 million de positions, GPU T4) :**
 
 | Époque | Perte (val) | Top-1 | Top-5 |
 |---|---|---|---|
@@ -281,15 +284,19 @@ le coup joué ?) et la **top-5** (le bon coup est-il dans ses 5 propositions ?).
 | 3 | 3,14 | 21,9 % | 50,5 % |
 | 4 | 3,08 | 22,7 % | 51,7 % |
 
-La perte décroît à chaque époque et les deux courbes (entraînement et validation)
-restent proches : **pas de surapprentissage**. Les courbes étant encore
-croissantes à la 4ᵉ époque, nous avons relancé un entraînement plus long.
+La perte décroît régulièrement et les deux courbes (entraînement et validation)
+restent proches : **le modèle n'est pas en surapprentissage**. Chaque époque
+prend environ 8-9 minutes sur le GPU T4 gratuit.
 
-**Résultats de l'entraînement final ([10] époques) : [À COMPLÉTER]**
-
-| Époque | Perte (val) | Top-1 | Top-5 |
-|---|---|---|---|
-| ... | ... | ... | ... |
+**Contrainte matérielle.** Les courbes étant encore croissantes à la 4ᵉ époque,
+un entraînement plus long aurait vraisemblablement amélioré le modèle. Nous avons
+tenté un entraînement en 10 époques, mais l'environnement Colab gratuit se
+déconnecte au bout de 30 à 40 minutes, interrompant systématiquement une
+exécution de ~90 minutes. Pour garantir un résultat reproductible et livrable,
+nous avons retenu le modèle de **4 époques (top-1 22,7 %)**, sauvegardé sur Google
+Drive. L'amélioration par un entraînement plus long — via un entraînement
+*reprenable* après déconnexion ou un abonnement Colab — figure dans nos
+perspectives.
 
 ### 4.3 Expériences comparatives (ablations)
 
@@ -344,19 +351,42 @@ concède un grand nombre de **nulles**, signe d'un jeu passif qui ne parvient pa
 conclure les parties gagnantes. Il perd face aux adversaires plus forts. Ce
 comportement est cohérent avec une top-1 modeste et un entraînement écourté.
 
-**Modèle final ([10] époques) : [À COMPLÉTER]**
+**Campagne d'évaluation complète (60 parties par adversaire, couleurs
+alternées, intervalles de confiance de Wilson à 95 %) :**
 
-| Adversaire | Bilan | Score | Elo estimé |
-|---|---|---|---|
-| ... | ... | ... | ... |
+| Adversaire | Elo adv. | V | N | D | Score | Elo estimé (IC 95 %) |
+|---|---:|---:|---:|---:|---:|---|
+| Aléatoire | 250 | 3 | 51 | 6 | 47,5 % | 233 [146 ; 320] |
+| Glouton | 600 | 0 | 11 | 49 | 9,2 % | 202 [54 ; 349] |
+| Minimax profondeur 2 | 1100 | 0 | 2 | 58 | 1,7 % | 392 [88 ; 695] |
+| Minimax profondeur 3 | 1300 | 0 | 2 | 58 | 1,7 % | 592 [288 ; 895] |
+| **Stockfish bridé 1320** | 1320 | 0 | 4 | 56 | 3,3 % | 735 [507 ; 963] |
 
-**Face à Stockfish bridé : [À COMPLÉTER — à lancer sur PC avec Stockfish installé]**
+**Lecture des résultats.** La mesure la plus directe est celle face à
+l'adversaire aléatoire : le bot y obtient 47,5 %, soit un niveau **statistiquement
+équivalent au hasard** (environ 230 Elo). Contre tous les adversaires structurés,
+il perd la quasi-totalité de ses parties. Face à Stockfish bridé à 1320 — le
+niveau le plus faible que le moteur accepte — il ne gagne aucune partie mais en
+sauve quatre par la nulle, ce qui place son niveau **nettement en dessous de
+1320**.
 
-| Niveau Stockfish | Bilan | Score | Elo estimé |
-|---|---|---|---|
-| 1320 | ... | ... | ... |
-| 1500 | ... | ... | ... |
-| 1700 | ... | ... | ... |
+**Un trait de comportement domine tous les matchs : le très grand nombre de
+nulles** (51 sur 60 contre l'aléatoire). Le bot atteint souvent des positions
+sans les convertir : il déplace ses pièces sans plan, et les parties s'achèvent
+par répétition, règle des 50 coups, ou limite de coups. C'est la signature d'un
+**jeu passif**, cohérent avec une exactitude d'imitation modeste et un
+entraînement volontairement court (voir §6).
+
+**Sur la dispersion des estimations.** Les Elo estimés varient de 202 à 735 selon
+l'adversaire. Cet écart ne traduit pas une incohérence de la mesure, mais
+**l'imprécision des Elo supposés des baselines**, qui sont des ordres de grandeur
+admis et non des valeurs calibrées officiellement. La mesure directe face à
+l'aléatoire reste la plus fiable et situe le bot autour de **230-300 Elo**, soit
+un niveau de tout premier débutant.
+
+*(Résultats reproductibles : `python -m scripts.evaluate --games 60`. Les parties
+sont sauvegardées en PGN dans `results/games/`, le rapport détaillé dans
+`results/elo_report.md`.)*
 
 ### 5.4 Le modèle « comprend »-il les échecs ?
 
@@ -364,9 +394,28 @@ Une manière parlante de le vérifier : demander au réseau ce qu'il propose dan
 **position de départ**. Un modèle qui a appris les principes du jeu devrait
 proposer des coups d'ouverture classiques (e4, d4, Cf3, c4).
 
-*(Insérer une capture de la sortie « coups envisagés » de l'application.)*
+Dans la position de départ, notre modèle propose (avec leurs probabilités) :
 
-**[À COMPLÉTER après l'entraînement final]**
+| Coup | Probabilité |
+|---|---|
+| d3 | 31,9 % |
+| Cc3 (Nc3) | 16,8 % |
+| Cf3 (Nf3) | 14,3 % |
+| d4 | 9,5 % |
+| e3 | 8,7 % |
+| c4 | 7,6 % |
+
+**C'est un résultat marquant.** Le modèle n'a jamais reçu la moindre règle du
+jeu : il n'a fait qu'observer des parties. Pourtant, il concentre ses
+propositions sur des coups d'ouverture **parfaitement sensés** — développement des
+cavaliers (Cf3, Cc3), occupation du centre (d4, c4). Il ne propose pas de coups
+absurdes comme a3 ou h4. Autrement dit, le réseau a **appris implicitement des
+principes d'ouverture** par simple imitation. Cette capacité contraste avec sa
+faiblesse en jeu réel : il *sait* commencer une partie, mais ne sait pas la
+*conduire* jusqu'à la victoire.
+
+*(Cette sortie est directement visible dans l'application, zone « coups envisagés
+par le bot » — voir livrable applicatif.)*
 
 ---
 
@@ -396,9 +445,11 @@ proposer des coups d'ouverture classiques (e4, d4, Cf3, c4).
 
 Nous avons montré qu'un Transformer de taille modeste peut apprendre à jouer aux
 échecs sans aucune recherche, à partir de la seule observation de parties. Le
-niveau atteint reste [modeste / À COMPLÉTER], mais la démarche est complète et
-rigoureuse : chaîne de données reproductible, encodage vérifié, entraînement
-suivi, et surtout **évaluation honnête avec intervalles de confiance**.
+niveau atteint reste modeste — de l'ordre de **230 à 300 Elo**, soit un tout
+premier niveau de débutant — mais le modèle acquiert des principes d'ouverture
+réels, et la démarche est complète et rigoureuse : chaîne de données
+reproductible, encodage vérifié, entraînement suivi, et surtout **évaluation
+honnête avec intervalles de confiance**.
 
 Le principal enseignement dépasse le score obtenu : il illustre la différence
 entre **connaissance** (ce que le réseau a mémorisé) et **calcul** (la recherche
