@@ -140,6 +140,18 @@ button.primary{
 button.primary:hover{opacity:.86;}
 button.primary:focus-visible{outline:2px solid var(--rose);outline-offset:2px;}
 
+button.secondary{
+  padding:.65rem 1rem; font-size:.9rem; font-weight:600; font-family:inherit;
+  color:var(--ink); background:var(--surface); border:1px solid var(--rule);
+  border-radius:3px; cursor:pointer; transition:border-color .12s ease;
+}
+button.secondary:hover{border-color:var(--rose-soft);}
+button.secondary:focus-visible{outline:2px solid var(--rose);outline-offset:2px;}
+
+#play-controls, #watch-controls{display:flex;flex-direction:column;gap:1.25rem;}
+.watch-buttons{display:flex;gap:.5rem;}
+.watch-buttons button{flex:1;}
+
 .moves{
   background:var(--surface); border:1px solid var(--rule); border-radius:4px;
   padding:.7rem .9rem; max-height:190px; overflow-y:auto;
@@ -213,19 +225,45 @@ dialog .promo button:hover{border-color:var(--rose);}
     </div>
 
     <fieldset>
-      <legend>Adversaire</legend>
-      <div class="choices" id="bots"></div>
-    </fieldset>
-
-    <fieldset>
-      <legend>Vous jouez</legend>
+      <legend>Mode</legend>
       <div class="choices">
-        <label class="choice"><input type="radio" name="color" value="white" checked><span>Les blancs</span></label>
-        <label class="choice"><input type="radio" name="color" value="black"><span>Les noirs</span></label>
+        <label class="choice"><input type="radio" name="mode" value="play" checked><span>Jouer</span></label>
+        <label class="choice"><input type="radio" name="mode" value="watch"><span>Regarder le bot jouer</span></label>
       </div>
     </fieldset>
 
-    <button class="primary" id="new-game">Nouvelle partie</button>
+    <div id="play-controls">
+      <fieldset>
+        <legend>Adversaire</legend>
+        <div class="choices" id="bots"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Vous jouez</legend>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="color" value="white" checked><span>Les blancs</span></label>
+          <label class="choice"><input type="radio" name="color" value="black"><span>Les noirs</span></label>
+        </div>
+      </fieldset>
+
+      <button class="primary" id="new-game">Nouvelle partie</button>
+    </div>
+
+    <div id="watch-controls" hidden>
+      <fieldset>
+        <legend>Blancs</legend>
+        <div class="choices" id="white-bots"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Noirs</legend>
+        <div class="choices" id="black-bots"></div>
+      </fieldset>
+      <div class="watch-buttons">
+        <button class="primary" id="watch-start">Demarrer</button>
+        <button class="secondary" id="watch-reset">Nouvelle partie</button>
+      </div>
+      <p class="note">Deux bots s'affrontent, vous regardez. Ideal pour montrer le Transformer en action sans avoir a jouer vous-meme.</p>
+    </div>
 
     <div>
       <p class="label">Coups joues</p>
@@ -451,15 +489,85 @@ async function newGame() {
   }
 }
 
+/* ---------- Mode spectateur ---------- */
+let watching = false;   // la partie bot vs bot se deroule-t-elle ?
+let watchTimer = null;
+
+const startBtn = document.getElementById("watch-start");
+
+async function watchNew() {
+  stopWatch();
+  busy = true;
+  try {
+    state = await api("/api/watch/new", {
+      white: document.querySelector('input[name="white-bot"]:checked').value,
+      black: document.querySelector('input[name="black-bot"]:checked').value,
+    });
+  } finally {
+    busy = false;
+    render();
+  }
+}
+
+function stopWatch() {
+  watching = false;
+  if (watchTimer) { clearTimeout(watchTimer); watchTimer = null; }
+  startBtn.textContent = "Demarrer";
+}
+
+async function watchTick() {
+  if (!watching) return;
+  try {
+    state = await api("/api/watch/step", {});
+    render();
+  } catch (error) {
+    stopWatch();
+    return;
+  }
+  if (state.game_over) { stopWatch(); return; }
+  watchTimer = setTimeout(watchTick, 850);   // un coup toutes les ~0,85 s
+}
+
+function toggleWatch() {
+  if (watching) { stopWatch(); return; }
+  if (!state || state.game_over) { watchNew().then(() => { watching = true; startBtn.textContent = "Pause"; watchTick(); }); return; }
+  watching = true;
+  startBtn.textContent = "Pause";
+  watchTick();
+}
+
+function setMode(mode) {
+  stopWatch();
+  const isWatch = mode === "watch";
+  document.getElementById("play-controls").hidden = isWatch;
+  document.getElementById("watch-controls").hidden = !isWatch;
+  if (isWatch) { watchNew(); } else { newGame(); }
+}
+
 /* ---------- Demarrage ---------- */
 (async function init() {
   const config = await api("/api/bots", {});
-  document.getElementById("bots").innerHTML = config.bots.map((bot, i) => `
+
+  const radios = (group, checkedId) => config.bots.map(bot => `
     <label class="choice">
-      <input type="radio" name="bot" value="${bot.id}" ${i === 0 ? "checked" : ""}>
+      <input type="radio" name="${group}" value="${bot.id}" ${bot.id === checkedId ? "checked" : ""}>
       <span>${bot.label}</span>
     </label>`).join("");
+
+  // En mode spectateur, on met le Transformer en blancs par defaut s'il existe.
+  const hasTransformer = config.bots.some(b => b.id === "transformer");
+  const defaultWhite = hasTransformer ? "transformer" : config.bots[0].id;
+
+  document.getElementById("bots").innerHTML = radios("bot", config.bots[0].id);
+  document.getElementById("white-bots").innerHTML = radios("white-bot", defaultWhite);
+  document.getElementById("black-bots").innerHTML = radios("black-bot", "greedy");
+
   document.getElementById("new-game").addEventListener("click", newGame);
+  document.getElementById("watch-start").addEventListener("click", toggleWatch);
+  document.getElementById("watch-reset").addEventListener("click", () => { watchNew(); });
+  document.querySelectorAll('input[name="mode"]').forEach(radio =>
+    radio.addEventListener("change", () => setMode(radio.value)));
+
   await newGame();
 })();
 </script>

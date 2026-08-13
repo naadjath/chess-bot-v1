@@ -100,12 +100,26 @@ class GameSession:
         self.san_history: list[str] = []
         self.last_thoughts: list[dict] = []
 
+        # Mode spectateur : les deux camps sont tenus par des bots, l'humain
+        # regarde. Utile pour une demonstration sans avoir a jouer soi-meme.
+        self.spectator = False
+        self.white_bot: Bot | None = None
+        self.black_bot: Bot | None = None
+
     # -- Cycle de vie ------------------------------------------------------
+
+    def _release_bots(self) -> None:
+        """Ferme proprement les bots en cours avant d'en creer d'autres."""
+        for bot in (self.bot, self.white_bot, self.black_bot):
+            if bot is not None:
+                bot.close()
+        self.white_bot = self.black_bot = None
 
     def new_game(self, bot_id: str, color: str) -> dict:
         with self._lock:
             config = AVAILABLE_BOTS.get(bot_id) or AVAILABLE_BOTS["greedy"]
-            self.bot.close()
+            self._release_bots()
+            self.spectator = False
             self.bot = config["factory"]()
             self.player_color = chess.WHITE if color == "white" else chess.BLACK
             self.board = chess.Board()
@@ -114,6 +128,36 @@ class GameSession:
 
             if self.board.turn != self.player_color:
                 self._play_bot_move()
+            return self._snapshot()
+
+    def new_watch(self, white_id: str, black_id: str) -> dict:
+        """Prepare une partie bot contre bot, sans jouer le premier coup.
+
+        Le premier coup est joue par les appels suivants a `watch_step`, ce qui
+        permet a l'interface de derouler la partie coup par coup, a un rythme
+        confortable pour un spectateur.
+        """
+        with self._lock:
+            white_cfg = AVAILABLE_BOTS.get(white_id) or AVAILABLE_BOTS["transformer"]
+            black_cfg = AVAILABLE_BOTS.get(black_id) or AVAILABLE_BOTS["greedy"]
+            self._release_bots()
+            self.spectator = True
+            self.bot = GreedyBot()  # bot factice, non utilise en mode spectateur
+            self.white_bot = white_cfg["factory"]()
+            self.black_bot = black_cfg["factory"]()
+            self.board = chess.Board()
+            self.san_history = []
+            self.last_thoughts = []
+            return self._snapshot()
+
+    def watch_step(self) -> dict:
+        """Joue un seul demi-coup en mode spectateur."""
+        with self._lock:
+            if not self.spectator:
+                raise ValueError("Aucune partie en mode spectateur.")
+            if not self.board.is_game_over(claim_draw=True):
+                mover = self.white_bot if self.board.turn == chess.WHITE else self.black_bot
+                self._play_with(mover)
             return self._snapshot()
 
     def play(self, uci: str) -> dict:
@@ -140,10 +184,13 @@ class GameSession:
         self.board.push(move)
 
     def _play_bot_move(self) -> None:
+        self._play_with(self.bot)
+
+    def _play_with(self, mover: Bot) -> None:
         # On interroge le bot AVANT qu'il joue, tant que la position est encore
         # celle sur laquelle il a reflechi.
-        considered = self.bot.explain(self.board, top_k=4)
-        chosen = self.bot.select_move(self.board)
+        considered = mover.explain(self.board, top_k=4)
+        chosen = mover.select_move(self.board)
 
         # Quand plusieurs coups sont a egalite parfaite (frequent en debut de
         # partie ou tout se vaut), le bot en tire un au hasard et il peut ne pas
@@ -164,6 +211,17 @@ class GameSession:
 
     def _status_text(self) -> str:
         board = self.board
+
+        if self.spectator:
+            winner_name = self.white_bot.name if board.turn == chess.BLACK else self.black_bot.name
+            if board.is_checkmate():
+                return f"Echec et mat — {winner_name} gagne !"
+            if board.is_game_over(claim_draw=True):
+                return "Partie terminee : match nul."
+            mover = self.white_bot.name if board.turn == chess.WHITE else self.black_bot.name
+            prefix = "Echec ! " if board.is_check() else ""
+            return f"{prefix}Au tour de {mover}..."
+
         if board.is_checkmate():
             player_won = board.turn != self.player_color
             return "Echec et mat — vous gagnez !" if player_won else "Echec et mat — le bot gagne."
@@ -202,12 +260,17 @@ class GameSession:
             "san": self.san_history,
             "last_move": last,
             "check_square": self._check_square(),
-            "your_turn": board.turn == self.player_color,
+            # En mode spectateur, l'humain ne joue jamais.
+            "your_turn": (not self.spectator) and board.turn == self.player_color,
             "game_over": board.is_game_over(claim_draw=True),
             "status": self._status_text(),
             "player_color": "white" if self.player_color == chess.WHITE else "black",
             "bot_name": self.bot.name,
             "thoughts": self.last_thoughts,
+            "spectator": self.spectator,
+            "turn": "white" if board.turn == chess.WHITE else "black",
+            "white_name": self.white_bot.name if self.white_bot else None,
+            "black_name": self.black_bot.name if self.black_bot else None,
         }
 
 
@@ -242,6 +305,11 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(200, SESSION.new_game(payload.get("bot", "greedy"), payload.get("color", "white")))
             elif self.path == "/api/move":
                 self._json(200, SESSION.play(payload["uci"]))
+            elif self.path == "/api/watch/new":
+                self._json(200, SESSION.new_watch(
+                    payload.get("white", "transformer"), payload.get("black", "greedy")))
+            elif self.path == "/api/watch/step":
+                self._json(200, SESSION.watch_step())
             else:
                 self._json(404, {"error": "route inconnue"})
         except (ValueError, KeyError) as error:
