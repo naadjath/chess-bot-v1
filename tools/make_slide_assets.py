@@ -153,21 +153,25 @@ def opening_figure() -> None:
     """Echiquier de depart (a gauche) + barres des coups proposes (a droite)."""
     fig, (ax_board, ax_bars) = plt.subplots(1, 2, figsize=(12, 5.3), gridspec_kw={"width_ratios": [1, 1.1]})
 
-    # --- Echiquier, dessine directement (noir/blanc, comme l'appli) ---
+    # --- Echiquier en vrai noir et blanc (cases pures, comme un plateau reel) ---
+    BOARD_LIGHT = "#FFFFFF"
+    BOARD_DARK = "#1A1A1A"
     PIECES_RANK1 = ["♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"]
     for r in range(8):
         for c in range(8):
-            color = LIGHT if (r + c) % 2 == 0 else SOFT
+            color = BOARD_LIGHT if (r + c) % 2 == 0 else BOARD_DARK
             ax_board.add_patch(Rectangle((c, r), 1, 1, facecolor=color, edgecolor="none"))
     for c in range(8):
         ax_board.text(c + .5, 1.5, "♙", ha="center", va="center", fontsize=22, color=WHITE,
-                       path_effects=_stroke())
+                       path_effects=_stroke(INK))
         ax_board.text(c + .5, 0.5, PIECES_RANK1[c], ha="center", va="center", fontsize=24, color=WHITE,
-                       path_effects=_stroke())
-        ax_board.text(c + .5, 6.5, "♟", ha="center", va="center", fontsize=22, color=INK)
+                       path_effects=_stroke(INK))
+        ax_board.text(c + .5, 6.5, "♟", ha="center", va="center", fontsize=22, color=INK,
+                       path_effects=_stroke(WHITE))
     PIECES_RANK8 = ["♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜"]
     for c in range(8):
-        ax_board.text(c + .5, 7.5, PIECES_RANK8[c], ha="center", va="center", fontsize=24, color=INK)
+        ax_board.text(c + .5, 7.5, PIECES_RANK8[c], ha="center", va="center", fontsize=24, color=INK,
+                       path_effects=_stroke(WHITE))
 
     # Fleche vers le coup le plus probable : d3 -> case d3 (colonne d=3, rangee 2 -> index 2)
     ax_board.annotate("", xy=(3.5, 2.5), xytext=(3.5, 1.5),
@@ -200,9 +204,9 @@ def opening_figure() -> None:
     print("Ecrit :", path)
 
 
-def _stroke():
+def _stroke(color):
     import matplotlib.patheffects as pe
-    return [pe.withStroke(linewidth=1.6, foreground=INK)]
+    return [pe.withStroke(linewidth=1.6, foreground=color)]
 
 
 if __name__ == "__main__":

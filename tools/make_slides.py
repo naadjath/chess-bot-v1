@@ -43,6 +43,17 @@ FONT = "Segoe UI"
 MARGIN = Emu(700000)
 CONTENT_TOP = Emu(1750000)
 
+# Trace (titre, texte oral) de chaque diapo au fur et a mesure de la
+# construction, pour regenerer le guide oral SANS jamais relire le pptx (donc
+# sans jamais se tromper de titre ni oublier une diapo).
+_ORAL_SCRIPT: list[tuple[str, str]] = []
+
+
+def _note(slide, title, oral):
+    """Enregistre le texte oral dans les notes PowerPoint ET dans le guide."""
+    slide.notes_slide.notes_text_frame.text = "A DIRE :\n\n" + oral
+    _ORAL_SCRIPT.append((title, oral))
+
 
 # ---------------------------------------------------------------------------
 # Primitives bas niveau
@@ -159,7 +170,7 @@ def _new_slide(prs):
 # Diapos de contenu textuel (avec puces detaillees, pas des mots-cles vagues)
 # ---------------------------------------------------------------------------
 
-def slide_bullets(prs, title, subtitle, bullets, kicker=None, tag=""):
+def slide_bullets(prs, title, subtitle, bullets, oral, kicker=None, tag=""):
     slide = _new_slide(prs)
     _header(slide, title, subtitle, kicker)
     tf = _textbox(slide, Emu(920000), CONTENT_TOP, Emu(10400000), Emu(4500000))
@@ -173,6 +184,7 @@ def slide_bullets(prs, title, subtitle, bullets, kicker=None, tag=""):
             p2.space_after = Pt(14)
             b = p2.add_run(); b.text = "     " + body; b.font.size = Pt(13.5); b.font.color.rgb = SOFT; b.font.name = FONT
     _footer(slide, tag)
+    _note(slide, title, oral)
     return slide
 
 
@@ -188,17 +200,18 @@ def slide_cover(prs, title, subtitle, lines, oral):
     for line in lines:
         pl = tf.add_paragraph(); pl.space_before = Pt(8)
         _run(pl, line, 14, RGBColor(0xC9, 0xC2, 0xC5))
-    slide.notes_slide.notes_text_frame.text = "A DIRE :\n\n" + oral
+    _note(slide, title, oral)
     return slide
 
 
-def slide_image(prs, title, subtitle, image_path, caption, kicker=None, tag="", max_h=Emu(4600000)):
+def slide_image(prs, title, subtitle, image_path, caption, oral, kicker=None, tag="", max_h=Emu(4600000)):
     slide = _new_slide(prs)
     _header(slide, title, subtitle, kicker)
     _picture_centered(slide, image_path, CONTENT_TOP, Emu(10700000), max_h)
     if caption:
         _caption(slide, MARGIN, Emu(6180000), Emu(10800000), caption)
     _footer(slide, tag)
+    _note(slide, title, oral)
     return slide
 
 
@@ -242,6 +255,15 @@ def diagram_pipeline(prs):
     _caption(slide, MARGIN, Emu(5150000), Emu(10800000),
              "L'entrainement est du clonage comportemental : le reseau apprend a imiter le coup joue par un joueur fort dans chaque position.")
     _footer(slide, "Architecture")
+    _note(slide, "Vue d'ensemble", (
+        "Voici les quatre etapes de la chaine complete, du fichier de parties brutes jusqu'au coup "
+        "joue par le bot. Premiere etape : on constitue un million de positions a partir de vraies "
+        "parties de joueurs forts. Deuxieme etape : chaque position est transformee en 68 nombres, "
+        "le seul langage que comprend un reseau de neurones. Troisieme etape, le coeur du projet : "
+        "le Transformer regarde ces 68 nombres et attribue un score a chacun des 1968 coups "
+        "possibles. Quatrieme etape : on evalue le resultat en faisant vraiment jouer le bot, et on "
+        "en tire un score Elo. On va detailler chacune de ces quatre etapes sur les diapos suivantes."
+    ))
     return slide
 
 
@@ -272,6 +294,18 @@ def diagram_funnel(prs):
             ay = top - 90000
             _arrow(slide, Emu(int(SLIDE_W/2)), Emu(ay - 60000), Emu(int(SLIDE_W/2)), Emu(ay + 30000))
     _footer(slide, "Donnees")
+    _note(slide, "Etape 1 : les donnees", (
+        "On part de l'archive publique de Lichess de janvier 2024, lue directement en flux depuis "
+        "internet : on ne telecharge jamais le fichier complet sur le disque, on s'arrete des qu'on a "
+        "assez de positions. Sur 186 057 parties lues, on n'en garde que 14 456, moins de 8 pourcent. "
+        "Pourquoi si peu ? On filtre sur l'Elo des deux joueurs, au moins 2000, sur la cadence, pour "
+        "exclure le bullet ou l'on joue au reflexe sans reflechir, et sur les huit premiers coups de "
+        "chaque partie, qui relevent surtout de la memorisation d'ouvertures plutot que de la reflexion. "
+        "Un dernier point technique important : on separe l'entrainement et la validation PAR PARTIE, "
+        "jamais par position isolee. Deux positions issues de la meme partie se ressemblent enormement ; "
+        "les melanger aurait fausse notre mesure en laissant le modele etre evalue sur des situations "
+        "presque deja vues."
+    ))
     return slide
 
 
@@ -315,6 +349,17 @@ def diagram_encoding(prs):
     _caption(slide, MARGIN, Emu(5980000), Emu(10800000),
              "Astuce cle : l'echiquier est toujours retourne du point de vue du joueur au trait. Le modele n'apprend ainsi qu'un seul point de vue, deux fois plus vite.")
     _footer(slide, "Encodage")
+    _note(slide, "Etape 2 : encoder une position", (
+        "Un reseau de neurones ne comprend que des nombres, jamais un plateau. On transforme donc "
+        "chaque position en 68 tokens : les 64 premiers decrivent le contenu de chaque case, zero pour "
+        "une case vide, un a six pour les pieces du joueur au trait, sept a douze pour les pieces "
+        "adverses. Les quatre derniers tokens portent le trait, les droits de roque et la prise en "
+        "passant. Le detail le plus important a expliquer au jury : on retourne systematiquement "
+        "l'echiquier pour que le modele voie toujours la position du point de vue du joueur qui doit "
+        "jouer, comme s'il jouait toujours les blancs. Sans cette astuce, il faudrait apprendre deux "
+        "fois la meme chose, une fois pour les blancs et une fois pour les noirs. Avec elle, chaque "
+        "partie fournit deux fois plus d'exemples utiles."
+    ))
     return slide
 
 
@@ -360,6 +405,17 @@ def diagram_architecture(prs):
         iy = iy + 1050000
 
     _footer(slide, "Architecture")
+    _note(slide, "Etape 3 : le modele", (
+        "Voici le coeur du projet. Les 68 tokens entrent dans un Transformer encodeur, huit couches "
+        "empilees, chacune avec huit tetes d'attention. Pourquoi un Transformer plutot qu'un reseau "
+        "plus classique comme un CNN ? Parce que son mecanisme d'attention relie directement n'importe "
+        "quelle case a n'importe quelle autre case, en une seule etape. C'est exactement le "
+        "comportement d'une tour ou d'un fou, qui agissent a distance, alors qu'un reseau convolutif "
+        "classique ne regarde d'abord que les cases voisines. En sortie, le modele produit un score "
+        "pour chacun des 1968 coups possibles : c'est un probleme de classification, comme reconnaitre "
+        "une image, sauf qu'ici on classe une position parmi 1968 categories de coup. Au total, "
+        "6 858 416 parametres, ce qui reste tres modeste face aux modeles de DeepMind."
+    ))
     return slide
 
 
@@ -389,6 +445,15 @@ def diagram_masking(prs):
              "Un score de moins l'infini ne peut jamais etre le maximum : le coup illegal ne peut donc jamais etre choisi, quelle que soit la position.",
              size=13, italic=False)
     _footer(slide, "Architecture")
+    _note(slide, "Choisir un coup legal", (
+        "Question que le jury pose presque toujours : est-ce que le bot peut proposer un coup "
+        "impossible ? La reponse est non, et c'est garanti par construction, pas par une verification "
+        "a posteriori. Le reseau calcule un score pour les 1968 coups du vocabulaire, y compris ceux "
+        "qui n'ont aucun sens dans la position actuelle. Avant de choisir, on repere tous les coups "
+        "illegaux dans cette position precise, et on remplace leur score par moins l'infini. Un score "
+        "de moins l'infini ne peut mathematiquement jamais etre le plus grand : le coup illegal est "
+        "donc ecarte de facon absolue, quelle que soit la position, sans exception possible."
+    ))
     return slide
 
 
@@ -417,6 +482,15 @@ def build(prs):
             ("La question qu'on se pose :",
              "un Transformer peut-il jouer correctement rien qu'en RECONNAISSANT une position, sans jamais calculer une suite de coups ?"),
         ],
+        oral=(
+            "Pour comprendre l'interet du projet, il faut d'abord voir ce qui rend les moteurs "
+            "d'echecs actuels si forts. Deep Blue, Stockfish, tous cherchent : a chaque coup, ils "
+            "explorent mentalement des millions de positions futures avant de se decider. C'est de la "
+            "force brute, tres efficace, mais couteuse en calcul. Nous posons une question differente. "
+            "Est-ce qu'un reseau de neurones peut jouer correctement sans jamais faire ce travail de "
+            "recherche, juste en reconnaissant une position comme un joueur humain reconnait un motif "
+            "familier ? C'est cette question qui guide tout le reste de la presentation."
+        ),
         tag="Introduction",
     )
 
@@ -428,6 +502,17 @@ def build(prs):
             ("2020+ : Stockfish (NNUE)", "recherche alpha-beta tres optimisee + petit reseau d'evaluation"),
             ("2024 : DeepMind, Grandmaster-Level Chess Without Search", "un Transformer SEUL atteint un niveau de grand maitre, c'est notre reference directe"),
         ],
+        oral=(
+            "Petit rappel historique pour situer le projet. En 1997, Deep Blue bat Kasparov grace a "
+            "une recherche massive et une evaluation ecrite a la main par des experts. En 2017, "
+            "AlphaZero associe un reseau de neurones a une recherche arborescente, et apprend en "
+            "jouant contre lui-meme des millions de fois. Aujourd'hui, Stockfish, le moteur le plus "
+            "fort au monde, combine toujours une recherche tres optimisee et un petit reseau "
+            "d'evaluation. A chaque fois, le point commun, c'est la recherche. Ce qui change tout en "
+            "2024, c'est cet article de DeepMind qui montre qu'un Transformer seul, sans la moindre "
+            "recherche, peut atteindre un niveau de grand maitre. C'est notre reference directe : on "
+            "s'inspire de cette demarche, a une echelle beaucoup plus modeste."
+        ),
         tag="Etat de l'art",
     )
 
@@ -439,6 +524,16 @@ def build(prs):
             ("Consequence assumee",
              "on ne vise pas a battre Stockfish. L'objectif est de mesurer honnetement ce qu'un petit modele apprend, avec la meme rigueur experimentale."),
         ],
+        oral=(
+            "Il faut etre honnete sur l'echelle du projet des le depart. DeepMind travaille avec 270 "
+            "millions de parametres, 10 millions de parties annotees par Stockfish, et des processeurs "
+            "specialises TPU. Nous avons un modele 40 fois plus petit, 1 million de positions au lieu "
+            "de 10, et un unique GPU gratuit accessible depuis un navigateur. La consequence, on "
+            "l'assume completement : on ne cherche pas a battre Stockfish, et personne ne s'attend a "
+            "ce qu'on y arrive. Notre objectif est different, et plus modeste : mesurer honnetement ce "
+            "qu'un petit modele, avec des moyens accessibles a des etudiants, arrive reellement a "
+            "apprendre, avec la meme rigueur scientifique qu'un vrai laboratoire."
+        ),
         tag="Positionnement",
     )
 
@@ -448,58 +543,63 @@ def build(prs):
     diagram_architecture(prs)
     diagram_masking(prs)
 
-    s = slide_image(
+    slide_image(
         prs, "L'entrainement", "4 epoques sur 1 million de positions, GPU T4 gratuit (Google Colab)",
         ASSETS / "courbes_entrainement.png",
         "La perte descend regulierement sous le niveau du hasard (ligne pointillee), sans surapprentissage : "
         "les courbes d'entrainement et de validation restent proches.",
+        oral=(
+            "Voici les courbes reelles de notre entrainement, pas des chiffres illustratifs. A gauche, "
+            "la perte : elle part de 7,6, qui correspond au hasard pur sur 1968 coups possibles, c'est "
+            "le logarithme de 1968, et descend a 3,08 apres 4 epoques. Au milieu, la top-1 : la "
+            "capacite du modele a retrouver exactement le coup joue par l'humain. Elle atteint 22,7 % "
+            "en fin d'entrainement. A droite, la top-5 : le bon coup est dans les 5 premieres "
+            "propositions du modele 51,7 % du temps. Point important a expliquer au jury si la "
+            "question vient : 22 % n'est pas un mauvais score, car dans beaucoup de positions plusieurs "
+            "coups se valent. Cette mesure evalue l'imitation, pas la force de jeu reelle, c'est pour "
+            "ca qu'on mesure aussi l'Elo par de vraies parties, sur la diapo suivante. Chaque epoque "
+            "prend 8 a 9 minutes sur le GPU gratuit."
+        ),
         kicker="Entrainement", tag="Resultats",
     )
-    s.notes_slide.notes_text_frame.text = "A DIRE :\n\n" + (
-        "Voici les courbes reelles de notre entrainement. A gauche, la perte : elle part de 7,6, "
-        "qui correspond au hasard pur sur 1968 coups possibles (c'est le logarithme de 1968), et "
-        "descend a 3,08 apres 4 epoques. Au milieu, la top-1 : la capacite du modele a retrouver "
-        "exactement le coup joue par l'humain. Elle atteint 22,7 % en fin d'entrainement. A droite, "
-        "la top-5 : le bon coup est dans les 5 premieres propositions du modele 51,7 % du temps. "
-        "Point important a expliquer au jury : 22 % n'est pas un mauvais score, car dans beaucoup de "
-        "positions plusieurs coups sont equivalents. Cette mesure evalue l'IMITATION, pas la force "
-        "de jeu, c'est pour ca qu'on mesure aussi l'Elo par des vraies parties, sur la diapo suivante. "
-        "Chaque epoque prend 8 a 9 minutes sur le GPU gratuit."
-    )
 
-    s = slide_image(
+    slide_image(
         prs, "Il a appris les ouvertures", "Sans qu'aucune regle ne lui ait ete enseignee",
         ASSETS / "ouverture_echiquier.png",
         "Dans la position de depart, le reseau concentre ses propositions sur le developpement des "
         "cavaliers et l'occupation du centre : des principes d'ouverture reels.",
+        oral=(
+            "C'est le resultat le plus parlant du projet, celui qu'on garde pour la fin de la partie "
+            "technique. Si on demande au reseau ce qu'il joue au tout premier coup, avant meme d'avoir "
+            "vu un seul coup de la partie, il repond d3, developper le cavalier en c3 ou en f3, jouer "
+            "d4 ou c4. Ce sont exactement les principes qu'on enseigne a un debutant : sortir ses "
+            "pieces, prendre le centre. Et voici le point cle : le modele n'a jamais recu une seule "
+            "regle des echecs, ni comment une piece se deplace, ni ce qu'est un echec et mat. Il a "
+            "uniquement regarde des parties de joueurs forts et en a deduit ces principes tout seul. "
+            "C'est la preuve concrete qu'il a appris quelque chose de reel, et pas seulement memorise "
+            "des positions par coeur."
+        ),
         kicker="Resultats", tag="Resultats",
     )
-    s.notes_slide.notes_text_frame.text = "A DIRE :\n\n" + (
-        "C'est le resultat le plus parlant du projet. Si on demande au reseau ce qu'il joue au tout "
-        "premier coup, avant meme d'avoir vu un seul coup de la partie, il repond d3, developper le "
-        "cavalier en c3 ou en f3, jouer d4 ou c4. Ce sont exactement les principes qu'on enseigne a un "
-        "debutant : sortir ses pieces, prendre le centre. Le modele n'a jamais recu une seule regle "
-        "des echecs, ni comment une piece se deplace, ni ce qu'est un echec et mat. Il a uniquement "
-        "regarde des parties de joueurs forts et en a deduit ces principes. C'est la preuve concrete "
-        "qu'il a appris quelque chose de reel, et pas seulement memorise des positions."
-    )
 
-    s = slide_image(
+    slide_image(
         prs, "Le niveau mesure en parties reelles", "60 parties par adversaire, couleurs alternees, intervalles de confiance de Wilson (95 %)",
         ASSETS / "elo_resultats.png",
         "Face a Stockfish bride a son niveau minimum (1320), le bot perd toutes ses parties : "
         "son niveau reel est nettement en dessous.",
+        oral=(
+            "Deuxieme resultat, et le plus important pour juger honnetement le projet : le niveau reel, "
+            "mesure en faisant vraiment jouer le bot, pas en extrapolant depuis la top-1. On l'a fait "
+            "affronter une echelle d'adversaires de force croissante, 60 parties chacun, avec un "
+            "intervalle de confiance calcule par la methode de Wilson : on ne donne jamais un chiffre "
+            "seul, toujours une fourchette. Contre l'adversaire aleatoire, le bot obtient 47,5 %, un "
+            "score statistiquement equivalent au hasard, autour de 230 Elo. Contre tous les adversaires "
+            "plus structures, il perd presque systematiquement. Face a Stockfish bride a 1320, le "
+            "reglage le plus faible que Stockfish accepte, il ne gagne aucune partie sur les 60 jouees. "
+            "Notre verdict honnete : le bot se situe autour de 250 a 300 Elo, un niveau de tout premier "
+            "debutant. On prefere assumer ce resultat plutot que de le maquiller."
+        ),
         kicker="Resultats", tag="Resultats", max_h=Emu(4300000),
-    )
-    s.notes_slide.notes_text_frame.text = "A DIRE :\n\n" + (
-        "Deuxieme resultat, le plus important pour juger le projet : le niveau reel, mesure en faisant "
-        "jouer le bot contre une echelle d'adversaires de force croissante, 60 parties chacun, avec un "
-        "intervalle de confiance calcule par la methode de Wilson : on ne donne jamais un chiffre seul. "
-        "Contre l'adversaire aleatoire, le bot obtient 47,5 %, un score statistiquement equivalent au "
-        "hasard, autour de 230 Elo. Contre tous les adversaires plus structures, il perd presque "
-        "systematiquement. Face a Stockfish bride a 1320, le reglage le plus faible que Stockfish "
-        "accepte, il ne gagne aucune partie. Notre verdict honnete : le bot se situe autour de 250 "
-        "a 300 Elo, un niveau de tout premier debutant. On assume ce resultat plutot que de le cacher."
     )
 
     slide_bullets(
@@ -512,6 +612,18 @@ def build(prs):
             ("Interpretation",
              "sans recherche, le modele ne verifie jamais une suite de coups. Il reconnait des schemas, mais ne calcule pas les consequences. Un entrainement plus long (les courbes montaient encore a la 4e epoque) aurait probablement ameliore ce point."),
         ],
+        oral=(
+            "Que retenir de ces deux resultats mis cote a cote ? Il y a une vraie force : la "
+            "connaissance des principes de base, developpement des pieces, occupation du centre, "
+            "acquise sans la moindre regle explicite. Mais il y a aussi une faiblesse nette : un jeu "
+            "passif. Cinquante et une nulles sur soixante parties contre l'aleatoire, c'est enorme. Le "
+            "bot atteint souvent des positions gagnantes, mais il ne sait pas les convertir, il tourne "
+            "en rond jusqu'a la regle des 50 coups ou la triple repetition. Notre interpretation : sans "
+            "recherche, le modele reconnait des schemas mais ne verifie jamais une suite de coups a "
+            "l'avance. Il sait QUOI faire au debut, pas COMMENT finir. Et les courbes montraient "
+            "encore une progression a la quatrieme epoque, donc un entrainement plus long aurait "
+            "probablement attenue ce probleme."
+        ),
         tag="Discussion",
     )
 
@@ -522,6 +634,17 @@ def build(prs):
             ("Mode spectateur", "deux bots s'affrontent automatiquement, on regarde et on commente."),
             ("Le detail cle", "a chaque coup, les probabilites reellement sorties du reseau s'affichent : on voit litteralement le modele reflechir."),
         ],
+        oral=(
+            "On a aussi construit une application de jeu complete, dans le navigateur, sans aucune "
+            "dependance a installer. Deux facons de l'utiliser : le mode Jouer, ou on affronte "
+            "directement le Transformer ou n'importe quel bot de reference, et le mode spectateur, ou "
+            "deux bots s'affrontent tout seuls pendant qu'on regarde et qu'on commente, pratique pour "
+            "une demonstration sans risquer de se tromper de coup en direct. Le detail le plus "
+            "interessant : a chaque coup joue, les probabilites reellement calculees par le reseau "
+            "s'affichent a l'ecran. On ne voit pas juste le resultat, on voit litteralement le modele "
+            "hesiter entre plusieurs coups en temps reel. [Montrer une courte demonstration ici si "
+            "possible.]"
+        ),
         tag="Demonstration",
     )
 
@@ -533,6 +656,18 @@ def build(prs):
             ("Ajouter une recherche legere", "une profondeur 2-3 guidee par les propositions du reseau corrigerait probablement l'essentiel des erreurs tactiques."),
             ("Entrainer plus longtemps", "les courbes etaient encore croissantes ; un GPU stable (non sujet aux deconnexions) permettrait d'aller plus loin."),
         ],
+        oral=(
+            "Avec plus de temps, quatre pistes concretes permettraient d'ameliorer le bot. D'abord, "
+            "changer d'objectif d'entrainement : predire la probabilite de gagner de chaque coup, "
+            "comme fait DeepMind, plutot que d'imiter simplement le coup joue par l'humain. Ensuite, "
+            "faire annoter nos donnees par Stockfish, pour apprendre du meilleur coup possible et pas "
+            "seulement de celui qu'un humain a choisi, qui peut etre imparfait. Troisieme piste : "
+            "ajouter une petite recherche, profondeur 2 ou 3, guidee par les propositions du reseau, ce "
+            "qui corrigerait probablement l'essentiel des erreurs tactiques que le bot commet "
+            "actuellement. Et enfin, tout simplement entrainer plus longtemps : nos courbes montaient "
+            "encore a la fin, la limite venait des deconnexions de l'environnement gratuit, pas d'un "
+            "plafond du modele."
+        ),
         tag="Perspectives",
     )
 
@@ -544,6 +679,19 @@ def build(prs):
             ("Difficultes reelles rencontrees",
              "lecture des donnees initialement trop lente (corrigee, x18) · Elo infini a 100 % de victoires (corrige par la methode de Wilson) · deconnexions de l'environnement Colab gratuit (contournees par sauvegarde sur Drive a chaque epoque)."),
         ],
+        oral=(
+            "Un mot sur l'organisation du binome. On s'est reparti le travail en deux axes clairs : "
+            "[Prenom] a pris en charge les donnees et le modele, extraction, filtrage, encodage, "
+            "architecture et entrainement du Transformer. [Prenom] s'est occupe de l'evaluation et de "
+            "l'application, les moteurs de reference, le calcul d'Elo, la campagne contre Stockfish et "
+            "l'interface de jeu. Le tout est versionne sur Git, avec un historique de commits qui "
+            "retrace la progression. On a rencontre de vraies difficultes techniques, pas seulement "
+            "conceptuelles : la lecture des donnees etait au depart 18 fois trop lente, corrigee en "
+            "changeant de strategie de filtrage ; le calcul d'Elo donnait un resultat infini a 100 % de "
+            "victoires, corrige avec la methode de Wilson ; et l'environnement Colab gratuit se "
+            "deconnectait regulierement, ce qu'on a contourne en sauvegardant le modele sur Google "
+            "Drive a chaque epoque."
+        ),
         tag="Organisation",
     )
 
@@ -555,6 +703,19 @@ def build(prs):
             ("Une demarche complete et rigoureuse", "chaine reproductible, encodage teste, evaluation avec intervalles de confiance."),
             ("Le point cle a retenir", "la difference entre connaissance (ce que le reseau a memorise) et calcul (la recherche qu'on a volontairement retiree)."),
         ],
+        oral=(
+            "Pour conclure. Nous avons montre qu'un Transformer, meme modeste, apprend a jouer aux "
+            "echecs sans jamais explorer une seule variante future, juste en observant des parties "
+            "d'un bon niveau. Le niveau atteint reste faible, autour de 250 Elo, mais il est reel : le "
+            "modele a correctement acquis des principes d'ouverture, meme si sa fin de partie reste "
+            "fragile. Surtout, la demarche est complete et rigoureuse du debut a la fin : chaine de "
+            "traitement reproductible, encodage verifie par des tests automatiques, evaluation "
+            "toujours accompagnee d'un intervalle de confiance. Le point que nous voulons que vous "
+            "reteniez : ce projet illustre concretement la difference entre la connaissance, ce que le "
+            "reseau a memorise en observant, et le calcul, la recherche qu'on a volontairement "
+            "retiree. C'est cette absence de calcul qui explique a la fois ce que le modele reussit et "
+            "ce qu'il rate."
+        ),
         tag="Conclusion",
     )
 
@@ -570,18 +731,26 @@ def build(prs):
 
 
 def build_pptx() -> None:
+    _ORAL_SCRIPT.clear()  # une nouvelle construction ne doit jamais accumuler sur la precedente
     prs = Presentation()
     prs.slide_width = SLIDE_W
     prs.slide_height = SLIDE_H
     build(prs)
+    n_slides = len(prs.slides.__iter__.__self__._sldIdLst)
+    if len(_ORAL_SCRIPT) != n_slides:
+        raise AssertionError(
+            f"{n_slides} diapos mais {len(_ORAL_SCRIPT)} textes oraux enregistres : "
+            "une diapo a ete ajoutee sans son commentaire oral (verifier les derniers appels a _note)."
+        )
     PPTX_OUT.parent.mkdir(parents=True, exist_ok=True)
     prs.save(PPTX_OUT)
-    print(f"Diaporama ecrit : {PPTX_OUT}  ({len(prs.slides.__iter__.__self__._sldIdLst)} diapos)")
+    print(f"Diaporama ecrit : {PPTX_OUT}  ({n_slides} diapos)")
 
 
 def build_oral_guide() -> None:
-    """Reconstruit le guide oral en relisant les notes ecrites dans le pptx."""
-    prs = Presentation(PPTX_OUT)
+    """Ecrit le guide oral a partir du texte enregistre pendant build() —
+    jamais en relisant le pptx, pour ne perdre ni un titre ni un commentaire.
+    """
     lines = [
         "# Guide oral : soutenance Chess Bot v1",
         "",
@@ -591,26 +760,21 @@ def build_oral_guide() -> None:
         "- Ne lisez pas la diapo au jury : elle est pour lui, ce texte est pour vous.",
         "- Repetez a voix haute au moins 3 fois en chronometrant (visez 12-15 minutes).",
         "- Alternez les diapos entre les deux membres du binome.",
+        "- Les passages entre crochets, comme [Prenom] ou [X], sont a personnaliser ou a jouer en direct.",
         "",
         "---",
         "",
     ]
-    for i, slide in enumerate(prs.slides, 1):
-        title = ""
-        for shape in slide.shapes:
-            if shape.has_text_frame and shape.text_frame.text.strip():
-                title = shape.text_frame.text.split("\n")[0]
-                break
-        notes = slide.notes_slide.notes_text_frame.text if slide.has_notes_slide else ""
+    for i, (title, oral) in enumerate(_ORAL_SCRIPT, 1):
         lines.append(f"## Diapo {i} : {title}")
         lines.append("")
-        lines.append(notes.replace("A DIRE :\n\n", "> "))
+        lines.append(f"> {oral}")
         lines.append("")
         lines.append("---")
         lines.append("")
 
     ORAL_OUT.write_text("\n".join(lines), encoding="utf-8")
-    print(f"Guide oral ecrit : {ORAL_OUT}")
+    print(f"Guide oral ecrit : {ORAL_OUT}  ({len(_ORAL_SCRIPT)} diapos commentees)")
 
 
 if __name__ == "__main__":
