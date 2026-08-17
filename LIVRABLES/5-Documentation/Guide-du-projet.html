@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chess Bot v1 — Guide complet du projet</title>
+<style>
+:root {
+  color-scheme: light dark;
+
+  --ground:      #f7f4ee;   /* parchemin, legerement chaud */
+  --surface:     #fffdf9;
+  --surface-alt: #efe9df;
+  --ink:         #23201c;
+  --ink-soft:    #5b544a;
+  --ink-faint:   #8b8175;
+  --rule:        #ded5c7;
+  --brass:       #9a6b1f;   /* accent : laiton */
+  --brass-soft:  #c9a35a;
+  --deep:        #1d3049;   /* secondaire : encre bleue */
+
+  --measure: 70ch;
+  --step--1: 0.86rem;
+  --step-0:  1.0625rem;
+  --step-1:  1.32rem;
+  --step-2:  1.72rem;
+  --step-3:  2.3rem;
+  --step-4:  3rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground:      #16181b;
+    --surface:     #1c1f23;
+    --surface-alt: #24282d;
+    --ink:         #e7e3db;
+    --ink-soft:    #a9a49a;
+    --ink-faint:   #77726a;
+    --rule:        #33383e;
+    --brass:       #d8a94e;
+    --brass-soft:  #8d6c2e;
+    --deep:        #8fb3d9;
+  }
+}
+
+:root[data-theme="light"] {
+  --ground: #f7f4ee; --surface: #fffdf9; --surface-alt: #efe9df;
+  --ink: #23201c; --ink-soft: #5b544a; --ink-faint: #8b8175;
+  --rule: #ded5c7; --brass: #9a6b1f; --brass-soft: #c9a35a; --deep: #1d3049;
+}
+:root[data-theme="dark"] {
+  --ground: #16181b; --surface: #1c1f23; --surface-alt: #24282d;
+  --ink: #e7e3db; --ink-soft: #a9a49a; --ink-faint: #77726a;
+  --rule: #33383e; --brass: #d8a94e; --brass-soft: #8d6c2e; --deep: #8fb3d9;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.1rem, 4vw, 2rem) 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+/* --- Titres : serif, comme un manuel d'echecs --- */
+h1, h2, h3, h4 {
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  font-weight: 600;
+  line-height: 1.18;
+  text-wrap: balance;
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--step-4);
+  letter-spacing: -0.022em;
+  margin-bottom: 0.2rem;
+}
+
+h2 {
+  font-size: var(--step-2);
+  margin-top: 3.2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  letter-spacing: -0.012em;
+}
+
+h3 {
+  font-size: var(--step-1);
+  margin-top: 1.9rem;
+  color: var(--deep);
+}
+
+h4 {
+  font-size: var(--step-0);
+  margin-top: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-family: inherit;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+p { margin: 0; }
+
+a {
+  color: var(--brass);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover { color: var(--ink); }
+a:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+strong { font-weight: 650; color: var(--ink); }
+
+ul, ol {
+  margin: 0;
+  padding-left: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+li::marker { color: var(--brass-soft); }
+
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--rule);
+  margin: 2rem 0;
+}
+
+/* --- Code --- */
+code {
+  font-family: ui-monospace, "Cascadia Mono", "SF Mono", Consolas, monospace;
+  font-size: 0.88em;
+  background: var(--surface-alt);
+  padding: 0.12em 0.38em;
+  border-radius: 3px;
+}
+
+pre {
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--brass-soft);
+  border-radius: 4px;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+pre code {
+  background: none;
+  padding: 0;
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+
+/* --- Citations : les points a retenir --- */
+blockquote {
+  margin: 0;
+  padding: 0.9rem 1.2rem;
+  background: var(--surface);
+  border-left: 3px solid var(--brass);
+  border-radius: 0 4px 4px 0;
+  color: var(--ink-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* --- Tableaux --- */
+.table-wrap { overflow-x: auto; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+th, td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+th {
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-faint);
+  border-bottom: 1.5px solid var(--rule);
+}
+tbody tr:hover { background: var(--surface); }
+
+/* --- Cases a cocher du planning --- */
+.task { list-style: none; }
+ul:has(> .task) { padding-left: 0.2rem; }
+.task input {
+  margin-right: 0.55rem;
+  accent-color: var(--brass);
+}
+
+/* --- Sommaire --- */
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  padding: 1.3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.toc h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 0.78rem;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--ink-faint);
+}
+.toc ol {
+  list-style: none;
+  padding: 0;
+  counter-reset: toc;
+  gap: 0.3rem;
+}
+.toc li { counter-increment: toc; }
+.toc li::before {
+  content: counter(toc, decimal-leading-zero);
+  color: var(--brass-soft);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  margin-right: 0.7rem;
+}
+.toc a { text-decoration: none; color: var(--ink); }
+.toc a:hover { color: var(--brass); text-decoration: underline; }
+
+.doc-meta {
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+}
+
+@media print {
+  body { background: #fff; }
+  h2 { break-before: page; }
+  .toc { break-after: page; }
+}
+</style>
+</head>
+<body>
+<main class="page">
+<h1>Chess Bot v1 — Guide complet du projet</h1>
+<nav class="toc"><h2>Sommaire</h2><ol><li><a href="#partie-0-le-décodage-de-lénoncé">PARTIE 0 — Le décodage de l&#x27;énoncé</a></li><li><a href="#partie-1-comment-marche-un-bot-déchecs-les-bases">PARTIE 1 — Comment marche un bot d&#x27;échecs (les bases)</a></li><li><a href="#partie-2-larchitecture-quon-va-construire">PARTIE 2 — L&#x27;architecture qu&#x27;on va construire</a></li><li><a href="#partie-3-lévaluation-face-à-stockfish-le-livrable-elo-approximatif">PARTIE 3 — L&#x27;évaluation face à Stockfish (le livrable &quot;ELO approximatif&quot;)</a></li><li><a href="#partie-4-les-5-livrables-décodés">PARTIE 4 — Les 5 livrables, décodés</a></li><li><a href="#partie-5-le-planning-22-juillet-24-août">PARTIE 5 — Le planning (22 juillet → 24 août)</a></li><li><a href="#partie-6-répartition-naadjath-rajaa">PARTIE 6 — Répartition Naadjath / Rajaa</a></li><li><a href="#partie-7-les-questions-du-jury-préparez-les">PARTIE 7 — Les questions du jury (préparez-les !)</a></li><li><a href="#partie-8-les-pièges-qui-tuent-les-projets">PARTIE 8 — Les pièges qui tuent les projets</a></li><li><a href="#partie-9-vocabulaire">PARTIE 9 — Vocabulaire</a></li><li><a href="#références-à-citer">Références à citer</a></li></ol></nav>
+<p><strong>Naadjath &amp; Rajaa — Projet de fin de Bachelor — Soutenance le 24 août 2026</strong></p>
+<blockquote><p>Ce document est fait pour être lu par les deux membres du binôme. Il explique <strong>ce qu&#x27;on nous demande vraiment</strong>, <strong>comment ça marche techniquement</strong>, <strong>ce qu&#x27;on construit concrètement</strong>, et <strong>le planning jour par jour</strong>. Si tu lis une section et que tu ne comprends pas, c&#x27;est normal : lis-la deux fois, puis va voir la section &quot;Vocabulaire&quot; à la fin.</p></blockquote>
+<hr>
+<h2 id="partie-0-le-décodage-de-lénoncé">PARTIE 0 — Le décodage de l&#x27;énoncé</h2>
+<p>L&#x27;énoncé fait 6 lignes. Voilà ce qu&#x27;il y a derrière.</p>
+<blockquote><p><em>&quot;Projet IA visant à concevoir un robot de jeu d&#x27;échecs, avec exploration des Transformers et évaluation face à Stockfish.&quot;</em></p></blockquote>
+<p>Traduction : <strong>on doit entraîner un réseau de neurones (un Transformer) à jouer aux échecs, puis mesurer son niveau en le faisant jouer contre Stockfish.</strong></p>
+<p>Le mot important est <strong>&quot;robot&quot;</strong> = &quot;bot&quot; = un programme qui joue tout seul. Il n&#x27;y a <strong>aucun robot physique</strong>, aucune électronique, aucun bras mécanique. C&#x27;est un mauvais mot de traduction. On code un joueur automatique.</p>
+<h3 id="la-stack-donnée-trahit-le-sujet-exact">La stack donnée trahit le sujet exact</h3>
+<div class="table-wrap"><table><thead><tr><th>Outil</th><th>À quoi il sert ici</th></tr></thead><tbody><tr><td><code>python</code></td><td>tout le projet</td></tr><tr><td><code>torch</code> (PyTorch)</td><td>construire et entraîner le réseau de neurones</td></tr><tr><td><code>flash-attn</code></td><td>version optimisée du mécanisme d&#x27;attention des Transformers (accélère l&#x27;entraînement sur GPU récent)</td></tr><tr><td><code>datasets</code> (HuggingFace)</td><td>charger / stocker des millions de positions d&#x27;échecs efficacement</td></tr><tr><td><code>chess</code> (python-chess)</td><td><strong>la bibliothèque clé</strong> : règles du jeu, coups légaux, lecture de parties PGN, échiquier</td></tr><tr><td><code>stockfish</code></td><td>le moteur d&#x27;échecs de référence — sert d&#x27;<strong>adversaire</strong> et de <strong>professeur</strong></td></tr><tr><td><code>scipy</code></td><td>statistiques : intervalles de confiance sur le score, calcul d&#x27;Elo</td></tr><tr><td><code>tqdm</code></td><td>barres de progression (confort)</td></tr><tr><td><code>psutil</code></td><td>surveiller la RAM/CPU pendant l&#x27;entraînement (les datasets d&#x27;échecs sont énormes)</td></tr></tbody></table></div>
+<p>Cette combinaison exacte = les dépendances du projet <strong><code>searchless_chess</code> de Google DeepMind</strong>. Le papier associé s&#x27;appelle <em>&quot;Grandmaster-Level Chess Without Search&quot;</em> (février 2024). <strong>C&#x27;est notre papier de référence, il faut le citer dans le rapport.</strong></p>
+<h3 id="ce-que-le-prof-veut-voir-au-fond">Ce que le prof veut voir, au fond</h3>
+<ol><li>Que vous savez <strong>manipuler un Transformer</strong> avec PyTorch (pas juste appeler une API).</li><li>Que vous savez <strong>construire un pipeline de données</strong> (des parties brutes → un dataset propre → un modèle).</li><li>Que vous savez <strong>évaluer scientifiquement</strong> un modèle (pas &quot;il a l&#x27;air de bien jouer&quot;, mais &quot;1 340 Elo ± 60 sur 200 parties&quot;).</li><li>Que vous savez <strong>livrer</strong> : une appli qui tourne, du code propre, un rapport, une doc.</li></ol>
+<p>Le niveau final du bot compte <strong>beaucoup moins</strong> que la rigueur de la démarche. Un bot à 1 200 Elo bien mesuré et bien documenté &gt; un bot à 1 800 Elo dont on ne sait pas d&#x27;où il sort.</p>
+<hr>
+<h2 id="partie-1-comment-marche-un-bot-déchecs-les-bases">PARTIE 1 — Comment marche un bot d&#x27;échecs (les bases)</h2>
+<h3 id="11-le-problème">1.1 Le problème</h3>
+<p>À chaque tour, le bot reçoit une <strong>position</strong> et doit choisir <strong>un coup parmi les coups légaux</strong> (en moyenne ~30 possibilités). C&#x27;est tout. Un bot d&#x27;échecs = une fonction :</p>
+<pre><code>position  →  coup</code></pre>
+<p>Le reste (savoir quels coups sont légaux, détecter échec et mat, le roque, la prise en passant, la promotion, la nulle par répétition) est <strong>entièrement géré par <code>python-chess</code></strong>. On ne code aucune règle. C&#x27;est un énorme soulagement, et c&#x27;est important de le dire : la difficulté du projet n&#x27;est pas dans les règles du jeu.</p>
+<pre><code>import chess
+
+board = chess.Board()          # position de départ
+print(board.legal_moves)       # tous les coups légaux
+board.push_san(&quot;e4&quot;)           # jouer un coup
+board.is_checkmate()           # échec et mat ?
+board.fen()                    # la position sous forme de texte</code></pre>
+<h3 id="12-les-deux-grandes-familles-de-bots">1.2 Les deux grandes familles de bots</h3>
+<p><strong>Famille A — la recherche (l&#x27;approche classique, celle de Stockfish)</strong> Le bot explore l&#x27;arbre des coups : « si je joue ça, il joue ça, alors je joue ça... ». Il descend 20-30 coups de profondeur, évalue les positions finales avec une fonction d&#x27;évaluation, et remonte le meilleur choix (algorithme <strong>minimax + élagage alpha-bêta</strong>). Stockfish analyse des dizaines de millions de positions par seconde. C&#x27;est de la force brute très optimisée.</p>
+<p><strong>Famille B — le réseau de neurones (notre approche)</strong> Le bot <strong>regarde la position</strong> et sort directement un coup, comme un humain fort qui joue en blitz à l&#x27;instinct. Zéro exploration, zéro arbre. Un seul passage dans le réseau (~5 millisecondes).</p>
+<p><strong>Le pari du projet</strong> : est-ce qu&#x27;un Transformer peut jouer correctement <strong>sans chercher</strong> ? Réponse de DeepMind : oui, jusqu&#x27;à ~2 900 Elo avec 270M de paramètres et 10M de parties. Nous, avec un modèle 20× plus petit et un mois : on visera <strong>1 200–1 700 Elo</strong>, ce qui est déjà un joueur de club amateur correct.</p>
+<h3 id="13-pourquoi-un-transformer">1.3 Pourquoi un Transformer ?</h3>
+<p>Un Transformer, à la base, sert à traiter des <strong>séquences</strong> (des mots dans une phrase). Son mécanisme central, l&#x27;<strong>attention</strong>, permet à chaque élément de la séquence de « regarder » tous les autres et d&#x27;en tirer de l&#x27;information.</p>
+<p>Or une position d&#x27;échecs, c&#x27;est <strong>64 cases</strong>. On peut la voir comme une séquence de 64 « mots », chaque mot étant le contenu de la case (vide, pion blanc, cavalier noir...). L&#x27;attention permet alors naturellement à la case e4 de « regarder » la case h7 et de comprendre qu&#x27;il y a une diagonale ouverte. C&#x27;est exactement le genre de relation longue distance qu&#x27;un réseau convolutif (CNN) capte mal et qu&#x27;un Transformer capte bien.</p>
+<p><strong>Phrase à retenir pour la soutenance</strong> : <em>« On modélise la position comme une séquence de 64 tokens, ce qui permet au mécanisme d&#x27;attention de capturer directement les relations à longue portée entre les pièces — diagonales, colonnes, batteries — sans avoir à les coder à la main. »</em></p>
+<hr>
+<h2 id="partie-2-larchitecture-quon-va-construire">PARTIE 2 — L&#x27;architecture qu&#x27;on va construire</h2>
+<h3 id="21-vue-densemble-du-pipeline">2.1 Vue d&#x27;ensemble du pipeline</h3>
+<pre><code>   Parties Lichess (PGN)                Stockfish
+   ~50 000 parties de joueurs forts     (le &quot;professeur&quot;)
+              |                              |
+              v                              v
+        [ 1. EXTRACTION ]  -&gt;  (position FEN, meilleur coup)  x 1 000 000
+              |
+              v
+        [ 2. ENCODAGE ]  -&gt;  64 tokens + 4 tokens de contexte
+              |
+              v
+        [ 3. TRANSFORMER ]  -&gt;  8 couches, d_model=256, ~6M paramètres
+              |
+              v
+        [ 4. TÊTE POLICY ]  -&gt;  probabilité sur ~1968 coups possibles
+              |
+              v
+        [ 5. MASQUAGE ]  -&gt;  on annule les coups illégaux, on prend le max
+              |
+              v
+           LE COUP JOUÉ
+              |
+              v
+   [ 6. ÉVALUATION vs Stockfish ]  -&gt;  Elo ± intervalle de confiance
+              |
+              v
+   [ 7. APPLICATION WEB ]  -&gt;  on joue contre le bot dans le navigateur</code></pre>
+<h3 id="22-étape-1-les-données">2.2 Étape 1 — Les données</h3>
+<p><strong>Source principale : la base ouverte de Lichess</strong> → <code>https://database.lichess.org/</code> Ce sont des dumps mensuels de <strong>toutes</strong> les parties jouées sur Lichess, en PGN compressé. Un mois = ~100 Go décompressé, plusieurs dizaines de millions de parties. <strong>On ne prend pas tout.</strong> On streame le fichier et on s&#x27;arrête quand on a ce qu&#x27;il faut.</p>
+<p><strong>Filtres à appliquer (à justifier dans le rapport) :</strong></p>
+<ul><li>Elo des deux joueurs &gt; 2000 → on apprend d&#x27;un joueur fort, pas de la moyenne</li><li>Cadence ≥ 5 minutes (pas de bullet) → moins de coups joués à l&#x27;arrache</li><li>Partie terminée normalement (pas d&#x27;abandon au coup 3)</li><li>On ignore les 8 premiers demi-coups (l&#x27;ouverture est de la mémorisation, pas du raisonnement) — <strong>optionnel, à tester</strong></li></ul>
+<p><strong>Ce qu&#x27;on extrait</strong> : pour chaque coup joué dans chaque partie, une paire <code>(position avant le coup, coup joué)</code>. Une partie ≈ 80 demi-coups → <strong>50 000 parties ≈ 4 millions d&#x27;exemples</strong>. Largement suffisant.</p>
+<p><strong>Source secondaire : Stockfish comme professeur.</strong> Au lieu d&#x27;apprendre du coup joué par l&#x27;humain (qui fait des erreurs), on peut demander à Stockfish « quel est le meilleur coup ici ? » à profondeur faible (10-12) et apprendre ça. Meilleure qualité, mais <strong>beaucoup plus lent</strong> (~50 ms/position → 1M positions = 14h de CPU). <strong>Stratégie recommandée : faire les deux, et comparer les deux modèles dans le rapport.</strong> C&#x27;est exactement le genre d&#x27;expérience comparative qui fait la différence à la soutenance.</p>
+<blockquote><p>⚠️ <strong>Piège à éviter</strong> : ne pas confondre les données d&#x27;entraînement et les données de test. On garde ~2% des parties de côté (<code>validation set</code>), jamais vues à l&#x27;entraînement, pour mesurer l&#x27;accuracy honnêtement.</p></blockquote>
+<h3 id="23-étape-2-lencodage-de-la-position">2.3 Étape 2 — L&#x27;encodage de la position</h3>
+<p>Il faut transformer un échiquier en nombres. Voici notre schéma (simple, efficace, facile à expliquer) :</p>
+<p><strong>68 tokens au total :</strong></p>
+<ul><li><strong>Tokens 0 à 63</strong> : les 64 cases, de a1 à h8. Chaque case reçoit un entier de 0 à 12 :</li></ul>
+<p><code>0</code> = vide, <code>1..6</code> = pion/cavalier/fou/tour/dame/roi <strong>blancs</strong>, <code>7..12</code> = les mêmes en <strong>noirs</strong>.</p>
+<ul><li><strong>Token 64</strong> : trait (0 = aux blancs, 1 = aux noirs)</li><li><strong>Tokens 65-66</strong> : droits de roque (4 bits encodés)</li><li><strong>Token 67</strong> : case de prise en passant (0-64)</li></ul>
+<p><strong>Astuce importante — la normalisation de couleur</strong> : on entraîne le modèle à <strong>toujours jouer les blancs</strong>. Quand c&#x27;est aux noirs, on retourne l&#x27;échiquier (miroir vertical + inversion des couleurs) et on inverse le coup en sortie. Résultat : le modèle n&#x27;a qu&#x27;un seul point de vue à apprendre → il apprend <strong>deux fois plus vite</strong> avec la même quantité de données. C&#x27;est un choix technique à mentionner absolument, ça montre qu&#x27;on a réfléchi.</p>
+<pre><code>import chess
+import numpy as np
+
+PIECE_TO_ID = {
+    (chess.PAWN,   True): 1,  (chess.KNIGHT, True): 2,  (chess.BISHOP, True): 3,
+    (chess.ROOK,   True): 4,  (chess.QUEEN,  True): 5,  (chess.KING,   True): 6,
+    (chess.PAWN,  False): 7,  (chess.KNIGHT,False): 8,  (chess.BISHOP,False): 9,
+    (chess.ROOK,  False):10,  (chess.QUEEN, False):11,  (chess.KING,  False):12,
+}
+
+def encode_board(board: chess.Board) -&gt; np.ndarray:
+    &quot;&quot;&quot;Transforme une position en un vecteur de 68 entiers.
+
+    On normalise toujours du point de vue du joueur au trait : si c&#x27;est aux
+    noirs de jouer, on retourne l&#x27;echiquier pour que le modele voie toujours
+    la meme chose (&quot;je suis les blancs, je joue vers le haut&quot;).
+    &quot;&quot;&quot;
+    if not board.turn:                    # aux noirs -&gt; on retourne le plateau
+        board = board.mirror()
+
+    tokens = np.zeros(68, dtype=np.int64)
+    for square, piece in board.piece_map().items():
+        tokens[square] = PIECE_TO_ID[(piece.piece_type, piece.color)]
+
+    tokens[64] = 0                        # apres normalisation, toujours &quot;blancs au trait&quot;
+    tokens[65] = int(board.has_kingside_castling_rights(chess.WHITE)) \
+               + 2 * int(board.has_queenside_castling_rights(chess.WHITE))
+    tokens[66] = int(board.has_kingside_castling_rights(chess.BLACK)) \
+               + 2 * int(board.has_queenside_castling_rights(chess.BLACK))
+    tokens[67] = (board.ep_square + 1) if board.ep_square is not None else 0
+    return tokens</code></pre>
+<h3 id="24-étape-3-le-modèle">2.4 Étape 3 — Le modèle</h3>
+<p>Un <strong>Transformer encoder-only</strong> (comme BERT, pas comme GPT : on ne génère pas de texte, on classe).</p>
+<div class="table-wrap"><table><thead><tr><th>Hyperparamètre</th><th>Valeur de départ</th><th>Pourquoi</th></tr></thead><tbody><tr><td><code>d_model</code> (dimension)</td><td>256</td><td>assez pour capturer la position, assez petit pour tenir sur un GPU gratuit</td></tr><tr><td><code>n_layers</code></td><td>8</td><td>profondeur raisonnable</td></tr><tr><td><code>n_heads</code></td><td>8</td><td>8 « points de vue » d&#x27;attention en parallèle</td></tr><tr><td><code>d_ff</code></td><td>1024</td><td>4 × d_model, standard</td></tr><tr><td><code>dropout</code></td><td>0.1</td><td>évite le surapprentissage</td></tr><tr><td><strong>Total</strong></td><td><strong>~6,5 M paramètres</strong></td><td>entraînable en ~4-8 h sur un GPU gratuit Colab/Kaggle</td></tr></tbody></table></div>
+<pre><code>import torch
+import torch.nn as nn
+
+class ChessTransformer(nn.Module):
+    &quot;&quot;&quot;Encodeur Transformer : 68 tokens de position -&gt; distribution sur les coups.&quot;&quot;&quot;
+
+    def __init__(self, n_moves=1968, d_model=256, n_layers=8, n_heads=8, d_ff=1024):
+        super().__init__()
+        self.token_emb = nn.Embedding(65, d_model)          # 65 valeurs possibles max par token
+        self.pos_emb   = nn.Parameter(torch.zeros(1, 68, d_model))
+
+        layer = nn.TransformerEncoderLayer(
+            d_model=d_model, nhead=n_heads, dim_feedforward=d_ff,
+            dropout=0.1, activation=&quot;gelu&quot;,
+            batch_first=True, norm_first=True,              # pre-norm : entrainement plus stable
+        )
+        self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+        self.norm    = nn.LayerNorm(d_model)
+        self.head    = nn.Linear(d_model, n_moves)          # la &quot;tete policy&quot;
+
+    def forward(self, tokens):                              # tokens : (B, 68)
+        x = self.token_emb(tokens) + self.pos_emb
+        x = self.encoder(x)
+        x = self.norm(x.mean(dim=1))                        # pooling moyen sur les 68 tokens
+        return self.head(x)                                 # (B, 1968) logits bruts</code></pre>
+<p><strong>Sur <code>flash-attn</code></strong> : c&#x27;est une implémentation ultra-optimisée de l&#x27;attention. Elle exige un GPU <strong>Ampere ou plus récent</strong> (A100, RTX 30xx/40xx). Sur un T4 gratuit de Colab, elle ne s&#x27;installera pas. <strong>Solution propre</strong> : PyTorch intègre déjà les mêmes noyaux via <code>torch.nn.functional.scaled_dot_product_attention</code>, utilisé automatiquement par <code>nn.TransformerEncoderLayer</code>. → Dans le rapport, on écrit : <em>« flash-attn a été évalué mais nécessite une architecture Ampere+ ; nous utilisons l&#x27;implémentation équivalente intégrée à PyTorch 2.x (SDPA), qui sélectionne automatiquement le noyau memory-efficient disponible. »</em> Ça montre qu&#x27;on a compris l&#x27;outil au lieu de l&#x27;installer bêtement.</p>
+<h3 id="25-étape-4-la-sortie-quel-coup-jouer">2.5 Étape 4 — La sortie : quel coup jouer ?</h3>
+<p>Le modèle sort un score pour <strong>chacun des ~1968 coups possibles</strong> au format UCI (<code>e2e4</code>, <code>g1f3</code>, <code>e7e8q</code>...). Ce vocabulaire est fixe : on le construit une fois pour toutes en énumérant tous les couples (case départ, case arrivée) géométriquement possibles + les promotions.</p>
+<p>Puis, <strong>le masquage des coups illégaux</strong> — c&#x27;est LE détail qui fait qu&#x27;un bot neuronal ne triche jamais :</p>
+<pre><code>def choose_move(model, board, move_vocab, temperature=0.0):
+    &quot;&quot;&quot;Choisit un coup legal. Le masquage garantit qu&#x27;on ne joue jamais illegal.&quot;&quot;&quot;
+    flipped = not board.turn
+    tokens = torch.tensor(encode_board(board)).unsqueeze(0)
+
+    with torch.no_grad():
+        logits = model(tokens)[0]                    # (1968,)
+
+    mask = torch.full_like(logits, float(&quot;-inf&quot;))    # tout interdit par defaut...
+    legal = list(board.legal_moves)
+    for mv in legal:
+        uci = (flip_move(mv) if flipped else mv).uci()
+        mask[move_vocab[uci]] = 0.0                  # ...sauf les coups legaux
+
+    scored = logits + mask
+    if temperature &gt; 0:                              # un peu d&#x27;aleatoire = parties variees
+        probs = torch.softmax(scored / temperature, dim=-1)
+        idx = torch.multinomial(probs, 1).item()
+    else:
+        idx = scored.argmax().item()                 # jeu deterministe = jeu le plus fort
+
+    chosen = move_vocab.inv[idx]
+    return unflip_move(chess.Move.from_uci(chosen)) if flipped else chess.Move.from_uci(chosen)</code></pre>
+<p><strong>Le bot ne peut structurellement pas jouer un coup illégal.</strong> C&#x27;est une question de jury classique : <em>« et s&#x27;il propose un coup impossible ? »</em> → « Impossible par construction : on masque à −∞ tous les indices hors de <code>board.legal_moves</code> avant l&#x27;argmax. »</p>
+<h3 id="26-lentraînement">2.6 L&#x27;entraînement</h3>
+<p>Tâche : <strong>classification multi-classes</strong>. Entrée = position, cible = index du coup joué. Perte = <strong>cross-entropy</strong>. C&#x27;est tout — c&#x27;est le même entraînement que « classer une image parmi 1968 catégories ».</p>
+<pre><code>Optimiseur   : AdamW, lr = 3e-4, weight_decay = 0.01
+Scheduler    : warmup 1000 pas puis cosine decay
+Batch size   : 512 (ou 128 avec accumulation de gradient si la VRAM sature)
+Précision    : mixed precision (bf16 / fp16) -&gt; 2x plus rapide
+Époques      : 3 à 5 sur ~2M positions</code></pre>
+<p><strong>Métriques à suivre pendant l&#x27;entraînement</strong> (à mettre en graphique dans le rapport) :</p>
+<ul><li><strong>loss</strong> train et validation (courbe classique)</li><li><strong>top-1 accuracy</strong> : le modèle retrouve-t-il exactement le coup joué ? → attendu <strong>35-50 %</strong></li><li><strong>top-5 accuracy</strong> : le bon coup est-il dans son top 5 ? → attendu <strong>70-85 %</strong></li></ul>
+<p>⚠️ <strong>Point crucial à comprendre</strong> : 40 % d&#x27;accuracy paraît nul, mais c&#x27;est très bon. Dans beaucoup de positions, plusieurs coups sont également bons — le modèle en propose un autre que l&#x27;humain, il n&#x27;a pas « tort ». <strong>L&#x27;accuracy n&#x27;est pas la performance de jeu.</strong> La vraie mesure, c&#x27;est l&#x27;Elo. Cette nuance, dite à la soutenance, montre une vraie maturité.</p>
+<hr>
+<h2 id="partie-3-lévaluation-face-à-stockfish-le-livrable-elo-approximatif">PARTIE 3 — L&#x27;évaluation face à Stockfish (le livrable &quot;ELO approximatif&quot;)</h2>
+<p>C&#x27;est le livrable le plus « scientifique » et celui qui est le plus souvent bâclé. Ne le bâclez pas : c&#x27;est là que vous gagnez des points.</p>
+<h3 id="31-régler-la-force-de-stockfish">3.1 Régler la force de Stockfish</h3>
+<p>Stockfish à pleine puissance ≈ 3 600 Elo. Il écraserait notre bot 200-0 et on n&#x27;apprendrait <strong>rien</strong> (score 0 % → Elo non calculable). Il faut <strong>le brider</strong> :</p>
+<pre><code>engine = chess.engine.SimpleEngine.popen_uci(&quot;stockfish&quot;)
+engine.configure({
+    &quot;UCI_LimitStrength&quot;: True,
+    &quot;UCI_Elo&quot;: 1400,          # bridage officiel, minimum 1320 selon les versions
+    &quot;Threads&quot;: 1,
+    &quot;Hash&quot;: 16,
+})
+result = engine.play(board, chess.engine.Limit(time=0.1))</code></pre>
+<p>Deux méthodes de bridage, à mentionner toutes les deux :</p>
+<ul><li><code>UCI_LimitStrength</code> + <code>UCI_Elo</code> → calibré par l&#x27;équipe Stockfish, <strong>c&#x27;est celle à privilégier</strong></li><li><code>Skill Level</code> 0→20 → plus grossier, mais utile pour les niveaux très faibles</li></ul>
+<h3 id="32-le-protocole-de-matchs">3.2 Le protocole de matchs</h3>
+<pre><code>Pour chaque niveau de Stockfish dans [1320, 1500, 1700, 1900, 2100] :
+    jouer 100 parties (50 en blancs, 50 en noirs — alterner strictement !)
+    ouverture imposée depuis un livre d&#x27;ouvertures varié (sinon 100 parties identiques)
+    limite : 200 coups max, puis nulle
+    enregistrer chaque partie en PGN (preuve + analyse a posteriori)</code></pre>
+<p><strong>Pourquoi alterner les couleurs</strong> : les blancs ont un avantage statistique (~55 %). Sans alternance, la mesure est biaisée. <strong>Pourquoi varier les ouvertures</strong> : deux moteurs déterministes rejouent la même partie 100 fois. On impose donc 3-4 coups d&#x27;ouverture tirés d&#x27;un livre, ou on met <code>temperature=0.3</code> sur le bot.</p>
+<h3 id="33-le-calcul-de-lelo-et-lintervalle-de-confiance">3.3 Le calcul de l&#x27;Elo (et l&#x27;intervalle de confiance)</h3>
+<p>Avec un score <code>S</code> (entre 0 et 1) sur N parties contre un adversaire d&#x27;Elo connu <code>R_opp</code> :</p>
+<pre><code>ΔElo = -400 × log10(1/S − 1)
+Elo_bot = R_opp + ΔElo</code></pre>
+<p>Exemple : 100 parties contre SF-1400, 62 victoires / 8 nulles / 30 défaites → S = (62 + 0.5×8)/100 = 0,66 → ΔElo = −400 × log10(1/0,66 − 1) = <strong>+115</strong> → <strong>Elo_bot ≈ 1515</strong></p>
+<p><strong>Mais un chiffre seul ne vaut rien sans son incertitude.</strong> C&#x27;est là qu&#x27;intervient <code>scipy</code> :</p>
+<pre><code>import numpy as np
+from scipy import stats
+
+def elo_from_score(score):
+    score = np.clip(score, 1e-6, 1 - 1e-6)          # evite la division par zero
+    return -400.0 * np.log10(1.0 / score - 1.0)
+
+def elo_with_ci(wins, draws, losses, opponent_elo, confidence=0.95):
+    &quot;&quot;&quot;Elo estime + intervalle de confiance (approximation normale de Wald).&quot;&quot;&quot;
+    n = wins + draws + losses
+    score = (wins + 0.5 * draws) / n
+
+    # variance du score par partie (1 = victoire, 0.5 = nulle, 0 = defaite)
+    outcomes = np.array([1.0] * wins + [0.5] * draws + [0.0] * losses)
+    se = outcomes.std(ddof=1) / np.sqrt(n)
+
+    z = stats.norm.ppf(0.5 + confidence / 2)
+    lo, hi = np.clip([score - z * se, score + z * se], 1e-6, 1 - 1e-6)
+
+    return {
+        &quot;score&quot;:  score,
+        &quot;elo&quot;:    opponent_elo + elo_from_score(score),
+        &quot;elo_lo&quot;: opponent_elo + elo_from_score(lo),
+        &quot;elo_hi&quot;: opponent_elo + elo_from_score(hi),
+        &quot;games&quot;:  n,
+    }</code></pre>
+<p><strong>Règle d&#x27;or</strong> : ne jamais écrire « notre bot fait 1 515 Elo ». Écrire <strong>« 1 515 Elo, IC 95 % [1 452 ; 1 581], sur 100 parties contre Stockfish bridé à 1 400 »</strong>. Avec 100 parties l&#x27;intervalle fait facilement ±70 Elo — c&#x27;est normal, il faut le dire et l&#x27;assumer.</p>
+<h3 id="34-les-baselines-obligatoires">3.4 Les baselines obligatoires</h3>
+<p>Sans point de comparaison, un chiffre ne veut rien dire. Il faut <strong>au minimum 3 adversaires de référence</strong> :</p>
+<div class="table-wrap"><table><thead><tr><th>Baseline</th><th>Elo approximatif</th><th>Ce que ça prouve si on la bat</th></tr></thead><tbody><tr><td>Bot aléatoire (coup légal au hasard)</td><td>~250</td><td>le modèle a appris quelque chose</td></tr><tr><td>Bot glouton (prend la pièce la plus chère)</td><td>~600</td><td>il comprend la valeur matérielle</td></tr><tr><td>Minimax profondeur 2 + éval matérielle</td><td>~1100</td><td>il rivalise avec de la recherche classique</td></tr><tr><td>Stockfish 1320 / 1500 / 1700 / 1900</td><td>connu</td><td>mesure calibrée</td></tr></tbody></table></div>
+<p>Le tableau final du rapport, avec ces 7 lignes et les intervalles de confiance, <strong>c&#x27;est votre meilleure diapo de soutenance.</strong></p>
+<hr>
+<h2 id="partie-4-les-5-livrables-décodés">PARTIE 4 — Les 5 livrables, décodés</h2>
+<h3 id="1-application-fonctionnelle">✅ 1. Application fonctionnelle</h3>
+<p>Il faut pouvoir <strong>jouer contre le bot devant le jury</strong>. Deux options :</p>
+<ul><li><strong>Rapide et sûr (recommandé)</strong> : <strong>Gradio</strong> ou <strong>Streamlit</strong>. <code>python-chess</code> génère un échiquier en SVG (<code>chess.svg.board(board)</code>), on l&#x27;affiche, l&#x27;utilisateur tape son coup ou clique. ~150 lignes, une journée de travail. Déployable gratuitement sur HuggingFace Spaces → <strong>un lien public à donner au jury, énorme effet.</strong></li><li><strong>Plus joli</strong> : <strong>FastAPI</strong> en backend + <strong>chessboard.js</strong> en frontend (drag &amp; drop des pièces). Plus classe, mais 2-3 jours et du JS.</li></ul>
+<p><strong>Fonctionnalités à prévoir</strong> : choisir sa couleur, voir le coup joué par le bot, un bouton « nouvelle partie », l&#x27;affichage du top-3 des coups envisagés par le modèle avec leurs probabilités (<strong>très impressionnant</strong> — ça montre l&#x27;intérieur du réseau), et un mode « bot vs Stockfish » en spectateur.</p>
+<h3 id="2-elo-approximatif-constaté-face-à-stockfish">✅ 2. ELO approximatif constaté face à Stockfish</h3>
+<p>= toute la Partie 3. Livrable concret : un fichier <code>results/elo_report.md</code> + les graphiques + les PGN de toutes les parties jouées (preuve de reproductibilité).</p>
+<h3 id="3-code-source-documenté">✅ 3. Code source documenté</h3>
+<p>Structure de repo attendue :</p>
+<pre><code>chess-bot-v1/
+├── README.md                  # installation, usage, resultats en 1 page
+├── requirements.txt
+├── src/
+│   ├── data/
+│   │   ├── pgn_parser.py      # PGN -&gt; (fen, coup)
+│   │   ├── encoding.py        # position -&gt; 68 tokens
+│   │   └── move_vocab.py      # les 1968 coups UCI
+│   ├── model/
+│   │   └── transformer.py     # ChessTransformer
+│   ├── train.py               # boucle d&#x27;entrainement
+│   ├── engine/
+│   │   ├── neural_bot.py      # le bot Transformer
+│   │   └── baselines.py       # random, glouton, minimax
+│   ├── eval/
+│   │   ├── match.py           # organise les matchs
+│   │   └── elo.py             # calcul Elo + IC
+│   └── app/
+│       └── main.py            # l&#x27;interface de jeu
+├── notebooks/                 # exploration, courbes
+├── tests/                     # pytest : encodage, legalite, vocab
+├── results/                   # metriques, PGN, figures
+└── docs/</code></pre>
+<p>« Documenté » = <strong>docstrings sur chaque fonction publique</strong> (format Google ou NumPy), <strong>type hints</strong>, un README qui permet à quelqu&#x27;un d&#x27;autre de tout relancer. Et <strong>Git avec des commits réguliers des deux membres</strong> — le prof regardera l&#x27;historique pour vérifier que le binôme a réellement travaillé à deux. Commitez tous les deux, dès le premier jour.</p>
+<h3 id="4-rapport">✅ 4. Rapport</h3>
+<p>Plan type (25-35 pages) :</p>
+<ol><li><strong>Introduction</strong> — contexte, problématique : <em>« un Transformer peut-il jouer aux échecs sans recherche ? »</em></li><li><strong>État de l&#x27;art</strong> — Deep Blue (1997), AlphaZero (2017), Leela Chess Zero, Stockfish NNUE, <strong>DeepMind searchless chess (2024)</strong></li><li><strong>Méthodologie</strong> — données, encodage, architecture, entraînement. Justifier <strong>chaque</strong> choix.</li><li><strong>Expérimentations</strong> — courbes de loss/accuracy, ablations (avec/sans normalisation de couleur, taille de modèle, quantité de données)</li><li><strong>Résultats</strong> — le tableau Elo, l&#x27;analyse des parties (quelles erreurs typiques ? finales ? tactique ?)</li><li><strong>Limites et perspectives</strong> — pas de recherche, faible en finale, données limitées ; pistes : action-value, MCTS léger, plus de données</li><li><strong>Conclusion</strong> + <strong>gestion de projet</strong> (répartition binôme, planning, difficultés)</li><li><strong>Bibliographie</strong> — le papier DeepMind, Attention Is All You Need, AlphaZero</li></ol>
+<h3 id="5-documentation">✅ 5. Documentation</h3>
+<p>Distincte du rapport : c&#x27;est la doc <strong>technique et utilisateur</strong>. Un dossier <code>docs/</code> avec : guide d&#x27;installation, guide d&#x27;utilisation de l&#x27;app, description de l&#x27;API interne, comment relancer l&#x27;entraînement, comment relancer l&#x27;évaluation.</p>
+<hr>
+<h2 id="partie-5-le-planning-22-juillet-24-août">PARTIE 5 — Le planning (22 juillet → 24 août)</h2>
+<p><strong>33 jours.</strong> C&#x27;est jouable <strong>si on ne se perd pas</strong>. Règle absolue : <strong>avoir un truc qui marche mal très tôt, plutôt qu&#x27;un truc parfait jamais fini.</strong></p>
+<h3 id="semaine-1-2228-juillet-les-fondations">Semaine 1 (22–28 juillet) — Les fondations</h3>
+<ul><li class="task"><input type="checkbox" disabled>Repo Git créé, structure de dossiers, <code>requirements.txt</code>, les deux membres poussent un commit <strong>jour 1</strong></li><li class="task"><input type="checkbox" disabled>Environnement : Python 3.11, PyTorch, python-chess, Stockfish installé et appelable</li><li class="task"><input type="checkbox" disabled><strong>Milestone bloquant</strong> : un bot <strong>aléatoire</strong> qui joue une partie complète contre Stockfish, et le script d&#x27;Elo qui sort un chiffre. Même si c&#x27;est 0 %, le pipeline d&#x27;évaluation est en place.</li><li class="task"><input type="checkbox" disabled>Télécharger un mois Lichess, écrire le parser PGN, produire <strong>100 000 positions</strong> en fichier</li><li class="task"><input type="checkbox" disabled>Construire le vocabulaire des 1968 coups + les tests unitaires d&#x27;encodage/décodage</li></ul>
+<blockquote><p>Si à la fin de la semaine 1 vous n&#x27;avez pas le bot aléatoire qui joue contre Stockfish, <strong>arrêtez tout le reste et faites ça.</strong></p></blockquote>
+<h3 id="semaine-2-29-juillet-4-août-le-premier-modèle">Semaine 2 (29 juillet – 4 août) — Le premier modèle</h3>
+<ul><li class="task"><input type="checkbox" disabled><code>ChessTransformer</code> écrit, une passe forward qui tourne sur un batch factice</li><li class="task"><input type="checkbox" disabled>Boucle d&#x27;entraînement complète, testée sur 10 000 positions (elle doit <strong>overfitter</strong> — si la loss ne descend pas vers 0 sur un petit jeu, il y a un bug)</li><li class="task"><input type="checkbox" disabled>Entraînement réel sur 1M+ positions (Colab / Kaggle GPU)</li><li class="task"><input type="checkbox" disabled><strong>Milestone</strong> : le bot neuronal <strong>bat le bot aléatoire à plus de 90 %</strong></li><li class="task"><input type="checkbox" disabled>Baselines glouton et minimax-2 codées</li></ul>
+<h3 id="semaine-3-511-août-litération">Semaine 3 (5–11 août) — L&#x27;itération</h3>
+<ul><li class="task"><input type="checkbox" disabled>Entraînement sur le dataset complet, courbes propres</li><li class="task"><input type="checkbox" disabled>Au moins <strong>2 expériences comparatives</strong> (ex : modèle petit vs grand, données humaines vs annotées Stockfish, avec/sans normalisation de couleur)</li><li class="task"><input type="checkbox" disabled>Campagne d&#x27;évaluation complète : ~500 parties, tous les niveaux, PGN sauvegardés</li><li class="task"><input type="checkbox" disabled><strong>Milestone</strong> : le tableau Elo avec intervalles de confiance existe</li><li class="task"><input type="checkbox" disabled>Démarrer l&#x27;application</li></ul>
+<h3 id="semaine-4-1218-août-livrables">Semaine 4 (12–18 août) — Livrables</h3>
+<ul><li class="task"><input type="checkbox" disabled>Application terminée et déployée (HuggingFace Spaces)</li><li class="task"><input type="checkbox" disabled>Rédaction du rapport (le gros morceau — <strong>commencez avant, écrivez au fil de l&#x27;eau</strong>)</li><li class="task"><input type="checkbox" disabled>Documentation, README, docstrings, nettoyage du code</li><li class="task"><input type="checkbox" disabled>Figures finales</li></ul>
+<h3 id="semaine-5-1924-août-soutenance">Semaine 5 (19–24 août) — Soutenance</h3>
+<ul><li class="task"><input type="checkbox" disabled>Diapos (15-20 slides)</li><li class="task"><input type="checkbox" disabled><strong>Répétition à voix haute, chronométrée, au moins 3 fois</strong></li><li class="task"><input type="checkbox" disabled>Prépa Q/R (section 7 ci-dessous)</li><li class="task"><input type="checkbox" disabled>Plan B démo : une vidéo de secours de l&#x27;appli qui marche, au cas où le wifi lâche. <strong>Toujours.</strong></li></ul>
+<hr>
+<h2 id="partie-6-répartition-naadjath-rajaa">PARTIE 6 — Répartition Naadjath / Rajaa</h2>
+<p>Le principe : <strong>chacune pilote une moitié, mais les deux comprennent tout.</strong> À la soutenance, le jury pose une question sur la partie de l&#x27;autre — c&#x27;est un classique. Prévoyez un point de synchro de 30 min tous les 2-3 jours où chacune explique ce qu&#x27;elle a fait à l&#x27;autre.</p>
+<div class="table-wrap"><table><thead><tr><th>Axe A — Données &amp; Modèle</th><th>Axe B — Moteur, Éval &amp; Appli</th></tr></thead><tbody><tr><td>Téléchargement + parsing PGN</td><td>Wrapper Stockfish (<code>chess.engine</code>)</td></tr><tr><td>Encodage position → tokens</td><td>Baselines : aléatoire, glouton, minimax</td></tr><tr><td>Vocabulaire des coups</td><td>Boucle de match + gestion des couleurs/ouvertures</td></tr><tr><td>Architecture Transformer</td><td>Calcul Elo + intervalles (scipy)</td></tr><tr><td>Boucle d&#x27;entraînement</td><td>Application de jeu (Gradio/FastAPI)</td></tr><tr><td>Courbes, ablations</td><td>Graphiques de résultats</td></tr></tbody></table></div>
+<p><strong>Commun</strong> : rapport, documentation, slides, README. Et <strong>relecture croisée du code de l&#x27;autre</strong> (via pull requests si vous voulez faire les choses bien — ça se voit dans l&#x27;historique Git et ça impressionne).</p>
+<hr>
+<h2 id="partie-7-les-questions-du-jury-préparez-les">PARTIE 7 — Les questions du jury (préparez-les !)</h2>
+<p><strong>« Pourquoi un Transformer plutôt qu&#x27;un CNN ? »</strong> → L&#x27;attention capture directement les relations à longue portée entre pièces (diagonales, colonnes, batteries) sans biais de localité. Un CNN doit empiler des couches pour couvrir tout l&#x27;échiquier. Et le papier DeepMind 2024 valide l&#x27;approche.</p>
+<p><strong>« Votre bot ne fait aucune recherche, ce n&#x27;est pas une limite énorme ? »</strong> → C&#x27;est le sujet même du projet, et c&#x27;est un choix assumé : on teste si la connaissance peut remplacer le calcul. Limite réelle : la tactique profonde et les finales, où le modèle joue « à l&#x27;intuition » sans vérifier. C&#x27;est visible dans nos parties perdues, on l&#x27;a analysé. Perspective : un mini-alpha-bêta à profondeur 2-3 sur le top-3 des coups proposés par le réseau (« policy-guided search ») corrigerait l&#x27;essentiel.</p>
+<p><strong>« Comment savez-vous que votre Elo est fiable ? »</strong> → 500 parties, couleurs alternées, ouvertures variées, intervalles de confiance à 95 % calculés, et cohérence croisée entre plusieurs niveaux d&#x27;adversaires. On donne toujours l&#x27;intervalle, jamais le chiffre seul.</p>
+<p><strong>« Votre accuracy est de 42 %, c&#x27;est faible non ? »</strong> → Non : dans beaucoup de positions plusieurs coups sont équivalents. L&#x27;accuracy mesure l&#x27;imitation, pas la qualité de jeu. Notre top-5 est à 80 %, et surtout la métrique qui compte est l&#x27;Elo mesuré en parties réelles.</p>
+<p><strong>« Est-ce qu&#x27;il peut jouer un coup illégal ? »</strong> → Non, par construction : masquage à −∞ de tous les coups hors de <code>board.legal_moves</code> avant l&#x27;argmax.</p>
+<p><strong>« Qu&#x27;est-ce qui a été le plus dur ? »</strong> → Répondez sincèrement et techniquement (le volume de données et la RAM, le débogage silencieux de l&#x27;encodage, la calibration de Stockfish...). C&#x27;est une question sur votre honnêteté, pas un piège.</p>
+<p><strong>« Qu&#x27;est-ce que vous feriez avec 3 mois de plus ? »</strong> → Passer à l&#x27;action-value comme DeepMind (prédire la probabilité de gain de chaque coup plutôt qu&#x27;imiter), annoter tout le dataset avec Stockfish, monter à 50M paramètres, ajouter une recherche légère guidée par la policy, et faire jouer le bot sur Lichess via l&#x27;API bot pour obtenir un <strong>Elo officiel</strong> et non plus estimé.</p>
+<hr>
+<h2 id="partie-8-les-pièges-qui-tuent-les-projets">PARTIE 8 — Les pièges qui tuent les projets</h2>
+<ol><li><strong>Vouloir reproduire DeepMind à l&#x27;identique.</strong> Ils avaient 10M de parties, des TPU et 270M de paramètres. On fait une version réduite <strong>et on l&#x27;assume dans le rapport</strong> — c&#x27;est une force, pas une faiblesse.</li><li><strong>Tout coder avant de tester quoi que ce soit.</strong> Faites tourner le pipeline complet avec un modèle nul dès la semaine 1.</li><li><strong>Bug silencieux dans l&#x27;encodage.</strong> Le modèle apprendra quand même quelque chose et vous ne verrez rien. → <strong>Test unitaire obligatoire</strong> : <code>decode(encode(board)) == board</code> sur 10 000 positions aléatoires, et pareil pour les coups (<code>unflip(flip(move)) == move</code>).</li><li><strong>Oublier la validation.</strong> Sans jeu de validation séparé, vous ne saurez pas si vous surapprenez.</li><li><strong>Négliger le rapport jusqu&#x27;au 20 août.</strong> Écrivez au fil de l&#x27;eau : chaque expérience finie = 1 paragraphe écrit tout de suite.</li><li><strong>Saturer la RAM</strong> en chargeant 4M de positions d&#x27;un coup. → format <code>datasets</code>/parquet avec chargement en streaming, et <code>psutil</code> pour surveiller (c&#x27;est <strong>exactement</strong> pour ça qu&#x27;il est dans la stack).</li><li><strong>Ne pas sauvegarder les checkpoints</strong> du modèle. Colab coupe la session au bout de quelques heures. Sauvegardez sur Google Drive à chaque époque.</li></ol>
+<hr>
+<h2 id="partie-9-vocabulaire">PARTIE 9 — Vocabulaire</h2>
+<ul><li><strong>PGN</strong> : format texte standard d&#x27;une partie (<code>1. e4 e5 2. Nf3 Nc6...</code>)</li><li><strong>FEN</strong> : format texte d&#x27;<strong>une position</strong> (<code>rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1</code>)</li><li><strong>UCI</strong> : protocole de communication avec un moteur, et notation de coup (<code>e2e4</code>)</li><li><strong>Elo</strong> : échelle de niveau. +400 Elo ≈ on gagne 10 parties sur 11. Débutant ~800, club ~1600, expert ~2000, maître international ~2400, Stockfish ~3600.</li><li><strong>Token</strong> : une unité d&#x27;entrée du Transformer (ici, une case)</li><li><strong>Embedding</strong> : la conversion d&#x27;un token (un entier) en vecteur de nombres réels</li><li><strong>Attention</strong> : le mécanisme qui permet à chaque token de regarder tous les autres</li><li><strong>Logits</strong> : les scores bruts en sortie du réseau, avant le softmax</li><li><strong>Policy</strong> : la fonction position → distribution de probabilité sur les coups</li><li><strong>Value</strong> : la fonction position → probabilité de gagner</li><li><strong>Action-value</strong> : (position, coup) → probabilité de gagner (l&#x27;approche de DeepMind, la plus performante)</li><li><strong>Behavioral cloning</strong> : apprendre en imitant les coups d&#x27;un expert (notre approche principale)</li><li><strong>Minimax / alpha-bêta</strong> : l&#x27;algorithme de recherche classique</li><li><strong>NNUE</strong> : le petit réseau qu&#x27;utilise Stockfish pour évaluer les positions</li></ul>
+<hr>
+<h2 id="références-à-citer">Références à citer</h2>
+<ol><li>Ruoss et al., <em>Grandmaster-Level Chess Without Search</em>, DeepMind, 2024 — <strong>le papier central</strong></li><li>Vaswani et al., <em>Attention Is All You Need</em>, 2017 — le Transformer</li><li>Silver et al., <em>Mastering Chess and Shogi by Self-Play (AlphaZero)</em>, 2017</li><li>Documentation <code>python-chess</code> : https://python-chess.readthedocs.io</li><li>Base de données Lichess : https://database.lichess.org</li><li>Documentation Stockfish / protocole UCI</li></ol>
+<hr>
+<p><em>Document rédigé le 22 juillet 2026. À mettre à jour au fil du projet.</em></p>
+</main>
+</body>
+</html>

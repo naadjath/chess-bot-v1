@@ -1,0 +1,600 @@
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "1"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "1/2-1/2"]
+
+1. h3 b5 2. Nc3 f6 3. e3 c6 4. Nf3 b4 5. Be2 bxc3 6. O-O e6 7. d3 cxb2 8. Bxb2 Na6 9. Rc1 Rb8 10. Nd2 d5 11. Nf3 Rxb2 12. Nd2 Rb7 13. f4 g6 14. Nf3 Qc7 15. Nd4 c5 16. Qd2 cxd4 17. exd4 h6 18. Bf3 Bd6 19. Be4 Ke7 20. Bxd5 Rb4 21. Bc6 Qd8 22. Qe3 f5 23. Bd5 Nc7 24. Be4 Nb5 25. Bf3 Nxd4 26. Be2 Ba6 27. Qxd4 Rxd4 28. Bg4 Ke8 29. Kh1 Nf6 30. Rb1 fxg4 31. Rf2 Qc8 32. g3 Qxc2 33. Kg1 Qxb1+ 34. Kg2 Bc8 35. Rf3 gxh3+ 36. Kf2 h2 37. Re3 Ng4+ 38. Ke2 Qc2+ 39. Kf3 Qd1+ 40. Kg2 Qg1+ 41. Kf3 Qd1+ 42. Kg2 Qg1+ 43. Kf3 1/2-1/2
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "2"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. h3 b5 2. Nc3 f6 3. e4 Bb7 4. d4 b4 5. Nd5 e6 6. Nf4 c5 7. Nf3 cxd4 8. Bd3 Nc6 9. Ne2 Nge7 10. Nfxd4 d5 11. a4 Qd7 12. c3 O-O-O 13. O-O Nxd4 14. Nxd4 Nf5 15. exf5 Bc5 16. Bf4 Bxd4 17. Qe2 e5 18. a5 Qc6 19. Bb5 Qc5 20. a6 Bc6 21. Bxc6 Kb8 22. Bb7 Rd7 23. Bc1 Rhd8 24. Bd2 Qb6 25. Rac1 Bxc3 26. bxc3 Qc7 27. cxb4 Qc6 28. Qf3 Qc5 29. Bc6 Qc4 30. Rfe1 Qd3 31. Qxd3 d4 32. Qb5+ Kc7 33. Bf3+ Kd6 34. Qc5# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "3"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. Na3 e5 2. g4 g6 3. Bg2 d5 4. d3 c6 5. Nf3 Bb4+ 6. Nd2 Be7 7. O-O Be6 8. e4 h5 9. c3 Kf8 10. exd5 cxd5 11. Qe2 hxg4 12. Nc2 Bd6 13. Nf3 gxf3 14. Bf4 fxg2 15. Bxe5 gxf1=B 16. Re1 Bxe5 17. Ne3 Bxe2 18. Nf5 Bxf5 19. d4 Qg5+ 20. Kh1 Be4+ 21. f3 B4xf3# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "4"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. Na3 e5 2. g4 g6 3. h4 Bg7 4. c3 d6 5. Bg2 Ne7 6. e4 O-O 7. Qe2 Nbc6 8. d3 Bxg4 9. Qxg4 f5 10. exf5 Qd7 11. h5 Nd5 12. Ne2 Rfe8 13. Bg5 Nf6 14. Qh3 h6 15. Bh4 Nd4 16. Ng3 Nxh5 17. fxg6 Qc6 18. Bxc6 Kh8 19. Bg2 Bf6 20. Bxf6+ Kg8 21. Bd5+ Ne6 22. Bxe6+ Rxe6 23. Qxe6+ Kf8 24. Qf7# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "5"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. h4 f6 2. Nf3 d5 3. d3 Bf5 4. c4 e5 5. cxd5 Bc8 6. e4 Bc5 7. Be2 Ne7 8. O-O O-O 9. Nc3 Kh8 10. a3 f5 11. b4 Bd4 12. b5 Bxc3 13. Nd2 Bxa1 14. f4 Bd4+ 15. Kh1 Ng6 16. Nf3 c5 17. h5 Ne7 18. Nxd4 exd4 19. Bf3 Nxd5 20. exd5 a6 21. Be2 axb5 22. Bf3 b4 23. Be4 bxa3 24. Qf3 Nd7 25. Be3 fxe4 26. Bxd4 cxd4 27. Qg4 Qe7 28. Qg5 Qxg5 29. h6 Qxh6+ 30. Kg1 e3 31. d6 Ra7 32. f5 Kg8 33. f6 gxf6 34. Re1 Qh1+ 35. Kxh1 Kg7 36. Rf1 e2 37. Rg1 Ne5 38. Kh2 b5 39. Kg3 a2 40. Kf2 Bg4 41. g3 Nxd3+ 42. Kg2 e1=N+ 43. Kf1 a1=Q 44. Rg2 Nc2# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "6"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. h4 f6 2. Nf3 d5 3. d3 e5 4. e3 c6 5. Nbd2 Be6 6. c4 Bd6 7. Be2 Ne7 8. O-O Nd7 9. a3 O-O 10. b3 Qc7 11. h5 Rac8 12. d4 exd4 13. cxd5 Bxd5 14. Nxd4 Rfe8 15. e4 Ne5 16. exd5 Nf3+ 17. N2xf3 Nxd5 18. Re1 Kh8 19. Nf5 h6 20. Nxd6 Qxd6 21. Ra2 Nf4 22. Bxf4 Qe5 23. g3 Qe4 24. Rd2 Qe3 25. Kg2 Qxe2 26. Qxe2 Re7 27. g4 Rf7 28. Kh2 Re7 29. Qxe7 Kg8 30. Qe6+ Kf8 31. Bd6# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "7"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. Nh3 h5 2. g4 b5 3. Bg2 hxg4 4. O-O c6 5. d3 Rxh3 6. Nc3 Rh8 7. Bf4 Nf6 8. e3 Rh5 9. Ne4 d5 10. Nxf6+ exf6 11. Be5 Rxe5 12. c4 g6 13. cxd5 cxd5 14. Qc2 Bf5 15. b3 Bc8 16. Qc4 Bf5 17. Qxd5 Be4 18. Qxe4 Rxe4 19. dxe4 Qb6 20. Rac1 Bb4 21. Rc5 Kf8 22. Rc6 Qa5 23. Rc7 Na6 24. Rb7 Rd8 25. Bf3 gxf3 26. Rc1 Ba3 27. Kf1 Bxc1 28. Rxa7 Rd1# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "8"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. Nh3 h5 2. g4 b5 3. g5 Bb7 4. f3 e6 5. a3 Nf6 6. gxf6 Qxf6 7. d4 b4 8. Qd3 c5 9. Be3 cxd4 10. Bxd4 Nc6 11. Bxf6 Be7 12. Bxe7 Nd4 13. Bxb4 O-O-O 14. Qc3+ Nc6 15. e4 f6 16. Qxc6+ Bxc6 17. b3 Bb5 18. Nd2 Ba4 19. Bd3 e5 20. Kd1 Rhe8 21. Ra2 Bb5 22. Bf1 Bc4 23. Nxc4 h4 24. Nd6+ Kb8 25. Bc4 Rc8 26. Nf2 Red8 27. c3 g5 28. Ng4 f5 29. Nxf5 Rf8 30. Rb2 h3 31. a4 Rfd8 32. Bd6+ Ka8 33. Nxe5 Re8 34. Ng4 Re5 35. f4 Rd5+ 36. Bxd5+ Rc6 37. b4 gxf4 38. Bxf4 d6 39. Nf2 a5 40. Be3 axb4 41. Bf4 Kb8 42. Bxc6 Ka7 43. Rb3 d5 44. Bxd5 Kb6 45. Nd6 Ka5 46. Bd2 Kxa4 47. Nd3 Ka5 48. Re1 Ka4 49. Nb2+ Ka5 50. Ndc4+ Kb5 51. Nd6+ Ka5 52. Nbc4+ Ka4 53. Rxb4# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "9"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. Nh3 f5 2. e3 e6 3. Nc3 Nf6 4. Nf4 a6 5. d4 Nc6 6. Be2 Bd6 7. O-O b5 8. a3 Bb7 9. Na4 Bxf4 10. Nc5 Bxh2+ 11. Kxh2 Qb8 12. Nxe6 dxe6 13. f4 Qd8 14. Bf3 Rf8 15. c3 Na5 16. Bd2 g6 17. Be4 fxe4 18. Qe2 Nc6 19. Qf3 Ne7 20. Qxe4 Bxe4 21. g3 Ng4+ 22. Kh3 Qc8 23. Kxg4 h5+ 24. Kg5 Nf5 25. Rf2 Qd8+ 26. Kxg6 b4 27. Bc1 Nxg3+ 28. f5 Rf6+ 29. Kh7 Qe7+ 30. Kh8 Rf8# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "10"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. Nh3 f5 2. e3 e6 3. Qe2 Nf6 4. a3 d6 5. d4 Be7 6. g3 O-O 7. Bg2 Nbd7 8. b3 a6 9. Ng5 Nb6 10. Nh3 Nbd5 11. a4 Ne4 12. Bb2 Nec3 13. Nxc3 c6 14. Qd2 Bd7 15. Ng1 Bf6 16. Nge2 Kh8 17. O-O Rb8 18. Kh1 b5 19. Nd1 b4 20. e4 Be5 21. f3 Bxd4 22. exd5 exd5 23. Bxd4 Qf6 24. Bb2 Qe5 25. Bxe5 Rf7 26. Nc1 a5 27. Bd4 c5 28. Bb2 Bc6 29. Ne2 h6 30. Qe1 Bb5 31. axb5 a4 32. Bf6 a3 33. Bh4 g6 34. Bd8 Kg8 35. Bg5 Kg7 36. Be7 c4 37. Rxa3 c3 38. Qxc3+ Kg8 39. Qe1 Kg7 40. Bf6+ Kxf6 41. Ra1 Kg7 42. Nf2 Kf6 43. g4 Kg7 44. Rc1 Kf6 45. c4 Kg7 46. c5 Kf6 47. g5+ Kg7 48. gxh6+ Kf8 49. Rd1 Ke7 50. Nc1+ Kd7 51. cxd6 Kc8 52. Qe6+ Kd8 53. Qxf7 Kc8 54. Qc7# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "11"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. b4 Na6 2. e3 Nh6 3. Bb2 Nf5 4. d3 Nxb4 5. Nf3 Nc6 6. Be2 Rb8 7. O-O d5 8. Nbd2 d4 9. exd4 Nfxd4 10. Ne4 a6 11. Nxd4 Nxd4 12. Bf3 b6 13. Re1 e6 14. Qe2 Nxe2+ 15. Rxe2 f6 16. Rd1 Kf7 17. Nd2 c6 18. Ne4 e5 19. Nd6+ Bxd6 20. Be4 Ke6 21. f4 Qe8 22. Kh1 Rb7 23. Bf3 Ba3 24. Be4 Kf7 25. f5 Bd6 26. Bc3 g6 27. Bd4 exd4 28. Bd5+ cxd5 29. Rf1 Qxe2 30. Rf3 Qe1+ 31. Rf1 Qxf1# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "12"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. b4 Na6 2. e3 Nh6 3. a3 d6 4. Bb2 Nf5 5. Qf3 e6 6. Bxa6 Be7 7. Bd3 O-O 8. Nh3 Bd7 9. Nc3 Bc6 10. e4 Bf6 11. O-O Re8 12. Qd1 Nh4 13. Rb1 Qe7 14. Bc1 Nf5 15. Rb3 Rad8 16. Kh1 Nh4 17. b5 Nf5 18. a4 Nh4 19. f3 Nf5 20. a5 Nh4 21. Ba3 Nf5 22. exf5 Be5 23. bxc6 Qf6 24. fxe6 b6 25. Ne4 Qe7 26. exf7+ Kh8 27. fxe8=R+ Rxe8 28. f4 Qf6 29. axb6 Bd4 30. bxc7 Be5 31. Rf3 Qg6 32. Qf1 Qxe4 33. Bc4 Qxf3 34. Rxf3 Bxf4 35. Rb3 Rf8 36. Be2 Bg3 37. Qxf8# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "13"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. Nh3 Nh6 2. c4 Rg8 3. Nc3 Rh8 4. d3 Ng4 5. g3 c6 6. Bg2 e5 7. O-O Be7 8. Bf4 g5 9. e3 d5 10. cxd5 gxf4 11. Nxf4 exf4 12. Ne4 fxg3 13. Qf3 cxd5 14. Nc5 gxh2+ 15. Kh1 Rg8 16. Qe2 Kf8 17. Ne4 Nc6 18. Nc5 Bxc5 19. Qf3 Bd7 20. Qe2 Bd6 21. Qf3 Qg5 22. Rac1 Be7 23. Qe2 a6 24. Rc5 Bxc5 25. Qf3 Nf6 26. Qg3 Ng4 27. f4 Qh6 28. Rf2 Rg7 29. b3 Be7 30. Bf1 Rd8 31. Bg2 Be6 32. Bf3 Nxf2+ 33. Kg2 h1=Q+ 34. Kxf2 Qg1+ 35. Ke2 Qgh2+ 36. Bg2 Q2h5+ 37. Bf3 Qh2+ 38. Qf2 Qg1 39. Be4 Bg4+ 40. Bf3 Nd4+ 41. exd4 Bxf3+ 42. Kxf3 Qh5+ 43. Ke3 Qgg6 44. Qe2 Qg3+ 45. Qf3 Qe1+ 46. Qe2 Qh3# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "14"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. Nh3 Nh6 2. c4 Rg8 3. Nc3 d6 4. d4 Nc6 5. Ng5 Bg4 6. f3 Bxf3 7. exf3 Ne5 8. dxe5 Nf5 9. Qb3 g6 10. Bd2 Bg7 11. a3 Qd7 12. Nce4 Qc6 13. Bc3 Rd8 14. Rd1 e6 15. c5 Nh4 16. Bb5 Nxf3+ 17. Kf1 Nd2+ 18. Bxd2 Bxe5 19. cxd6 Bf6 20. Ke1 Be5 21. d7+ Rxd7 22. Rc1 Rd6 23. g3 f5 24. Nf2 Bf6 25. Rc2 e5 26. Qxg8+ Ke7 27. Bxc6 b6 28. Qe8# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "15"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. h4 f6 2. a3 Nh6 3. d3 d5 4. Nf3 Nf7 5. e3 Bf5 6. Be2 Nc6 7. Nbd2 Qd7 8. c4 Nce5 9. cxd5 Qxd5 10. Qc2 Bxd3 11. O-O Bxc2 12. Ne4 Qd8 13. Nc5 c6 14. Rd1 Qxd1+ 15. Ne1 Qd5 16. b4 Be4 17. Bb2 Nd6 18. Rc1 Qa2 19. Bc4 Nexc4 20. g3 Rg8 21. a4 h5 22. a5 b5 23. Nb7 Bf5 24. Nc5 Nxb2 25. Kg2 Qd5+ 26. Kf1 Rc8 27. Ke2 Nf7 28. a6 Qc4+ 29. Kd2 Rd8+ 30. Ned3 Qxb4+ 31. Ke2 Nxd3 32. Ne6 Qb2+ 33. Rc2 Qxc2+ 34. Kf1 Qxf2# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "16"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. h4 f6 2. a3 Nh6 3. d3 e5 4. g3 Nc6 5. Bxh6 Bc5 6. Bc1 O-O 7. b4 Bb6 8. Nc3 d6 9. Nf3 Kh8 10. h5 Be6 11. Na4 Qd7 12. Rh4 Ne7 13. b5 Ng6 14. Rh2 Bd5 15. Bd2 Qc6 16. e4 Bxe4 17. Nxb6 Qd5 18. Nxd5 Bxf3 19. d4 e4 20. Qxf3 Rae8 21. Qh1 f5 22. Kd1 e3 23. Nf4 Re7 24. Nd5 f4 25. Bxe3 Rff7 26. hxg6 Rf6 27. Rxh7+ Kg8 28. Rh8# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "17"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. d4 e6 2. e4 Na6 3. Nc3 Ne7 4. Nf3 c6 5. Bc4 Nc7 6. O-O Ng6 7. Bb3 Bb4 8. Re1 O-O 9. Bg5 Be7 10. Bh4 Bxh4 11. h3 Rb8 12. Qd2 d6 13. a4 Ne8 14. Ne2 b6 15. Qf4 Nxf4 16. Rac1 h5 17. Nd2 Nxe2+ 18. Kh2 Nf4 19. Nc4 Ng6 20. Na5 bxa5 21. g3 Bg5 22. c4 Rxb3 23. Re2 Bh6 24. c5 Rb8 25. h4 d5 26. exd5 cxd5 27. Kh3 Rb4 28. Rd1 Qd7 29. Rdd2 Nf4+ 30. gxf4 Qxa4 31. Re3 Qa1 32. Kg3 Rb3 33. Kf3 Rb4 34. Ke2 Rb8 35. Kd3 Rb3+ 36. Kc2 Qxb2+ 37. Kd1 Qa1+ 38. Kc2 Qb1# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "18"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. d4 e6 2. e4 Na6 3. Be3 d6 4. a3 Nf6 5. Bd3 Be7 6. Qe2 O-O 7. Nc3 c6 8. g4 Nc7 9. g5 Rb8 10. gxf6 Bxf6 11. f4 b6 12. Qf3 e5 13. Nge2 Bb7 14. dxe5 Re8 15. exf6 Qe7 16. O-O-O Qe5 17. fxe5 dxe5 18. Rdg1 g6 19. Bg5 c5 20. Bb5 Nxb5 21. Nxb5 Red8 22. Nec3 Rd1+ 23. Nxd1 Rc8 24. Ndc3 Kf8 25. Rd1 Ke8 26. Bh6 Bc6 27. Kb1 Bxb5 28. Nxb5 a5 29. Qh3 a4 30. Qd7# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "19"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. e4 c5 2. Be2 d6 3. d3 g6 4. Nf3 Nc6 5. O-O Bg7 6. Nc3 Bg4 7. Bg5 Nf6 8. Bh4 Bxf3 9. Bxf3 Ne5 10. Bg3 Nfd7 11. Re1 a6 12. h3 b5 13. a3 e6 14. Qe2 h5 15. Rad1 g5 16. Na4 g4 17. Nxc5 gxf3 18. b4 fxe2 19. Rd2 dxc5 20. c4 Qc7 21. f4 Nf3+ 22. gxf3 h4 23. Kg2 hxg3 24. Kxg3 Qb8 25. Kg4 Nf6+ 26. Kg5 Bh6+ 27. Kxf6 Qxf4# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "20"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. e4 c5 2. Be2 d6 3. b3 Nf6 4. Bd3 e6 5. Nh3 Be7 6. Qe2 O-O 7. Qd1 Nc6 8. Bb2 a6 9. Nc3 b5 10. f4 b4 11. Nb1 Bb7 12. a3 Qc7 13. O-O Rfd8 14. Nf2 Nd7 15. Qh5 Nde5 16. fxe5 Nd4 17. Kh1 Bc6 18. Ng4 g6 19. Qh3 a5 20. Qg3 a4 21. Qh3 Qd7 22. bxa4 Bf6 23. Nxf6+ Kg7 24. Qxh7+ Kf8 25. c3 Ke7 26. cxd4 cxd4 27. Nd5+ Bxd5 28. Qxf7# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "21"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. e3 e6 2. g4 Na6 3. Bg2 d6 4. d3 Nb8 5. Nf3 d5 6. O-O a5 7. c4 Ne7 8. Nc3 Ng6 9. cxd5 e5 10. Ne4 c6 11. Bd2 cxd5 12. Nc5 Bxg4 13. Rc1 Bxc5 14. Nxe5 Bxd1 15. Nc6 bxc6 16. Bc3 f6 17. Bd4 Bg4 18. Bxc5 Nh4 19. b4 Bh5 20. b5 Ng6 21. bxc6 Nxc6 22. Bd6 Qc8 23. Rc5 Nge5 24. Rxc6 Nf3+ 25. Bxf3 Qxc6 26. Be2 Qc8 27. Bc7 Qxc7 28. Rd1 Qc8 29. Bf3 g6 30. Be4 Qg4+ 31. Bg2 Qc8 32. Bf3 Rg8 33. Be4 Bxd1 34. Bf5 gxf5+ 35. Kf1 Rb8 36. h4 Bf3 37. d4 Qc1# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "22"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. e3 e6 2. g4 Na6 3. c3 d6 4. Ne2 Nf6 5. Ng3 Be7 6. d4 O-O 7. e4 Nb4 8. cxb4 c5 9. Be3 cxd4 10. Bxd4 Bd7 11. Nc3 Rc8 12. Rc1 Bc6 13. a3 Nd7 14. Be3 Nf6 15. h4 h6 16. g5 Nd7 17. f4 f5 18. Qh5 Nf6 19. gxf6 Bxf6 20. b5 Be5 21. fxe5 Qf6 22. Qe2 Qxe5 23. bxc6 Qf6 24. Qg2 Qe5 25. Be2 Qf6 26. Rf1 Qe5 27. Rg1 Qf6 28. Rb1 Qe5 29. a4 Qf6 30. Rd1 Qe7 31. a5 Kh8 32. Bh5 Qf6 33. Qf1 Qe7 34. Bg6 Qf6 35. e5 Qxe5 36. Rd3 Qe4 37. Kd2 Qxe3+ 38. Rxe3 e5 39. Kd1 f4 40. Rf3 h5 41. Bf7 g5 42. Nxh5 Rxf7 43. hxg5 Rg7 44. g6 Rxg6 45. Rxg6 Rb8 46. Rh3 Kh7 47. Nxf4# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "23"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. c3 Nh6 2. a3 c5 3. Nf3 Ng4 4. e3 Nf6 5. d4 g6 6. Bd3 d5 7. O-O Qc7 8. Nbd2 c4 9. Re1 Bg4 10. Qc2 cxd3 11. b4 Nbd7 12. Bb2 dxc2 13. b5 Bxf3 14. a4 Bxg2 15. a5 Bh3 16. a6 Nh5 17. Nc4 Qc8 18. Ne5 f6 19. Nxd7 bxa6 20. Ne5 Qb8 21. Nc6 Bf5 22. Ne5 axb5 23. Nd7 Bxd7 24. c4 Rg8 25. cxd5 Bg4 26. Kg2 Bd7 27. Kf3 a5 28. Ke4 Bf5+ 29. Kf3 Bd3 30. Kg2 Bf5 31. Kf3 a4 32. e4 Qd6 33. Re2 Bxe4+ 34. Kxe4 f5+ 35. Kf3 Qxd5+ 36. Ke3 Qc6 37. Rc1 h6 38. Ra1 c1=Q+ 39. Rxc1 Qd7 40. Rc4 g5 41. Rc5 e6 42. Rc7 Qxc7 43. Kd2 Qc6 44. Ke3 Qe4+ 45. Kd2 Bb4+ 46. Kc1 Qd5 47. f3 Rc8+ 48. Kd1 Qb3+ 49. Rc2 Qxc2# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "24"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. c3 Nh6 2. a3 c5 3. e4 Nc6 4. b4 e6 5. bxc5 Nf5 6. d4 d5 7. exf5 Bd6 8. fxe6 O-O 9. h3 Bxe6 10. cxd6 Qf6 11. Nd2 Rad8 12. Bb5 Nxd4 13. Bd3 b6 14. Ngf3 g6 15. Nxd4 Qe5+ 16. Qe2 Qxd6 17. Qf3 Kg7 18. Bb5 Qe7 19. Ne2 Qf6 20. h4 Qe7 21. a4 Qf6 22. Bb2 Qe5 23. Qd3 Qe4 24. Ra3 Qf3 25. Qd4+ f6 26. gxf3 Bf5 27. Ra1 Be4 28. Rg1 Bd3 29. Rxg6+ Kxg6 30. h5+ Kf5 31. Qxd3+ Ke6 32. Nd4+ Ke5 33. Qxh7 Kf4 34. Qf5# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "25"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "1/2-1/2"]
+
+1. Na3 g6 2. e3 Bh6 3. d3 d5 4. Nf3 Bg7 5. Be2 Qd7 6. O-O Nf6 7. Re1 h6 8. Nc4 dxc4 9. Bd2 Nc6 10. Bc3 cxd3 11. Nd2 a5 12. Nf3 dxe2 13. Ne5 Nxe5 14. Qd3 Qe6 15. Bd4 Nxd3 16. Bc5 Qd6 17. f3 Qxc5 18. Rad1 Qxe3+ 19. Kh1 Nf2+ 20. Kg1 Nd3+ 21. Kh1 Nf2+ 22. Kg1 1/2-1/2
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "26"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. Na3 g6 2. e3 Bh6 3. Nf3 d6 4. e4 Nf6 5. d3 O-O 6. Bxh6 c5 7. Be2 Nc6 8. Bc1 Re8 9. O-O Kg7 10. Rb1 e5 11. Be3 h6 12. Ne1 Bg4 13. Bxg4 Rc8 14. Bc1 Nd4 15. f3 b5 16. Bxc8 Qd7 17. Bxh6+ Kxh6 18. Ba6 Kh5 19. c3 b4 20. cxd4 cxd4 21. g4+ Nxg4 22. fxg4+ Kh4 23. Ng2+ Kh3 24. Qf3# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "27"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. b3 d5 2. a3 e6 3. Bb2 Ne7 4. Nf3 c5 5. e3 Nd7 6. Be2 Nc6 7. O-O a6 8. d4 cxd4 9. exd4 Nf6 10. Nbd2 g6 11. Re1 b5 12. Ne5 Bb7 13. Ndf3 Ne4 14. Rc1 Bh6 15. Nd2 Nxe5 16. dxe5 Bxd2 17. Bf3 Bxe1 18. Qd3 Bxf2+ 19. Kh1 Qe7 20. Bxe4 b4 21. Bxd5 Bxd5 22. Qd4 Bxd4 23. Bxd4 Qg5 24. c4 Qxg2# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "28"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. b3 d5 2. a3 e6 3. e3 Nf6 4. d4 c5 5. dxc5 Nc6 6. b4 Bxc5 7. bxc5 O-O 8. Nf3 Ne4 9. Bb2 Qf6 10. Bxf6 Nc3 11. Bxc3 Bd7 12. Qc1 Na5 13. Rg1 Bc6 14. Bxa5 Rfe8 15. a4 Bb5 16. Qb2 Rac8 17. axb5 b6 18. Nbd2 Rc6 19. Qxg7+ Kxg7 20. Bd3 Rxc5 21. Bb4 Rc4 22. Ba5 Kf6 23. Kd1 Kg7 24. g3 Rc3 25. Bxc3+ Kf8 26. Bb2 Ke7 27. Be5 Kf8 28. Bb2 Ke7 29. Ra4 Kd6 30. Ra3 Kc5 31. Nb3+ Kd6 32. Re1 a5 33. Ra1 a4 34. Rxa4 e5 35. Ra7 f6 36. Bf5 Re7 37. Ba3# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "29"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. f3 c6 2. c3 d5 3. e3 Nf6 4. d4 c5 5. Bd3 Nbd7 6. Ne2 g6 7. O-O c4 8. Nd2 e5 9. dxe5 Nxe5 10. e4 Bc5+ 11. Kh1 b5 12. exd5 Nxd3 13. Ne4 Qe7 14. Bf4 Bb7 15. Qxd3 cxd3 16. Bg3 Nxe4 17. Rad1 Nf2+ 18. Bxf2 dxe2 19. Rd4 Kd7 20. Re1 f6 21. Bg3 Rad8 22. Bf4 Rde8 23. Bg5 fxg5 24. Rxe2 Qxe2 25. Kg1 Qe1# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "30"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. f3 c6 2. c3 d5 3. Qa4 Nf6 4. Qh4 e6 5. Qg3 Bd6 6. f4 O-O 7. d3 Nbd7 8. Nf3 Re8 9. Rg1 e5 10. Kd1 h6 11. Nh4 Nf8 12. Kc2 Be6 13. fxe5 Qc7 14. d4 Rad8 15. a3 Ne4 16. Qf4 f5 17. Nxf5 g5 18. Nxh6+ Kg7 19. Qe3 Ng3 20. Qxg5+ Kh7 21. Qf6 Bf5+ 22. Nxf5 Be7 23. Qg7# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "31"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. e4 d5 2. Qe2 b6 3. d3 g6 4. Nc3 c6 5. Nf3 Bg7 6. Bg5 d4 7. O-O-O dxc3 8. Bf6 Nxf6 9. g3 Nbd7 10. Bg2 cxb2+ 11. Kb1 a6 12. Nh4 Ra7 13. f4 b5 14. Qf3 b4 15. Qg4 Qa5 16. Qg5 Qc5 17. Qxf6 Bxf6 18. c4 g5 19. Bf3 Qa5 20. Be2 gxh4 21. Bf3 b3 22. Bg4 Qxa2# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "32"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. e4 d5 2. Qe2 b6 3. d3 Bb7 4. exd5 Qxd5 5. Bd2 Nc6 6. Nc3 e6 7. Nxd5 Nf6 8. a3 Nxd5 9. Qd1 O-O-O 10. h4 Nd4 11. c3 Be7 12. b4 Nxc3 13. Qh5 Bf6 14. Bxc3 c5 15. Kd1 Be5 16. Qxe5 Rd7 17. Qe3 h6 18. f4 g6 19. Bxd4 cxd4 20. Qd2 Rhd8 21. Qe1 Kb8 22. h5 Rc8 23. b5 f5 24. Rb1 Re7 25. Rh2 Rc2 26. g3 Rb2 27. Rhxb2 Rd7 28. Qd2 g5 29. fxg5 e5 30. Qb4 Rd6 31. Rc1 Rc6 32. bxc6 Kc8 33. cxb7+ Kd7 34. Qa4+ Ke6 35. Qe8+ Kd5 36. Qc6# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "33"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. Nf3 e5 2. h3 h5 3. d3 Bd6 4. e4 Nc6 5. Be2 g6 6. O-O a6 7. Nc3 Nf6 8. Bg5 Be7 9. Bh4 O-O 10. Bg3 Bd6 11. Re1 Kg7 12. Qd2 Ng8 13. Rad1 Re8 14. Na4 b5 15. Nc5 Nf6 16. Nh4 Bxc5 17. Nxg6 fxg6 18. Bf3 Bb6 19. c3 Bb7 20. b3 Ng8 21. Qe3 d6 22. Qd2 h4 23. Qe3 hxg3 24. Be2 gxf2+ 25. Qxf2 Re7 26. Bf3 Bc5 27. Be2 Bxf2+ 28. Kh1 Nf6 29. Bf3 Be3 30. Bg4 Bc5 31. Bf5 Qh8 32. Bxg6 b4 33. Rd2 Rf8 34. Kh2 Bf2 35. Bf7 Rexf7 36. c4 Ng4+ 37. Kh1 Nf6 38. Ree2 Qh4 39. Rxf2 Qh6 40. Rf3 Qh5 41. Rf4 exf4 42. Kg1 a5 43. Re2 Bc8 44. c5 Bxh3 45. Rd2 Bg4 46. Kf2 Nd4 47. g3 Qh2+ 48. Ke1 Qg1# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "34"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. Nf3 e5 2. h3 h5 3. e4 d6 4. c3 Nf6 5. d4 exd4 6. cxd4 Be7 7. Qc2 O-O 8. Bd3 c5 9. Nc3 cxd4 10. Ne2 Nc6 11. Nfxd4 Bg4 12. f3 Bxf3 13. gxf3 Re8 14. Qa4 Rc8 15. Kf1 Nxd4 16. Nxd4 Nxe4 17. Rg1 Nd2+ 18. Bxd2 Bf6 19. Nf5 Be5 20. Qb3 Qf6 21. Re1 Qe7 22. Re4 Qf6 23. Nh6+ Kh8 24. Nxf7+ Kh7 25. Re3+ Qg6 26. Bxg6+ Kg8 27. Nxd6+ Kh8 28. Nxc8 Rf8 29. Rxe5 Rf7 30. Rxh5+ Kg8 31. f4 Kf8 32. Qxf7# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "35"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. h4 g5 2. Na3 b6 3. d3 g4 4. Nf3 Nc6 5. e4 gxf3 6. Nc4 h5 7. Bd2 Nd4 8. Qxf3 Ba6 9. O-O-O Nxf3 10. Bf4 e5 11. Bg3 Bxc4 12. Be2 Bh6+ 13. Kb1 Be6 14. Bxf3 Bg7 15. c3 Rc8 16. Be2 b5 17. Bf3 c5 18. Bg4 Bxa2+ 19. Kc2 Bb3+ 20. Kd2 Bh6+ 21. f4 f5 22. Bf3 Kf8 23. Ke3 b4 24. Rd2 Bf7 25. Rhd1 bxc3 26. Bg4 hxg4 27. b3 Bxf4+ 28. Bxf4 Rh6 29. Bxe5 Re6 30. Bd6+ Rxd6 31. Rc1 f4+ 32. Kxf4 cxd2 33. Kf5 Qf6+ 34. Kxg4 Be6+ 35. Kg3 dxc1=Q 36. d4 Qe3+ 37. Kh2 Qff4+ 38. g3 Qef2+ 39. Kh1 Q2xg3 40. h5 Qh2# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "36"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. h4 g5 2. Na3 b6 3. hxg5 Bb7 4. d4 Bg7 5. f3 Nf6 6. Rh3 O-O 7. Bd2 d6 8. gxf6 Nd7 9. c3 Nxf6 10. Qc1 e5 11. Nc2 exd4 12. cxd4 Re8 13. Bg5 Qd7 14. Bh6 d5 15. a4 a6 16. Qf4 Qf5 17. Rg3 Rad8 18. Rxg7+ Kh8 19. Qxf5 Ne4 20. Qxh7# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "37"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. c4 a6 2. Qa4 e5 3. d3 h6 4. Nf3 Qe7 5. g3 c6 6. Bg2 a5 7. O-O Ra6 8. Nc3 d6 9. Ne4 Bf5 10. Nc5 dxc5 11. Qc2 a4 12. e4 Bg4 13. b3 Qd6 14. Bb2 a3 15. Rad1 Nd7 16. Nh4 axb2 17. f4 Bxd1 18. Qc3 b1=R 19. f5 Qb8 20. Ng6 Ngf6 21. Re1 Rg8 22. Qd2 Bd6 23. Qe3 Nh5 24. Qf4 Qc7 25. Qxe5+ Nxe5 26. g4 Nf3+ 27. Kf2 Bg3+ 28. Ke3 Nxe1 29. a3 Qf4+ 30. Nxf4 Bxf4+ 31. Kf2 Rb2+ 32. Kf1 Be2+ 33. Kf2 Nxd3+ 34. Kg1 Rb1+ 35. Bf1 Nf6 36. h4 Nh5 37. g5 Rd1 38. g6 Bf3 39. f6 Be3+ 40. Kh2 Bf4+ 41. Kh3 Nf2# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "38"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. c4 a6 2. Qa4 e5 3. d3 Nc6 4. a3 d6 5. Be3 Nf6 6. Nc3 Be7 7. Rc1 O-O 8. Nf3 Bg4 9. g3 Bh5 10. Bg2 Bg6 11. b4 h6 12. Nh4 Re8 13. Nxg6 Qd7 14. b5 Rad8 15. Nxe7+ Nxe7 16. Ne4 Ng6 17. Qd1 Nh5 18. b6 Qc6 19. Bf3 Nxg3 20. fxg3 Qc5 21. Qd2 Qxb6 22. Rf1 Rd7 23. c5 Qb5 24. h4 Qb4 25. Qxb4 Rde7 26. Qb3 b5 27. cxd6 b4 28. Kd1 Rd8 29. Bc5 Rdd7 30. g4 Rxd6 31. Rg1 Kh7 32. h5 f6 33. Ng5+ fxg5 34. hxg6+ Kxg6 35. Be4+ Kf6 36. Rf1# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "39"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. d4 Na6 2. e4 Nb4 3. Nc3 Nf6 4. f4 Rb8 5. Nf3 e6 6. Bc4 d5 7. exd5 Nfxd5 8. Bb3 b5 9. O-O a5 10. a4 bxa4 11. Kh1 Nxc3 12. Ne5 Nxd1 13. Bd2 Qd5 14. Bc3 Nf2+ 15. Rxf2 Rb6 16. Rf3 Qa8 17. Rd1 axb3 18. g4 Qxf3+ 19. Nxf3 bxc2 20. Ne5 Bb7+ 21. Nf3 Bxf3+ 22. Kg1 cxd1=R+ 23. Kf2 f6 24. Kxf3 Rd6 25. g5 Rd3+ 26. Ke4 f5+ 27. Ke5 Nc6# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "40"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. d4 Na6 2. e4 Nb4 3. c3 d6 4. cxb4 Nf6 5. Be3 e5 6. Ne2 Be7 7. dxe5 O-O 8. Nbc3 c6 9. exf6 Bxf6 10. Nf4 Bf5 11. Be2 Re8 12. O-O Bxe4 13. Re1 Bf3 14. Bxf3 Be5 15. Na4 Qf6 16. Nc3 Rad8 17. Ncd5 cxd5 18. Nxd5 b6 19. Bd2 g6 20. g3 Kg7 21. Kh1 Qf5 22. Bc1 Qe6 23. Be3 Qxd5 24. Bh6+ Kf6 25. Bxd5 Kf5 26. Qf3+ Bf4 27. Be6+ Rxe6 28. Qxf4# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "41"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. d4 h5 2. Na3 f5 3. Nf3 c6 4. e3 d6 5. Bd3 d5 6. O-O Nf6 7. Re1 Qd6 8. c3 h4 9. Nc2 Ne4 10. Qe2 Qh6 11. Bxe4 dxe4 12. c4 h3 13. Bd2 Nd7 14. Rac1 exf3 15. Bc3 fxe2 16. g3 Qh7 17. Nb4 e5 18. dxe5 g6 19. f4 Qe7 20. b3 Rh7 21. Nd5 cxd5 22. cxd5 Qc5 23. Bd4 Qb4 24. Bc5 Qe4 25. Kf2 Qg2# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "42"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. d4 h5 2. Na3 f5 3. Bf4 Nf6 4. Nc4 e6 5. Ne5 d6 6. Nd3 Be7 7. Nh3 O-O 8. Bc1 c5 9. c3 cxd4 10. Ndf4 Nc6 11. Ng6 e5 12. Nxf8 Bd7 13. Ng6 Rc8 14. g3 Na5 15. Bg2 Bc6 16. Nxe7+ Qxe7 17. f3 Nd7 18. Bd2 Kh8 19. cxd4 Qg5 20. Bxg5 Nf6 21. d5 Nxd5 22. O-O f4 23. Qb1 Kg8 24. a3 Kf7 25. b4 Ke6 26. Kh1 Kd7 27. a4 b5 28. Bh6 Ke6 29. bxa5 g5 30. Bxg5 b4 31. Qh7 Nf6 32. Qg6 Kd5 33. Qd3+ Kc5 34. Rac1# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "43"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. Nh3 e5 2. Nf4 Qe7 3. d3 Qb4+ 4. Nc3 exf4 5. g3 c6 6. Bg2 Na6 7. O-O fxg3 8. Bf4 gxh2+ 9. Kh1 Qxf4 10. e3 Qh4 11. Qf3 d6 12. Qg3 Qe7 13. Ne4 Nf6 14. c4 h5 15. f4 Ng4 16. Rad1 Kd8 17. Qxg4 Bxg4 18. Bf3 Bxf3+ 19. Rxf3 f6 20. Nxf6 gxf6 21. Rg3 Nc5 22. b3 h4 23. Re1 f5 24. Kg2 h1=B+ 25. Kh3 Qe8 26. Rg4 Bg2+ 27. Kxg2 fxg4 28. Kf2 Nxd3+ 29. Ke2 Qg6 30. Kd2 g3 31. Rf1 Nc5 32. Rf2 Qd3+ 33. Kc1 Qc3+ 34. Kb1 gxf2 35. e4 d5 36. cxd5 a6 37. f5 f1=R# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "44"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. Nh3 e5 2. Nf4 Qe7 3. Nh3 d6 4. c4 Nc6 5. e3 Nf6 6. d3 Bf5 7. Nc3 O-O-O 8. Bd2 Nd4 9. exd4 exd4+ 10. Ne2 Bg6 11. Bg5 c5 12. Rc1 Nd7 13. Kd2 Ne5 14. Qb3 f6 15. Bf4 Rd7 16. Ng3 Kb8 17. Kd1 Qe6 18. Qc2 Be7 19. f3 Qxh3 20. gxh3 h6 21. Ne4 Bf5 22. Qe2 g5 23. Bd2 Bg4 24. fxg4 Rg8 25. Bg2 Nxg4 26. hxg4 Rg7 27. Nxc5 Bd8 28. Na6+ Ka8 29. Nc7+ Bxc7 30. Bd5 Bb6 31. Bxb7+ Kb8 32. Qf1 Rg6 33. Bd5 f5 34. Bb4 h5 35. gxf5 g4 36. fxg6 Re7 37. Bxd6+ Kc8 38. Be5 Re6 39. Qg2 Rxe5 40. Be6+ Kb8 41. a3 Rf5 42. Qb7+ Kxb7 43. g7 Re5 44. Bd5+ Rxd5 45. g8=Q Rc5 46. Qf7+ Kc6 47. Qf6+ Kc7 48. Qf4+ Kd7 49. Qxd4+ Rd5 50. Qxg4+ Kc6 51. Qe6+ Kc5 52. Qxd5# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "45"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. a4 b5 2. d4 a6 3. Nf3 c6 4. e3 e6 5. Be2 d5 6. O-O Bb7 7. Nbd2 Nd7 8. c4 b4 9. cxd5 cxd5 10. Nb3 Qb8 11. Nc5 Bxc5 12. Bd2 Be7 13. Bc3 bxc3 14. Rc1 Ngf6 15. Nd2 O-O 16. Nf3 a5 17. Ne5 Qe8 18. Nxd7 Qxd7 19. Qc2 Rfc8 20. Rfd1 g6 21. b3 Qd6 22. Bc4 Qd8 23. Bxd5 exd5 24. Qd3 Rcb8 25. Qc4 Ba6 26. Qxd5 Qc7 27. Qc6 Qd8 28. Qc7 Qxc7 29. g3 Rxb3 30. Kg2 Rb6 31. Kf3 Bb7+ 32. Ke2 Qc4+ 33. Rd3 Rb2+ 34. Rc2 Rxc2+ 35. Kd1 Kg7 36. Kxc2 Qa2+ 37. Kxc3 Nd5# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "46"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. a4 b5 2. d4 a6 3. g3 Bb7 4. f3 e6 5. c3 Nf6 6. axb5 d5 7. Qd3 c5 8. dxc5 Be7 9. Be3 Nbd7 10. c6 O-O 11. b4 Rc8 12. cxd7 Nxd7 13. bxa6 Nf6 14. Na3 Nd7 15. h4 Nf6 16. Bd4 Nd7 17. axb7 Bf6 18. f4 Qc7 19. bxc8=N Nb6 20. Nc2 Nc4 21. Ne7+ Bxe7 22. Kf2 Rd8 23. Bh3 Bd6 24. b5 Qd7 25. Nf3 Nb6 26. h5 Nc4 27. Qd1 Nd2 28. Nxd2 Qc6 29. Nf3 Qc5 30. Qe1 Qxd4+ 31. Ne3 Qe5 32. b6 Qf6 33. Rb1 Qe5 34. Nd4 Qf6 35. Nec2 Qe5 36. e3 Qxd4 37. Bg2 Qe5 38. Kg1 Qd4 39. Rh2 Qe5 40. Nd4 Qf6 41. Qf2 Qe5 42. Rf1 Qxd4 43. cxd4 g6 44. Qb2 Kg7 45. b7 Be5 46. h6+ Kf6 47. fxe5+ Ke7 48. Qb4+ Rd6 49. Qxd6+ Ke8 50. g4 g5 51. e4 dxe4 52. b8=R# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "47"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "1/2-1/2"]
+
+1. g3 g6 2. e4 f6 3. Bg2 Bg7 4. d3 e5 5. Nf3 b6 6. O-O Ba6 7. c4 c5 8. Nc3 Bb7 9. Re1 Ne7 10. Nd5 Nbc6 11. a3 a5 12. Rb1 Ra7 13. b4 axb4 14. Nh4 bxa3 15. f4 O-O 16. Bd2 exf4 17. Qe2 a2 18. Qf3 Nd4 19. Qxf4 Nxd5 20. cxd5 axb1=Q 21. Qf5 Qxe1+ 22. Bxe1 Qe7 23. Nf3 Nxf5 24. Nd2 Rb8 25. Nf3 Rf8 26. Nd2 Rb8 27. Nf3 1/2-1/2
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "48"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. g3 g6 2. e4 f6 3. Ne2 Bg7 4. Bg2 d6 5. Nf4 e5 6. Ne2 Ne7 7. c3 O-O 8. O-O c6 9. a4 Bf5 10. exf5 Nd7 11. Qb3+ d5 12. c4 a6 13. Qd1 Qb6 14. Nbc3 Qc5 15. d4 Qxd4 16. cxd5 cxd5 17. Qb3 Kh8 18. Qa2 Qe3 19. Bxe3 Rac8 20. h4 Rf7 21. Qb3 Nc5 22. Bxc5 b5 23. Rab1 b4 24. Qd1 a5 25. g4 Nxf5 26. Kh1 h5 27. Na2 Rd8 28. Bb6 Nd6 29. Bxd8 Re7 30. Nf4 f5 31. Bxe7 Bf6 32. Qe1 Bxe7 33. Kg1 Kg7 34. Nxd5 Kf7 35. Nf4 Kf6 36. Qxe5+ Kxe5 37. Nd3+ Kd4 38. Rbd1 Nc4 39. gxf5 Ne5 40. Ne1+ Nd3 41. Nf3+ Ke4 42. f6 Nc5 43. Ne1+ Kf5 44. Bh3+ Kf4 45. Ng2+ Kf3 46. Rd3+ Nxd3 47. Ne1+ Nxe1 48. fxe7 Ke4 49. e8=Q+ Kd4 50. Qe3+ Kc4 51. Be6# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "49"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. Nh3 f6 2. c4 b5 3. d3 b4 4. Nc3 e6 5. g3 Bb7 6. Bg2 Bc6 7. O-O Bxg2 8. Kxg2 bxc3 9. Bd2 cxd2 10. Rc1 Nh6 11. Nf4 dxc1=N 12. Qd2 Nxd3 13. Qc3 Nc5 14. Qb3 a5 15. a3 c6 16. Re1 Nxb3 17. e3 e5 18. Kf3 e4+ 19. Kxe4 Nc5+ 20. Kf3 Ng4 21. Re2 g6 22. Nd3 Nxd3 23. Ke4 Nc5+ 24. Kf3 Ne5+ 25. Kg2 Rg8 26. b4 Rg7 27. b5 Ne4 28. Kf1 Nd2+ 29. Kg2 Ne4 30. Kf1 Nxc4 31. Kg2 Qc8 32. Kf3 Ne5+ 33. Kxe4 Qb7 34. f3 c5+ 35. Kf4 g5+ 36. Kf5 Qxf3# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "50"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. Nh3 f6 2. c4 b5 3. cxb5 Bb7 4. Nc3 e6 5. e3 d6 6. Qb3 Nd7 7. d4 Ne7 8. Qxe6 g6 9. Nf4 Bg7 10. Bc4 Rc8 11. Qf7# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "51"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. e3 h5 2. g3 b6 3. Bg2 d5 4. d3 e6 5. Ne2 h4 6. O-O h3 7. c4 hxg2 8. cxd5 gxf1=Q+ 9. Kxf1 Qxd5 10. d4 Qh1+ 11. Ng1 Ba6+ 12. Ke1 Bb4+ 13. Nc3 Bxc3+ 14. Bd2 Qxg1# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "52"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. e3 h5 2. g3 b6 3. Nf3 Bb7 4. Bg2 e6 5. O-O Nc6 6. c4 Nf6 7. Nc3 Be7 8. e4 O-O 9. e5 Nd4 10. exf6 c5 11. a3 d5 12. fxe7 Nf5 13. exd8=B Rc8 14. Bf6 a6 15. Re1 g6 16. a4 Rfe8 17. d4 cxd4 18. h4 Nxh4 19. Bxh4 Kg7 20. Bf6+ Kxf6 21. Bg5+ Kf5 22. Re5+ Kg4 23. Nxd4# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "53"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. b4 a6 2. h4 d6 3. Bb2 c6 4. e3 h5 5. b5 e5 6. Nf3 axb5 7. Bxb5 cxb5 8. O-O Nc6 9. d3 Nh6 10. Nbd2 Bd7 11. Ne4 b4 12. Rc1 Be7 13. Nf6+ Bxf6 14. Nxe5 dxe5 15. Qe2 Bxh4 16. Bd4 Rxa2 17. Bxe5 Bg4 18. Bf6 Bxf6 19. Rfd1 O-O 20. Qf3 Bh4 21. Qe2 Bf6 22. Rb1 Kh7 23. Qf3 Ra4 24. Qe4+ Kh8 25. Qf3 Rg8 26. Qe4 Ra7 27. Qf3 Ra8 28. Qd5 Bxd1 29. Qe4 Qf8 30. Qf3 Kh7 31. Qe2 Bh4 32. Qf3 Ra5 33. Qe2 Ne7 34. Qf3 Bxc2 35. Qe4+ Nef5 36. Qf3 Qc5 37. Qe4 Qc8 38. Rd1 Qf8 39. Qf3 Nxe3 40. Qe4+ Nef5 41. Qf3 Ne3 42. Qe4+ g6 43. Qf3 Nhf5 44. Qe4 Nh6 45. Qf3 Nxg2 46. Qe4 Rf5 47. Qf3 Be7 48. Qe4 Bxd1 49. Qf3 Bxf3 50. Kf1 Ng4 51. d4 b6 52. Kg1 Bd6 53. Kf1 Nh2+ 54. Kg1 Ng4 55. Kf1 b3 56. Kg1 b2 57. Kf1 b5 58. Kg1 b1=Q# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "54"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. b4 a6 2. h4 d6 3. e3 Nf6 4. Be2 e5 5. c4 Nc6 6. Qb3 Be7 7. d3 O-O 8. Nc3 Nd4 9. Qa4 b5 10. Qa5 c5 11. exd4 cxd4 12. Nd5 Bb7 13. Nxf6+ Bxf6 14. Qxd8 Rc8 15. Qa5 Rfd8 16. a4 bxc4 17. Bg5 Bc6 18. Qxd8+ Bxd8 19. Bxd8 a5 20. Bf3 Bd5 21. Bxd5 Kf8 22. b5 g6 23. Bc7 Ke7 24. g4 c3 25. Bxa5 Rb8 26. f3 Kd7 27. Ne2 Ke7 28. g5 Kf8 29. Be4 Kg8 30. h5 Kg7 31. Rg1 d5 32. Bxd5 Kf8 33. h6 Kg8 34. Be4 Rb7 35. Nxc3 Rb6 36. Rh1 Rxb5 37. Nxb5 Kf8 38. Rb1 Ke7 39. Bd2 f6 40. Rc1 f5 41. Rc7+ Ke6 42. Bc6 f4 43. Na3 Kf5 44. Rxh7 Ke6 45. Be4 Kd6 46. Rf7 Kc5 47. Rd7 Kb6 48. Nc2 Kc5 49. Rf7 Kd6 50. Rh7 Kc5 51. Rg7 Kd6 52. h7 Kc5 53. Rh2 Kd6 54. Bb4+ Ke6 55. Re7# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "55"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. c4 a5 2. Nh3 b6 3. Nc3 Nf6 4. e3 Bb7 5. d4 h6 6. Nf4 g6 7. Be2 d6 8. O-O Nbd7 9. Qb3 e6 10. Bd2 h5 11. Ncd5 exd5 12. cxd5 a4 13. Rac1 axb3 14. a3 Ne4 15. Bc3 Bg7 16. Rfd1 Qf6 17. Bc4 Nxf2 18. Kxf2 Rb8 19. h3 h4 20. Rd3 Rg8 21. Kf3 Bf8 22. Ke4 Bh6 23. g4 Bxf4 24. Bxb3 Bg3 25. Bc2 Bxd5+ 26. Kxd5 Qe6+ 27. Kc6 Qc4# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "56"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. c4 a5 2. Nh3 b6 3. Qc2 Bb7 4. d4 e6 5. Nc3 Nf6 6. e4 Be7 7. a3 O-O 8. f3 d6 9. g4 Nbd7 10. Be3 c5 11. O-O-O cxd4 12. Rxd4 Rc8 13. Kb1 Nc5 14. Be2 Ncxe4 15. Nb5 Nd2+ 16. Qxd2 Nd7 17. Nxd6 Nc5 18. Bg5 Ne4 19. fxe4 Bf6 20. e5 Be7 21. Bxe7 Qc7 22. Rd1 Rfd8 23. Qc1 Bd5 24. cxd5 exd5 25. Bg5 g6 26. Bxd8 Qd7 27. Nxc8 Qe6 28. Bf6 Qf5+ 29. gxf5 a4 30. Nf2 Kf8 31. Nxb6 Ke8 32. Qc8# 1-0
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "57"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. d4 h6 2. e3 b5 3. Nf3 b4 4. Be2 Nf6 5. O-O a6 6. c4 Bb7 7. Nc3 bxc3 8. Bd2 a5 9. Bxc3 Be4 10. Nd2 e6 11. Bf3 d5 12. cxd5 Bxd5 13. Re1 Bxf3 14. Nxf3 Be7 15. Nd2 O-O 16. Nf3 Bb4 17. Nd2 Ra6 18. Qb3 Re8 19. Qc2 Qd5 20. Nf3 Bf8 21. Rad1 Ne4 22. Rd3 a4 23. Nd2 Nd6 24. Nf3 Ne4 25. Nd2 Rd8 26. Nxe4 Qxe4 27. b3 Re8 28. Bb4 Nc6 29. Bc5 axb3 30. Qxb3 Qf5 31. g3 Na5 32. Qb4 Bxc5 33. Qb5 Rc6 34. Qxc6 Nxc6 35. Kg2 Bf8 36. a3 Qxd3 37. Kf3 Qa6 38. Kf4 e5+ 39. Kf5 Ne7+ 40. Ke4 Qc6+ 41. Kxe5 Qf6+ 42. Ke4 Qf5# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "58"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1/2-1/2"]
+
+1. d4 h6 2. e3 b5 3. Qf3 Bb7 4. Qxb7 b4 5. g3 e6 6. Be2 c5 7. Nd2 cxd4 8. Qxa8 Nc6 9. Qxd8+ Kxd8 10. Bd3 Nf6 11. Ndf3 Be7 12. h3 Nd5 13. Ne2 Nc3 14. bxc3 Kc7 15. Nexd4 Kd6 16. Nb5+ Kc5 17. Bd2 Bf6 18. Rb1 Be7 19. Nbd4 g5 20. cxb4+ Kb6 21. Rg1 f6 22. b5 Rc8 23. bxc6+ Kc5 24. Nb3+ Kb6 25. Nbd4+ Kc5 26. Bb4+ Kb6 1/2-1/2
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "59"]
+[White "transformer"]
+[Black "stockfish-1320"]
+[Result "0-1"]
+
+1. f3 g5 2. Kf2 f5 3. d3 d5 4. e3 Nc6 5. c4 Bh6 6. cxd5 Nb4 7. Nc3 Bg7 8. Nge2 Nxd5 9. Ng3 f4 10. Bd2 Nxc3 11. Bxc3 Bxc3 12. Be2 Bf6 13. Rc1 c6 14. Re1 Qb6 15. Qc2 h5 16. h3 fxg3+ 17. Kxg3 Qd8 18. Qd2 Qd7 19. Qc3 g4 20. Kf2 g3+ 21. Kxg3 Bxc3 22. f4 Qe6 23. Bf3 Qf7 24. Be4 Bg4 25. Bd5 h4+ 26. Kxg4 Qh5# 0-1
+
+[Event "Chess Bot v1 - evaluation"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "60"]
+[White "stockfish-1320"]
+[Black "transformer"]
+[Result "1-0"]
+
+1. f3 g5 2. Kf2 f5 3. h4 Bg7 4. hxg5 Nf6 5. d4 O-O 6. gxf6 d6 7. fxg7 Kxg7 8. a3 Nc6 9. Nc3 Kg6 10. Qd3 e5 11. e3 exd4 12. exd4 Be6 13. Ke1 Ne7 14. Qe3 c6 15. Kd1 Nd5 16. Qh6+ Kf7 17. Qxh7+ Kf6 18. Rh6# 1-0
+

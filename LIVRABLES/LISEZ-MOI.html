@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Livrables — Chess Bot v1</title>
+<style>
+:root {
+  color-scheme: light dark;
+
+  --ground:      #f7f4ee;   /* parchemin, legerement chaud */
+  --surface:     #fffdf9;
+  --surface-alt: #efe9df;
+  --ink:         #23201c;
+  --ink-soft:    #5b544a;
+  --ink-faint:   #8b8175;
+  --rule:        #ded5c7;
+  --brass:       #9a6b1f;   /* accent : laiton */
+  --brass-soft:  #c9a35a;
+  --deep:        #1d3049;   /* secondaire : encre bleue */
+
+  --measure: 70ch;
+  --step--1: 0.86rem;
+  --step-0:  1.0625rem;
+  --step-1:  1.32rem;
+  --step-2:  1.72rem;
+  --step-3:  2.3rem;
+  --step-4:  3rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground:      #16181b;
+    --surface:     #1c1f23;
+    --surface-alt: #24282d;
+    --ink:         #e7e3db;
+    --ink-soft:    #a9a49a;
+    --ink-faint:   #77726a;
+    --rule:        #33383e;
+    --brass:       #d8a94e;
+    --brass-soft:  #8d6c2e;
+    --deep:        #8fb3d9;
+  }
+}
+
+:root[data-theme="light"] {
+  --ground: #f7f4ee; --surface: #fffdf9; --surface-alt: #efe9df;
+  --ink: #23201c; --ink-soft: #5b544a; --ink-faint: #8b8175;
+  --rule: #ded5c7; --brass: #9a6b1f; --brass-soft: #c9a35a; --deep: #1d3049;
+}
+:root[data-theme="dark"] {
+  --ground: #16181b; --surface: #1c1f23; --surface-alt: #24282d;
+  --ink: #e7e3db; --ink-soft: #a9a49a; --ink-faint: #77726a;
+  --rule: #33383e; --brass: #d8a94e; --brass-soft: #8d6c2e; --deep: #8fb3d9;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.1rem, 4vw, 2rem) 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+/* --- Titres : serif, comme un manuel d'echecs --- */
+h1, h2, h3, h4 {
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  font-weight: 600;
+  line-height: 1.18;
+  text-wrap: balance;
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--step-4);
+  letter-spacing: -0.022em;
+  margin-bottom: 0.2rem;
+}
+
+h2 {
+  font-size: var(--step-2);
+  margin-top: 3.2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  letter-spacing: -0.012em;
+}
+
+h3 {
+  font-size: var(--step-1);
+  margin-top: 1.9rem;
+  color: var(--deep);
+}
+
+h4 {
+  font-size: var(--step-0);
+  margin-top: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-family: inherit;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+p { margin: 0; }
+
+a {
+  color: var(--brass);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover { color: var(--ink); }
+a:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+strong { font-weight: 650; color: var(--ink); }
+
+ul, ol {
+  margin: 0;
+  padding-left: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+li::marker { color: var(--brass-soft); }
+
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--rule);
+  margin: 2rem 0;
+}
+
+/* --- Code --- */
+code {
+  font-family: ui-monospace, "Cascadia Mono", "SF Mono", Consolas, monospace;
+  font-size: 0.88em;
+  background: var(--surface-alt);
+  padding: 0.12em 0.38em;
+  border-radius: 3px;
+}
+
+pre {
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--brass-soft);
+  border-radius: 4px;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+pre code {
+  background: none;
+  padding: 0;
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+
+/* --- Citations : les points a retenir --- */
+blockquote {
+  margin: 0;
+  padding: 0.9rem 1.2rem;
+  background: var(--surface);
+  border-left: 3px solid var(--brass);
+  border-radius: 0 4px 4px 0;
+  color: var(--ink-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* --- Tableaux --- */
+.table-wrap { overflow-x: auto; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+th, td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+th {
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-faint);
+  border-bottom: 1.5px solid var(--rule);
+}
+tbody tr:hover { background: var(--surface); }
+
+/* --- Cases a cocher du planning --- */
+.task { list-style: none; }
+ul:has(> .task) { padding-left: 0.2rem; }
+.task input {
+  margin-right: 0.55rem;
+  accent-color: var(--brass);
+}
+
+/* --- Sommaire --- */
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  padding: 1.3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.toc h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 0.78rem;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--ink-faint);
+}
+.toc ol {
+  list-style: none;
+  padding: 0;
+  counter-reset: toc;
+  gap: 0.3rem;
+}
+.toc li { counter-increment: toc; }
+.toc li::before {
+  content: counter(toc, decimal-leading-zero);
+  color: var(--brass-soft);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  margin-right: 0.7rem;
+}
+.toc a { text-decoration: none; color: var(--ink); }
+.toc a:hover { color: var(--brass); text-decoration: underline; }
+
+.doc-meta {
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+}
+
+@media print {
+  body { background: #fff; }
+  h2 { break-before: page; }
+  .toc { break-after: page; }
+}
+</style>
+</head>
+<body>
+<main class="page">
+<h1>Livrables — Chess Bot v1</h1>
+<nav class="toc"><h2>Sommaire</h2><ol><li><a href="#contenu-du-dossier">Contenu du dossier</a></li><li><a href="#resultats-en-bref">Resultats en bref</a></li><li><a href="#a-completer-avant-de-rendre">A completer avant de rendre</a></li></ol></nav>
+<p><strong>Projet de fin de Bachelor — [Prenom NOM] &amp; [Prenom NOM] — 24 aout 2026</strong></p>
+<p>Un Transformer qui apprend a jouer aux echecs <em>sans recherche</em>, evalue face a Stockfish. Ce dossier regroupe l&#x27;ensemble des livrables demandes.</p>
+<p><strong>Code source complet et historique du projet en ligne :</strong> https://github.com/naadjath/chess-bot-v1</p>
+<hr>
+<h2 id="contenu-du-dossier">Contenu du dossier</h2>
+<h3 id="1-application">1-Application</h3>
+<p>L&#x27;application de jeu (on joue contre le bot dans le navigateur, avec affichage du raisonnement du reseau).</p>
+<ul><li><code>code-source.zip</code> : tout le code du projet.</li><li>Pour lancer : decompresser, puis double-clic sur <code>Jouer.bat</code></li></ul>
+<p>(ou <code>python -m src.app.server</code>). Necessite Python 3 et <code>pip install -r requirements.txt</code>.</p>
+<h3 id="2-modele-entraine">2-Modele-entraine</h3>
+<p>Les poids du Transformer entraine.</p>
+<ul><li><code>best.pt</code> : le modele (Transformer encodeur, 6,86 M de parametres, 4 epoques).</li><li><code>history.json</code> : les metriques d&#x27;entrainement (perte, top-1, top-5 par epoque).</li></ul>
+<h3 id="3-evaluation-elo">3-Evaluation-ELO</h3>
+<p>Le livrable &quot;ELO approximatif constate face a Stockfish&quot;.</p>
+<ul><li><code>Rapport-ELO.md</code> : le tableau d&#x27;Elo (bot contre baselines et Stockfish),</li></ul>
+<p>avec intervalles de confiance de Wilson a 95 %.</p>
+<ul><li><code>parties-PGN/</code> : toutes les parties jouees, en format PGN (preuve et analyse).</li><li><code>journal-evaluation.txt</code> : la sortie brute de la campagne.</li></ul>
+<h3 id="4-rapport">4-Rapport</h3>
+<ul><li><code>Rapport.md</code> et <code>Rapport.html</code> : le rapport complet (9 chapitres).</li></ul>
+<h3 id="5-documentation">5-Documentation</h3>
+<ul><li><code>README</code> : presentation et mode d&#x27;emploi du projet.</li><li><code>Guide-du-projet</code> : le sujet explique de A a Z.</li><li><code>Demarrage-Python</code> : installation et prise en main.</li></ul>
+<h3 id="6-soutenance">6-Soutenance</h3>
+<ul><li><code>Soutenance.pptx</code> : le diaporama (18 diapos ; le texte a dire est dans les</li></ul>
+<p>notes de chaque diapo).</p>
+<ul><li><code>Guide-oral</code> : le script oral, diapo par diapo.</li></ul>
+<hr>
+<h2 id="resultats-en-bref">Resultats en bref</h2>
+<ul><li>Entrainement : 1 million de positions Lichess, 4 epoques. Top-1 : 22,7 %.</li><li>Niveau du bot : environ 230-300 Elo (grand debutant).</li><li>Le reseau a appris des principes d&#x27;ouverture sans qu&#x27;aucune regle ne lui soit</li></ul>
+<p>enseignee.</p>
+<ul><li>Evaluation rigoureuse : couleurs alternees, intervalles de confiance, jeu de</li></ul>
+<p>validation separe.</p>
+<hr>
+<h2 id="a-completer-avant-de-rendre">A completer avant de rendre</h2>
+<ul><li class="task"><input type="checkbox" disabled>Remplacer <code>[Prenom NOM]</code> par vos noms (ici, dans le rapport, dans les slides).</li><li class="task"><input type="checkbox" disabled>Repartition du binome et planning (rapport, chapitre 8).</li><li class="task"><input type="checkbox" disabled>Inserer la courbe d&#x27;entrainement et une capture de l&#x27;application dans le rapport et les slides.</li></ul>
+</main>
+</body>
+</html>
