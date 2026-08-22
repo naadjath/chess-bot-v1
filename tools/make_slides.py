@@ -24,9 +24,14 @@ from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.util import Emu, Pt
 
 ROOT = Path(__file__).resolve().parents[1]
-ASSETS = ROOT / "LIVRABLES" / "assets"
-PPTX_OUT = ROOT / "LIVRABLES" / "6-Soutenance" / "Soutenance.pptx"
-ORAL_OUT = ROOT / "LIVRABLES" / "6-Soutenance" / "Guide-oral.md"
+ASSETS = ROOT / "build" / "slide_assets"
+#: Le pptx est un outil de travail (a presenter, modifiable) : il vit a la
+#: racine du projet, pas dans LIVRABLES. La version PDF, elle, est le vrai
+#: livrable et est copiee dans LIVRABLES par tools/build_livrables.py.
+PPTX_OUT = ROOT / "Soutenance_Chess_Bot_v1.pptx"
+#: Le guide oral est un outil de preparation personnel, jamais un livrable :
+#: il reste a la racine du projet, jamais copie dans LIVRABLES.
+ORAL_OUT = ROOT / "GUIDE-ORAL.md"
 
 INK = RGBColor(0x1C, 0x1A, 0x1B)
 SOFT = RGBColor(0x5D, 0x55, 0x59)

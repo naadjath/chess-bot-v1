@@ -4,7 +4,7 @@ Bot d'échecs basé sur un Transformer, joué **sans recherche** : le réseau
 regarde la position et choisit un coup directement, sans explorer l'arbre des
 variantes. Le niveau est mesuré en Elo face à Stockfish bridé.
 
-Projet de fin de Bachelor — **Naadjath & Rajaa** — soutenance le 24 août 2026.
+Projet de fin de Bachelor, **Naadjath & Rajaa**, soutenance le 24 août 2026.
 Inspiré de *Grandmaster-Level Chess Without Search* (DeepMind, 2024).
 
 ---
@@ -13,8 +13,8 @@ Inspiré de *Grandmaster-Level Chess Without Search* (DeepMind, 2024).
 
 | Vous êtes… | Lisez |
 |---|---|
-| en train de découvrir le sujet | [`GUIDE-PROJET.md`](GUIDE-PROJET.md) — le sujet expliqué de A à Z |
-| en train d'installer le projet | [`DEMARRAGE.md`](DEMARRAGE.md) — pas à pas, sans prérequis Python |
+| en train de découvrir le sujet | [`GUIDE-PROJET.md`](GUIDE-PROJET.md) : le sujet expliqué de A à Z |
+| en train d'installer le projet | [`DEMARRAGE.md`](DEMARRAGE.md) : pas à pas, sans prérequis Python |
 | pressé | la section « Installation » ci-dessous |
 
 ---
@@ -54,9 +54,9 @@ Le navigateur s'ouvre sur `http://127.0.0.1:8000`. Sous Windows, un double-clic
 sur `Jouer.bat` suffit.
 
 L'interface affiche les coups légaux au survol, l'historique en notation
-algébrique, et surtout **les coups envisagés par le bot avec leur poids** — la
-même zone accueillera les probabilités sorties du Transformer une fois celui-ci
-entraîné.
+algébrique, et surtout **les coups envisagés par le bot avec leur poids** :
+cette zone affiche directement les probabilités sorties du Transformer une
+fois entraîné.
 
 Aucune dépendance web : le serveur repose sur `http.server` de la bibliothèque
 standard et l'échiquier est dessiné en CSS avec les caractères Unicode des
@@ -172,27 +172,33 @@ Elo infini à 100 % de victoires (écart-type nul). Wilson reste borné dans
 - [x] Parser PGN Lichess → dataset (filtres, découpage en tranches, split par partie)
 - [x] Modèle Transformer (6,9 M paramètres) et boucle d'entraînement
 - [x] `NeuralBot` : masquage des coups illégaux, branché dans l'app et l'évaluation
-- [ ] **Entraînement réel sur données Lichess** ← étape en cours
-- [ ] Campagne d'évaluation complète contre Stockfish
-- [ ] Rapport et documentation
+- [x] Entraînement sur 1 million de positions Lichess (4 époques, GPU T4)
+- [x] Campagne d'évaluation complète contre les baselines et Stockfish bridé
+- [x] Rapport et documentation
 
 ## Résultats
 
-### Validation des baselines (40 parties par affrontement)
+### Entraînement (4 époques, 1 million de positions Lichess)
 
-| Match | Bilan | Score | Elo estimé |
+| Époque | Perte (validation) | Top-1 | Top-5 |
 |---|---|---|---|
-| glouton vs aléatoire | 35 V / 5 N / 0 D | 93,8 % | 720 [511 ; 930] |
-| minimax-d2 vs aléatoire | 38 V / 2 N / 0 D | 97,5 % | 886 [582 ; 1191] |
-| minimax-d2 vs glouton | 40 V / 0 N / 0 D | 100 % | > 1007 (saturé) |
+| 1 | 3,95 | 12,6 % | 35,4 % |
+| 2 | 3,39 | 18,4 % | 45,4 % |
+| 3 | 3,14 | 21,9 % | 50,5 % |
+| 4 | 3,08 | 22,7 % | 51,7 % |
 
-La hiérarchie attendue **minimax > glouton > aléatoire** est vérifiée, ce qui
-valide la chaîne complète d'évaluation. Le troisième match est saturé : à 100 %
-de score, seule une borne basse est calculable — il faut un adversaire plus
-fort, pas davantage de parties.
+### Évaluation Elo (60 parties par adversaire, intervalle de Wilson à 95 %)
 
-*Elo des baselines calibré sur des valeurs de référence admises ; à réancrer
-sur Stockfish bridé lors de la campagne finale.*
+| Adversaire | Score | Elo estimé |
+|---|---|---|
+| Aléatoire (~250) | 47,5 % | 233 [146 ; 320] |
+| Glouton (~600) | 9,2 % | 202 [54 ; 349] |
+| Minimax-2 (~1100) | 1,7 % | 392 [88 ; 695] |
+| Minimax-3 (~1300) | 1,7 % | 592 [288 ; 895] |
+| Stockfish bridé 1320 | 3,3 % | < 1320 (le bot perd toutes ses parties) |
+
+Niveau constaté : environ 230 à 300 Elo. Le détail complet, avec l'analyse et
+les parties PGN, figure dans le rapport et dans `results/elo_report.md`.
 
 ---
 

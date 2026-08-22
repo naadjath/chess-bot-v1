@@ -1,8 +1,8 @@
-# Chess Bot v1 — Un Transformer joue aux échecs sans recherche
+# Chess Bot v1 : un Transformer joue aux échecs sans recherche
 
 **Rapport de projet de fin de Bachelor**
 **Naadjath [NOM] & Rajaa [NOM]**
-**[Établissement] — Année [2025-2026] — Soutenance : 24 août 2026**
+**[Établissement], année [2025-2026], soutenance le 24 août 2026**
 
 > Ce rapport est un brouillon de travail. Les passages entre crochets `[...]` et
 > marqués **[À COMPLÉTER]** sont à remplir au fur et à mesure. Les chiffres déjà
@@ -24,9 +24,9 @@ niveau de jeu en Elo face à des adversaires de référence et à Stockfish brid
 
 Notre modèle atteint une exactitude de prédiction (top-1) de **22,7 %** sur des
 positions jamais vues, et un niveau de jeu estimé à **environ 230-300 Elo** (niveau
-grand débutant). Il apprend visiblement des principes d'ouverture — dans la
+grand débutant). Il apprend visiblement des principes d'ouverture : dans la
 position de départ, il propose spontanément des coups classiques (Cf3, Cc3, d4,
-c4) sans qu'aucune règle ne lui ait été enseignée — mais reste trop faible pour
+c4) sans qu'aucune règle ne lui ait été enseignée, mais reste trop faible pour
 convertir ses positions. Au-delà de la performance brute, ce travail met l'accent
 sur la **rigueur de la mesure** (intervalles de confiance de Wilson, alternance
 des couleurs, jeux de validation séparés) et sur la reproductibilité.
@@ -115,7 +115,7 @@ directement deux cases éloignées, ce qui correspond à la portée des pièces
 (diagonales, colonnes).
 
 **Le clonage comportemental** (behavioral cloning) consiste à apprendre à imiter
-les décisions d'un expert. Sa limite théorique est le niveau de l'expert imité —
+les décisions d'un expert. Sa limite théorique est le niveau de l'expert imité,
 d'où l'importance de sélectionner des parties de joueurs forts.
 
 [À COMPLÉTER : 2-3 paragraphes de plus sur AlphaZero et l'article DeepMind, en
@@ -294,8 +294,8 @@ tenté un entraînement en 10 époques, mais l'environnement Colab gratuit se
 déconnecte au bout de 30 à 40 minutes, interrompant systématiquement une
 exécution de ~90 minutes. Pour garantir un résultat reproductible et livrable,
 nous avons retenu le modèle de **4 époques (top-1 22,7 %)**, sauvegardé sur Google
-Drive. L'amélioration par un entraînement plus long — via un entraînement
-*reprenable* après déconnexion ou un abonnement Colab — figure dans nos
+Drive. L'amélioration par un entraînement plus long, via un entraînement
+*reprenable* après déconnexion ou un abonnement Colab, figure dans nos
 perspectives.
 
 ### 4.3 Expériences comparatives (ablations)
@@ -365,8 +365,8 @@ alternées, intervalles de confiance de Wilson à 95 %) :**
 **Lecture des résultats.** La mesure la plus directe est celle face à
 l'adversaire aléatoire : le bot y obtient 47,5 %, soit un niveau **statistiquement
 équivalent au hasard** (environ 230 Elo). Contre tous les adversaires structurés,
-il perd la quasi-totalité de ses parties. Face à Stockfish bridé à 1320 — le
-niveau le plus faible que le moteur accepte — il ne gagne aucune partie mais en
+il perd la quasi-totalité de ses parties. Face à Stockfish bridé à 1320, le
+niveau le plus faible que le moteur accepte, il ne gagne aucune partie mais en
 sauve quatre par la nulle, ce qui place son niveau **nettement en dessous de
 1320**.
 
@@ -407,7 +407,7 @@ Dans la position de départ, notre modèle propose (avec leurs probabilités) :
 
 **C'est un résultat marquant.** Le modèle n'a jamais reçu la moindre règle du
 jeu : il n'a fait qu'observer des parties. Pourtant, il concentre ses
-propositions sur des coups d'ouverture **parfaitement sensés** — développement des
+propositions sur des coups d'ouverture **parfaitement sensés** : développement des
 cavaliers (Cf3, Cc3), occupation du centre (d4, c4). Il ne propose pas de coups
 absurdes comme a3 ou h4. Autrement dit, le réseau a **appris implicitement des
 principes d'ouverture** par simple imitation. Cette capacité contraste avec sa
@@ -415,7 +415,7 @@ faiblesse en jeu réel : il *sait* commencer une partie, mais ne sait pas la
 *conduire* jusqu'à la victoire.
 
 *(Cette sortie est directement visible dans l'application, zone « coups envisagés
-par le bot » — voir livrable applicatif.)*
+par le bot », voir livrable applicatif.)*
 
 ---
 
@@ -445,8 +445,8 @@ par le bot » — voir livrable applicatif.)*
 
 Nous avons montré qu'un Transformer de taille modeste peut apprendre à jouer aux
 échecs sans aucune recherche, à partir de la seule observation de parties. Le
-niveau atteint reste modeste — de l'ordre de **230 à 300 Elo**, soit un tout
-premier niveau de débutant — mais le modèle acquiert des principes d'ouverture
+niveau atteint reste modeste, de l'ordre de **230 à 300 Elo**, soit un tout
+premier niveau de débutant, mais le modèle acquiert des principes d'ouverture
 réels, et la démarche est complète et rigoureuse : chaîne de données
 reproductible, encodage vérifié, entraînement suivi, et surtout **évaluation
 honnête avec intervalles de confiance**.
@@ -462,7 +462,7 @@ première sans la seconde.
 
 **Répartition du binôme.**
 
-| Axe A — [Naadjath ?] | Axe B — [Rajaa ?] |
+| Axe A : [Naadjath ?] | Axe B : [Rajaa ?] |
 |---|---|
 | données, encodage, vocabulaire | moteur, baselines, matchs |
 | architecture et entraînement | calcul Elo, évaluation |

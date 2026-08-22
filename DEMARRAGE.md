@@ -1,7 +1,7 @@
-# Démarrage — pour quelqu'un qui n'a jamais fait de Python
+# Démarrage : pour quelqu'un qui n'a jamais fait de Python
 
 **À lire par Naadjath ET Rajaa avant de toucher au code.**
-Ce document part de zéro. Aucune connaissance préalable supposée. Si une étape ne marche pas chez toi, c'est une info utile — note l'erreur exacte, elle est presque toujours dans la liste des problèmes courants à la fin.
+Ce document part de zéro. Aucune connaissance préalable supposée. Si une étape ne marche pas chez toi, c'est une info utile, note l'erreur exacte, elle est presque toujours dans la liste des problèmes courants à la fin.
 
 ---
 
@@ -17,7 +17,7 @@ C'est une fenêtre noire où on tape des commandes au clavier au lieu de cliquer
 - `pip install truc` → « installe la bibliothèque truc »
 
 **Python**
-Le langage dans lequel on écrit le projet. Un fichier Python porte l'extension `.py`. C'est du texte, rien de plus — tu peux l'ouvrir dans le Bloc-notes. Python *lit* ce texte de haut en bas et exécute les instructions.
+Le langage dans lequel on écrit le projet. Un fichier Python porte l'extension `.py`. C'est du texte, rien de plus, tu peux l'ouvrir dans le Bloc-notes. Python *lit* ce texte de haut en bas et exécute les instructions.
 
 **Une bibliothèque** (ou *librairie*, ou *package*, ou *module*)
 Du code écrit par d'autres qu'on réutilise au lieu de le réécrire. Exemple : `python-chess` contient déjà toutes les règles des échecs. On ne va pas recoder la prise en passant, quelqu'un l'a fait pour nous et l'a testé pendant 10 ans.
@@ -29,13 +29,13 @@ Le programme qui installe les bibliothèques. `pip install chess` va chercher `p
 La ligne en haut d'un fichier Python qui dit « j'ai besoin de cette bibliothèque ». Exemple : `import chess`. Sans cet import, écrire `chess.Board()` provoque une erreur.
 
 **Git / GitHub**
-Git enregistre l'historique de vos modifications ; GitHub héberge ça en ligne pour que vous travailliez à deux sans vous écraser mutuellement. **Le prof regardera cet historique** pour vérifier que vous avez travaillé toutes les deux — c'est pour ça qu'il faut commiter dès le premier jour, chacune de son côté.
+Git enregistre l'historique de vos modifications ; GitHub héberge ça en ligne pour que vous travailliez à deux sans vous écraser mutuellement. **Le prof regardera cet historique** pour vérifier que vous avez travaillé toutes les deux, c'est pour ça qu'il faut commiter dès le premier jour, chacune de son côté.
 
 ---
 
 ## 2. Installation, étape par étape (Windows)
 
-### Étape 2.1 — Vérifier Python
+### Étape 2.1, Vérifier Python
 
 Ouvre PowerShell et tape :
 
@@ -47,11 +47,11 @@ python --version
 
 **Si tu vois une erreur ou le Microsoft Store qui s'ouvre** → Python n'est pas installé. Va sur https://www.python.org/downloads/ et télécharge **Python 3.12**.
 
-> ⚠️ **L'erreur n° 1 des débutants sous Windows** : pendant l'installation, il y a une petite case en bas du premier écran, **« Add python.exe to PATH »**. **Il faut la cocher.** Si tu l'oublies, le terminal ne trouvera jamais Python et tu passeras deux heures à ne pas comprendre pourquoi.
+> **L'erreur n° 1 des débutants sous Windows** : pendant l'installation, il y a une petite case en bas du premier écran, **« Add python.exe to PATH »**. **Il faut la cocher.** Si tu l'oublies, le terminal ne trouvera jamais Python et tu passeras deux heures à ne pas comprendre pourquoi.
 
 > 📌 **Pourquoi je recommande 3.12 et pas la toute dernière version** : PyTorch (la bibliothèque du réseau de neurones, dont on aura besoin en semaine 2) met plusieurs mois à supporter chaque nouvelle version de Python. Si `pip install torch` refuse de s'installer en te disant qu'il ne trouve aucune version compatible, c'est ça le problème → installe Python 3.12 en parallèle. Tout le code de la semaine 1 marche sur n'importe quelle version 3.10+.
 
-### Étape 2.2 — Aller dans le dossier du projet
+### Étape 2.2, Aller dans le dossier du projet
 
 ```
 cd C:\Users\naadj\chess-bot-v1
@@ -67,7 +67,7 @@ ls
 
 Tu dois voir `src`, `tests`, `scripts`, `README.md`, etc. Si tu ne les vois pas, tu n'es pas dans le bon dossier.
 
-### Étape 2.3 — Créer un environnement virtuel
+### Étape 2.3, Créer un environnement virtuel
 
 ```
 python -m venv .venv
@@ -83,7 +83,7 @@ Quand c'est activé, ton terminal affiche `(.venv)` au début de la ligne. **Il 
 > Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 > ```
 
-### Étape 2.4 — Installer les bibliothèques
+### Étape 2.4, Installer les bibliothèques
 
 ```
 pip install -r requirements.txt
@@ -91,7 +91,7 @@ pip install -r requirements.txt
 
 `requirements.txt` est la liste des bibliothèques du projet. Cette commande les installe toutes d'un coup. Ça prend 1 à 3 minutes.
 
-### Étape 2.5 — Installer Stockfish
+### Étape 2.5, Installer Stockfish
 
 Stockfish n'est **pas** une bibliothèque Python : c'est un programme séparé, un fichier `.exe`.
 
@@ -110,7 +110,7 @@ Le projet le trouvera tout seul. (Il n'est pas obligatoire pour la semaine 1 : l
 
 Trois commandes, dans l'ordre. **Ne passe à la suivante que si la précédente a réussi.**
 
-### Test 1 — Les tests unitaires
+### Test 1 : Les tests unitaires
 
 ```
 python -m pytest tests/ -v
@@ -120,7 +120,7 @@ Attendu : **14 passed**. Ces tests vérifient que l'encodage des positions ne pe
 
 **Pourquoi on commence par ça ?** Parce que c'est le seul bug du projet qui ne fait rien planter. Si l'encodage est faux, le modèle s'entraîne quand même, la courbe descend quand même, et on ne comprend jamais pourquoi le bot joue mal. Ces tests sont notre filet de sécurité.
 
-### Test 2 — Le vocabulaire des coups
+### Test 2 : Le vocabulaire des coups
 
 ```
 python -m src.data.move_vocab
@@ -128,7 +128,7 @@ python -m src.data.move_vocab
 
 Attendu : `Taille du vocabulaire : 1968 coups` suivi de quelques exemples.
 
-### Test 3 — Un vrai match
+### Test 3 : Un vrai match
 
 ```
 python -m scripts.run_match --bot greedy --opponent random --games 40
@@ -136,7 +136,7 @@ python -m scripts.run_match --bot greedy --opponent random --games 40
 
 Ça fait jouer 40 parties entre le bot glouton et le bot aléatoire, puis affiche un Elo estimé. Attendu : le glouton gagne largement, autour de 700 Elo.
 
-**Si ces 3 tests passent, votre environnement est bon et le milestone bloquant de la semaine 1 est atteint.** 🎉
+**Si ces 3 tests passent, votre environnement est bon et le milestone bloquant de la semaine 1 est atteint.** 
 
 ---
 
@@ -186,7 +186,7 @@ C'est la séparation standard de tout projet Python sérieux, et c'est un des cr
 
 ---
 
-## 5. Lire du code Python — les 5 choses à savoir
+## 5. Lire du code Python : les 5 choses à savoir
 
 Tu n'as pas besoin de savoir tout écrire, mais il faut savoir **lire** le code du projet pour le défendre à la soutenance.
 
@@ -233,7 +233,7 @@ class RandomBot(Bot):                      # RandomBot "hérite" de Bot
 - `self` désigne l'objet lui-même. Il est toujours le premier paramètre des méthodes.
 - `_rng` : le `_` au début signifie « usage interne, ne touchez pas de l'extérieur ». C'est une convention, pas une interdiction technique.
 
-Dans le projet, chaque bot est une classe. `RandomBot`, `GreedyBot`, `MinimaxBot`, `StockfishBot` **ont tous une méthode `select_move`** — c'est ce qui permet au moteur de matchs de les faire s'affronter sans savoir lequel est lequel.
+Dans le projet, chaque bot est une classe. `RandomBot`, `GreedyBot`, `MinimaxBot`, `StockfishBot` **ont tous une méthode `select_move`**, c'est ce qui permet au moteur de matchs de les faire s'affronter sans savoir lequel est lequel.
 
 ### 5.4 Les imports disent d'où vient chaque chose
 
@@ -273,7 +273,7 @@ Ensuite, l'autre personne récupère le projet avec :
 git clone https://github.com/VOTRE-COMPTE/chess-bot-v1.git
 ```
 
-### Le cycle quotidien — à faire **tous les jours**
+### Le cycle quotidien, à faire **tous les jours**
 
 ```
 git pull                              # 1. récupérer le travail de l'autre

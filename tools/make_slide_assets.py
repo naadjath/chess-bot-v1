@@ -24,7 +24,10 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, FancyArrowPatch
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "LIVRABLES" / "assets"
+#: Genere HORS de LIVRABLES : ces images sont des sources de travail, integrees
+#: ensuite dans le pptx et le rapport. Le dossier LIVRABLES ne doit contenir
+#: que les livrables finaux (voir tools/make_slides.py).
+OUT = ROOT / "build" / "slide_assets"
 OUT.mkdir(parents=True, exist_ok=True)
 
 INK = "#1C1A1B"
