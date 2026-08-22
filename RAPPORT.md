@@ -1,7 +1,7 @@
 # Chess Bot v1 : un Transformer joue aux échecs sans recherche
 
-**Rapport de projet de fin de Bachelor**
-**Naadjath [NOM] & Rajaa [NOM]**
+**Rapport de projet de fin de Bachelor**  
+**Naadjath [NOM] & Rajaa [NOM]**  
 **[Établissement], année [2025-2026], soutenance le 24 août 2026**
 
 > Ce rapport est un brouillon de travail. Les passages entre crochets `[...]` et

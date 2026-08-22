@@ -1,4 +1,4 @@
-# Rapport d'evaluation : Elo du Transformer
+# Evaluation Elo du Transformer
 
 Modele : `checkpoints/best.pt`  
 Parties par adversaire : 60  

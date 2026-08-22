@@ -286,8 +286,13 @@ ul:has(> .task) { padding-left: 0.2rem; }
 
 @media print {
   body { background: #fff; }
-  h2 { break-before: page; }
-  .toc { break-after: page; }
+  /* Le contenu s'enchaine normalement d'une page a l'autre : on evite
+     seulement qu'un titre reste seul en bas de page, ou qu'un tableau/bloc
+     soit coupe au milieu. Forcer une page neuve a CHAQUE section (comme une
+     precedente version de cette feuille de style le faisait) laissait des
+     pages presque vides des qu'une section etait courte. */
+  h1, h2, h3, h4 { break-after: avoid; }
+  table, blockquote, .toc, pre { break-inside: avoid; }
 }
 """
 
@@ -454,14 +459,25 @@ def markdown_to_html(source: str) -> tuple[str, str, list[tuple[str, str]]]:
             continue
 
         # --- Paragraphe ---
+        # Une ligne qui se termine par deux espaces ou plus est un saut de
+        # ligne force en Markdown (comme un <br>) : on le garde AVANT de
+        # rogner les espaces, sinon deux lignes voulues distinctes (ex. les
+        # lignes d'un bloc auteur) fusionnent silencieusement en une seule.
         paragraph: list[str] = []
         while index < len(lines) and lines[index].strip() and not re.match(
             r"^\s*(#{1,4}\s|[-*]\s|\d+\.\s|>|\||```|-{3,}$)", lines[index]
         ):
-            paragraph.append(lines[index].strip())
+            raw = lines[index]
+            hard_break = raw.rstrip("\n").endswith("  ")
+            paragraph.append((raw.strip(), hard_break))
             index += 1
         if paragraph:
-            out.append(f"<p>{_inline(' '.join(paragraph))}</p>")
+            pieces = []
+            for i, (text, hard_break) in enumerate(paragraph):
+                pieces.append(_inline(text))
+                if i < len(paragraph) - 1:
+                    pieces.append("<br>" if hard_break else " ")
+            out.append(f"<p>{''.join(pieces)}</p>")
         else:
             index += 1
 

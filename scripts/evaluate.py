@@ -81,7 +81,7 @@ def run_campaign(model_path: str, games: int, seed: int, pgn_dir: Path) -> list[
 def write_report(rows: list[dict], model_path: str, games: int, output: Path) -> None:
     """Ecrit le rapport d'Elo en Markdown, pret a coller dans le rapport final."""
     lines = [
-        "# Rapport d'evaluation : Elo du Transformer",
+        "# Evaluation Elo du Transformer",
         "",
         f"Modele : `{model_path}`  ",
         f"Parties par adversaire : {games}  ",
