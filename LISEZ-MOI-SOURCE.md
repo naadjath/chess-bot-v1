@@ -1,6 +1,7 @@
 # Livrables : Chess Bot v1
 
-**Projet de fin de Bachelor, [Prenom NOM] & [Prenom NOM], 24 aout 2026**
+**Projet de substitution au stage, SEIBOU Naadjath & LAKRA Rajaa, ECE**  
+**Depot le 30 aout 2026, soutenance semaine du 31 aout 2026**
 
 Un Transformer qui apprend a jouer aux echecs sans recherche, evalue face a
 Stockfish. Ce dossier regroupe les livrables demandes.

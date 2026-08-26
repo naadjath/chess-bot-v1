@@ -12,7 +12,7 @@
 
 ## Diapo 1 : Chess Bot v1
 
-> Bonjour. Nous presentons Chess Bot v1 : un reseau de neurones qui choisit un coup d'echecs directement a partir de la position, sans explorer la moindre variante future. C'est cette absence de recherche qui rend le projet interessant, et on va vous montrer ce qu'un petit modele arrive a apprendre, et surtout ses limites. Je suis [X], voici [Y], on se repartit la presentation.
+> Bonjour. Nous presentons Chess Bot v1 : un reseau de neurones qui choisit un coup d'echecs directement a partir de la position, sans explorer la moindre variante future. C'est cette absence de recherche qui rend le projet interessant, et on va vous montrer ce qu'un petit modele arrive a apprendre, et surtout ses limites. Je suis Naadjath, voici Rajaa, on se repartit la presentation.
 
 ---
 
@@ -102,7 +102,7 @@
 
 ## Diapo 16 : Gestion de projet
 
-> Un mot sur l'organisation du binome. On s'est reparti le travail en deux axes clairs : [Prenom] a pris en charge les donnees et le modele, extraction, filtrage, encodage, architecture et entrainement du Transformer. [Prenom] s'est occupe de l'evaluation et de l'application, les moteurs de reference, le calcul d'Elo, la campagne contre Stockfish et l'interface de jeu. Le tout est versionne sur Git, avec un historique de commits qui retrace la progression. On a rencontre de vraies difficultes techniques, pas seulement conceptuelles : la lecture des donnees etait au depart 18 fois trop lente, corrigee en changeant de strategie de filtrage ; le calcul d'Elo donnait un resultat infini a 100 % de victoires, corrige avec la methode de Wilson ; et l'environnement Colab gratuit se deconnectait regulierement, ce qu'on a contourne en sauvegardant le modele sur Google Drive a chaque epoque.
+> Un mot sur l'organisation du binome. On n'a pas fige un partage strict des taches : on a avance en binome sur l'ensemble de la chaine, donnees, modele, evaluation et application, en se repartissant le travail au fur et a mesure selon les priorites. Le tout est versionne sur Git, avec un historique de commits des deux membres qui retrace la progression. On a rencontre de vraies difficultes techniques, pas seulement conceptuelles : la lecture des donnees etait au depart 18 fois trop lente, corrigee en changeant de strategie de filtrage ; le calcul d'Elo donnait un resultat infini a 100 % de victoires, corrige avec la methode de Wilson ; et l'environnement Colab gratuit se deconnectait regulierement, ce qu'on a contourne en sauvegardant le modele sur Google Drive a chaque epoque.
 
 ---
 

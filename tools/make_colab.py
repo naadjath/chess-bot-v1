@@ -31,9 +31,9 @@ def code(text: str) -> dict:
 
 CELLS = [
     md("""
-# Chess Bot v1 — entraînement du Transformer
+# Chess Bot v1 : entrainement du Transformer
 
-**Projet de fin de Bachelor — Naadjath & Rajaa**
+**Projet de fin de Bachelor, Naadjath & Rajaa**
 
 Ce notebook entraîne le modèle sur GPU gratuit. Il n'y a rien à installer sur votre
 ordinateur : tout se passe sur les serveurs de Google.
@@ -56,7 +56,7 @@ au lieu de quelques dizaines de minutes.
 7. Évaluer le bot
 8. Récupérer les poids entraînés
 
-> ⚠️ Une session Colab est effacée après ~90 min d'inactivité. Ne fermez pas
+> Attention : une session Colab est effacée après ~90 min d'inactivité. Ne fermez pas
 > l'onglet pendant l'entraînement, et **téléchargez les poids à la fin** (étape 8).
 """),
 
@@ -78,7 +78,7 @@ print("\\nGPU pret.")
     md("""
 ## 2. Récupérer le code
 
-**Option A — depuis GitHub (recommandé).** L'adresse du dépôt est déjà renseignée,
+**Option A : depuis GitHub (recommande).** L'adresse du dépôt est déjà renseignée,
 il n'y a rien à modifier : exécutez simplement la cellule.
 
 *(Si vous travaillez sur une copie personnelle du projet, remplacez `REPO_URL`
@@ -97,7 +97,7 @@ if os.path.exists("chess-bot-v1"):
 """),
 
     md("""
-**Option B — envoyer une archive ZIP.** Sur votre PC : clic droit sur le dossier
+**Option B : envoyer une archive ZIP.** Sur votre PC : clic droit sur le dossier
 `chess-bot-v1` → *Envoyer vers* → *Dossier compressé*. Puis exécutez la cellule
 ci-dessous et choisissez le fichier.
 
@@ -157,7 +157,7 @@ est atteint plus vite.
 ### Le compromis à comprendre
 
 Le filtre `MIN_ELO` détermine la qualité du professeur imité. Plus il est élevé,
-meilleures sont les données — mais moins il y a de parties qui passent, donc plus
+meilleures sont les donnees, mais moins il y a de parties qui passent, donc plus
 la lecture est longue. Sur nos mesures, à Elo ≥ 2000, environ **0,6 %** des parties
 sont retenues.
 """),
@@ -246,7 +246,7 @@ display(HTML(chess.svg.board(
 ## 5. Entraîner
 
 Le modèle par défaut fait **6,9 M de paramètres**. Sur un T4, comptez quelques
-dizaines de minutes pour 4 époques sur 1 million de positions — la cellule
+dizaines de minutes pour 4 epoques sur 1 million de positions, la cellule
 affiche le temps réel.
 
 ### Sécurité : sauvegarde sur votre Google Drive
@@ -257,7 +257,7 @@ directement sur votre Google Drive, **à chaque époque**. Même si la session e
 coupée, le meilleur modèle obtenu jusque-là reste sauvegardé.
 
 > Au lancement, une fenêtre vous demandera d'autoriser l'accès à votre Drive :
-> choisissez votre compte Google et cliquez sur *Autoriser*. C'est sûr — c'est
+> choisissez votre compte Google et cliquez sur *Autoriser*. C'est sur, c'est
 > votre propre Drive.
 
 ### Interpréter les chiffres pendant l'entraînement
@@ -294,7 +294,7 @@ start = time.time()
 !python -m scripts.train --epochs {EPOQUES} --batch-size {BATCH} --d-model {D_MODEL} --layers {COUCHES} --heads {TETES} --eval-every 200 --device cuda --output "{DOSSIER_POIDS}"
 
 print(f"\\nEntrainement termine en {(time.time() - start) / 60:.1f} min")
-print("Modele sauvegarde sur votre Drive — il ne sera pas perdu meme en cas de deconnexion.")
+print("Modele sauvegarde sur votre Drive : il ne sera pas perdu meme en cas de deconnexion.")
 """),
 
     md("""
@@ -303,7 +303,7 @@ print("Modele sauvegarde sur votre Drive — il ne sera pas perdu meme en cas de
 Ces trois graphiques ont vocation à figurer directement dans le rapport.
 
 **Ce qu'il faut y lire :** si la perte de validation remonte alors que celle
-d'entraînement continue de descendre, c'est du **surapprentissage** — le modèle
+d'entrainement continue de descendre, c'est du **surapprentissage** : le modele
 mémorise au lieu de généraliser. Il faut alors plus de données, plus de dropout,
 ou moins d'époques.
 """),
@@ -356,7 +356,7 @@ le bot **aléatoire**, c'est qu'il n'a rien appris et il faut chercher le probl�
 avant d'aller plus loin.
 
 *(L'évaluation complète face à Stockfish se fait sur votre PC, avec l'exécutable
-Stockfish installé — voir le README.)*
+Stockfish installe, voir le README.)*
 """),
     code("""
 !mkdir -p results
@@ -372,7 +372,7 @@ for adversaire in ["random", "greedy", "minimax:2"]:
 
 On affiche les coups auxquels le réseau pense dans la position de départ, avec
 leurs probabilités. Un modèle bien entraîné doit proposer des coups d'ouverture
-raisonnables (e4, d4, Cf3, c4) — pas a3 ou h4.
+raisonnables (e4, d4, Cf3, c4), pas a3 ou h4.
 
 C'est une excellente diapositive de soutenance.
 """),
@@ -383,7 +383,7 @@ from src.engine.neural_bot import NeuralBot
 bot = NeuralBot.from_checkpoint(f"{DOSSIER_POIDS}/best.pt", temperature=0.0)
 board = chess.Board()
 
-print("Position de depart — ce que le reseau propose :\\n")
+print("Position de depart : ce que le reseau propose :\\n")
 for move, probability in bot.explain(board, top_k=8):
     barre = "#" * int(probability * 60)
     print(f"  {board.san(move):<6} {probability:6.1%}  {barre}")

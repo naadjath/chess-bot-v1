@@ -284,6 +284,16 @@ ul:has(> .task) { padding-left: 0.2rem; }
   letter-spacing: 0.02em;
 }
 
+@page {
+  margin: 2cm 1.6cm 2.1cm;
+  @bottom-center {
+    content: counter(page);
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-size: 9pt;
+    color: #8b8175;
+  }
+}
+
 @media print {
   body { background: #fff; }
   /* Le contenu s'enchaine normalement d'une page a l'autre : on evite
@@ -292,7 +302,7 @@ ul:has(> .task) { padding-left: 0.2rem; }
      precedente version de cette feuille de style le faisait) laissait des
      pages presque vides des qu'une section etait courte. */
   h1, h2, h3, h4 { break-after: avoid; }
-  table, blockquote, .toc, pre { break-inside: avoid; }
+  table, blockquote, .toc, pre, p, li { break-inside: avoid; }
 }
 """
 

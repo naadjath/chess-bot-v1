@@ -1,24 +1,24 @@
-# Où on en est — récapitulatif du projet Chess Bot v1
+# Où on en est : récapitulatif du projet Chess Bot v1
 
 *Dernière mise à jour : 14 août 2026. À garder sous les yeux pour continuer en autonomie.*
 
 ---
 
-## ✅ Ce qui est FAIT (les 5 livrables existent)
+## Ce qui est FAIT (les 5 livrables existent)
 
 | Livrable | État | Où c'est |
 |---|---|---|
-| Application de jeu | ✅ | `Jouer.bat` (double-clic) |
-| Transformer entraîné | ✅ | `checkpoints/best.pt` (aussi sur ton Google Drive) |
-| ELO face à Stockfish | ✅ | `results/elo_report.md` |
-| Code documenté + tests | ✅ | tout le dossier `src/`, 32 tests |
-| Rapport | ✅ brouillon | `RAPPORT.md` |
+| Application de jeu | | `Jouer.bat` (double-clic) |
+| Transformer entraîné | | `checkpoints/best.pt` (aussi sur ton Google Drive) |
+| ELO face à Stockfish | | `results/elo_report.md` |
+| Code documenté + tests | | tout le dossier `src/`, 32 tests |
+| Rapport | brouillon | `RAPPORT.md` |
 
 **Tout est sauvegardé sur GitHub :** https://github.com/naadjath/chess-bot-v1
 
 ---
 
-## 📊 Les résultats (à connaître pour la soutenance)
+## Les résultats (à connaître pour la soutenance)
 
 - **Entraînement :** 4 époques sur 1 million de positions Lichess. Top-1 finale : **22,7 %**, top-5 : **51,7 %**.
 - **Niveau du bot :** environ **230-300 Elo** (grand débutant).
@@ -28,7 +28,7 @@
 
 ---
 
-## 🎮 Comment lancer chaque chose
+## Comment lancer chaque chose
 
 **Jouer / faire la démo :**
 - Double-clic sur `Jouer.bat` → l'appli s'ouvre dans le navigateur.
@@ -47,12 +47,12 @@ python -m pytest tests/ -v
 
 ---
 
-## ✍️ Ce qu'il RESTE à faire (léger — faisable sur un modèle basique)
+## Ce qu'il RESTE à faire (léger, faisable sur un modèle basique)
 
 ### Pour toi et Rajaa, dans le rapport (`RAPPORT.md`)
 Cherche les crochets `[...]` et remplace :
 - [ ] **Vos noms** et l'établissement (tout en haut)
-- [ ] **La répartition du binôme** (chapitre 8) — qui a fait quoi
+- [ ] **La répartition du binôme** (chapitre 8) : qui a fait quoi
 - [ ] **Vos difficultés vécues** (chapitre 8)
 - [ ] **Le planning** réel du projet
 
@@ -74,7 +74,7 @@ Cherche les crochets `[...]` et remplace :
 
 ---
 
-## 🧠 Les 3 phrases à retenir pour le jury
+## Les 3 phrases à retenir pour le jury
 
 1. *« On modélise la position comme une séquence de 68 tokens, ce qui permet à l'attention du Transformer de relier directement deux cases éloignées, comme le fait une pièce à longue portée. »*
 2. *« Le bot ne peut pas jouer un coup illégal : on masque à −∞ tous les coups hors des coups légaux avant de choisir. »*
@@ -82,7 +82,7 @@ Cherche les crochets `[...]` et remplace :
 
 ---
 
-## 📁 Les fichiers importants
+## Les fichiers importants
 
 | Fichier | Rôle |
 |---|---|
@@ -93,4 +93,4 @@ Cherche les crochets `[...]` et remplace :
 | `POUR RAJAA/` | les versions HTML à envoyer à Rajaa |
 | `Jouer.bat` | lance l'appli |
 
-Tout est sur GitHub. Rien ne peut se perdre. 💪
+Tout est sur GitHub. Rien ne peut se perdre. 

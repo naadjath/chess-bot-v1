@@ -4,7 +4,8 @@ Bot d'échecs basé sur un Transformer, joué **sans recherche** : le réseau
 regarde la position et choisit un coup directement, sans explorer l'arbre des
 variantes. Le niveau est mesuré en Elo face à Stockfish bridé.
 
-Projet de fin de Bachelor, **Naadjath & Rajaa**, soutenance le 24 août 2026.
+Projet de substitution au stage, **SEIBOU Naadjath & LAKRA Rajaa**, ECE.
+Dépôt le 30 août 2026, soutenance semaine du 31 août 2026.
 Inspiré de *Grandmaster-Level Chess Without Search* (DeepMind, 2024).
 
 ---
