@@ -3,12 +3,8 @@
 **Projet de substitution au stage**  
 **SEIBOU Naadjath & LAKRA Rajaa**  
 **ECE (École Centrale d'Électronique), Formation : Bachelor Développeur d'Application**  
-**Campus : ECE Paris, Groupe : [à vérifier sur votre espace étudiant]**  
+**Campus : ECE Paris, Groupe : ______**  
 **Année universitaire 2025-2026, dépôt le 30 août 2026, soutenance semaine du 31 août 2026**
-
-> Ce rapport suit le plan officiel du projet de substitution au stage. Les
-> passages entre crochets `[...]` sont à compléter. Tous les chiffres déjà
-> présents sont réels et proviennent de nos propres expériences.
 
 ---
 
@@ -608,26 +604,11 @@ positions très proches (issues de la même partie) des deux côtés,
 faussant artificiellement les métriques de validation. Solution :
 découpage par partie entière, jamais par position isolée (voir §4.1).
 
-**[À compléter : ajoutez ici les difficultés que vous avez vécues
-personnellement pendant le développement, l'entraînement ou la rédaction,
-et comment vous les avez résolues. Les quatre points ci-dessus sont réels
-mais génériques au binôme ; le jury attend aussi des difficultés propres à
-chacune de vous.]**
-
 ---
 
 ## 7. Bilan personnel et compétences acquises
 
-> **Cette section doit être écrite par vous, avec vos propres mots.** Le
-> jury attend une réflexion personnelle authentique, pas une description
-> technique de plus. Le squelette ci-dessous propose une structure ; les
-> réponses doivent venir de vous.
-
 ### 7.1 Bilan de SEIBOU Naadjath
-
-**[Brouillon à relire et corriger avant dépôt : ce texte part de ce que j'ai
-réellement vécu pendant le projet, mais il doit passer par tes mots avant
-d'être rendu. Coupe, corrige, ajoute ce qui manque.]**
 
 **Ce que ce projet m'a apporté.** Je suis partie de très loin sur les deux
 sujets du projet à la fois : je n'avais jamais écrit de programme Python
@@ -664,36 +645,16 @@ Transformers de façon plus générale, au-delà de leur application aux
 
 ### 7.2 Bilan de LAKRA Rajaa
 
-**[ATTENTION, BROUILLON NON VÉRIFIÉ. Je n'ai aucune information directe sur ce que
-Rajaa a vécu pendant ce projet : ce texte propose des formulations
-plausibles pour quelqu'un dans sa situation, pas des faits. Rajaa doit le
-lire et corriger tout ce qui ne lui correspond pas avant le dépôt, y
-compris si ça veut dire tout réécrire. Ne pas rendre tel quel.]**
+**Ce que ce projet m'a apporté.** ______
 
-**Ce que ce projet m'a apporté.** Comme Naadjath, je n'avais pas une
-pratique approfondie de Python avant ce projet, et je ne connaissais pas
-les règles précises du jeu d'échecs au-delà des bases. Travailler sur un
-sujet technique aussi exigeant m'a obligée à apprendre en marchant plutôt
-qu'en suivant un cours structuré, en m'appuyant sur ce que Naadjath
-comprenait déjà et en cherchant par moi-même sur les points que je ne
-maîtrisais pas.
+**Compétences techniques mobilisées ou développées.** ______
 
-**Compétences techniques mobilisées ou développées.** Manipulation de
-Python sur un projet réel plutôt que sur des exercices isolés, découverte
-du fonctionnement d'un moteur d'échecs externe (Stockfish) et de son
-intégration via le protocole UCI, prise en main de Git pour un travail en
-binôme avec un historique de commits partagé.
+**Compétences professionnelles/transversales.** Coordination avec ma
+binôme sur un projet technique long, soumis aux mêmes contraintes de temps
+et de matériel partagé (voir §6), avec un partage des tâches organisé au
+fil de l'avancement plutôt que figé à l'avance (voir §3.3).
 
-**Compétences professionnelles/transversales.** Travail en équipe sur un
-projet long avec des imprévus techniques (notamment les déconnexions de
-l'environnement d'entraînement gratuit), qui a demandé de s'adapter et de
-prioriser plutôt que de suivre un plan figé. Communication avec ma
-binôme pour synchroniser l'avancement sur les différentes parties du
-projet.
-
-**Points que je souhaiterais approfondir.** [à compléter par Rajaa : par
-exemple l'évaluation de modèles, le développement d'applications, ou tout
-autre aspect du projet qui l'a particulièrement intéressée.]
+**Points que je souhaiterais approfondir.** ______
 
 ---
 
