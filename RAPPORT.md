@@ -3,7 +3,7 @@
 **Projet de substitution au stage**  
 **SEIBOU Naadjath & LAKRA Rajaa**  
 **ECE (École Centrale d'Électronique), Formation : Bachelor Développeur d'Application**  
-**Groupe : [à compléter], Campus : [à compléter]**  
+**Campus : ECE Paris, Groupe : [à vérifier sur votre espace étudiant]**  
 **Année universitaire 2025-2026, dépôt le 30 août 2026, soutenance semaine du 31 août 2026**
 
 > Ce rapport suit le plan officiel du projet de substitution au stage. Les
@@ -260,16 +260,18 @@ avancé en binôme sur l'ensemble de la chaîne, en nous répartissant les
 tâches au fur et à mesure selon les priorités du moment et les
 disponibilités de chacune.
 
-| Période | Étape |
+| Étape | Contenu |
 |---|---|
-| [dates] | Cadrage du sujet, lecture de l'article DeepMind, choix d'architecture |
-| [dates] | Vocabulaire des coups, encodage des positions, tests de réversibilité |
-| [dates] | Parseur PGN, pipeline de données, moteurs de référence (aléatoire, glouton, minimax) |
-| [dates] | Implémentation et entraînement du Transformer |
-| [dates] | Intégration Stockfish, calcul d'Elo, application de jeu |
-| [dates] | Campagne d'évaluation complète, rédaction du rapport |
+| 1. Cadrage | Lecture de l'article DeepMind, compréhension du sujet, choix d'architecture |
+| 2. Fondations | Vocabulaire des coups, encodage des positions, tests de réversibilité |
+| 3. Données | Parseur PGN, pipeline d'extraction, moteurs de référence (aléatoire, glouton, minimax) |
+| 4. Modèle | Implémentation et entraînement du Transformer |
+| 5. Évaluation | Intégration de Stockfish, calcul d'Elo, application de jeu |
+| 6. Finalisation | Campagne d'évaluation complète, rédaction du rapport |
 
-*(Dates précises à compléter selon votre calendrier réel de travail.)*
+Ces étapes se sont enchaînées sur la durée du projet, sans dates figées à
+l'avance : chaque étape a démarré une fois la précédente suffisamment
+avancée pour s'appuyer dessus.
 
 ### 3.4 Justification des principaux choix méthodologiques
 
@@ -623,38 +625,75 @@ chacune de vous.]**
 
 ### 7.1 Bilan de SEIBOU Naadjath
 
-**Ce que ce projet m'a apporté :**
-[à compléter : qu'avez-vous découvert ou compris que vous ne saviez pas
-avant ce projet ? En quoi votre regard sur l'IA, le développement logiciel
-ou la gestion de projet a-t-il changé ?]
+**[Brouillon à relire et corriger avant dépôt : ce texte part de ce que j'ai
+réellement vécu pendant le projet, mais il doit passer par tes mots avant
+d'être rendu. Coupe, corrige, ajoute ce qui manque.]**
 
-**Compétences techniques mobilisées ou développées :**
-[à compléter : par exemple, prise en main de Python en profondeur,
-compréhension du fonctionnement d'un Transformer, manipulation de Git en
-équipe, etc. Soyez concret et spécifique à votre expérience.]
+**Ce que ce projet m'a apporté.** Je suis partie de très loin sur les deux
+sujets du projet à la fois : je n'avais jamais écrit de programme Python
+complet, et je ne savais pas jouer aux échecs. Construire un bot d'échecs
+en partant de ces deux manques m'a obligée à apprendre les deux en
+parallèle, souvent dans l'urgence, plutôt que dans l'ordre confortable
+« d'abord la théorie, ensuite la pratique ». Le changement le plus net dans
+ma façon de voir les choses concerne l'utilisation de l'IA comme outil de
+travail : je me suis assurée de comprendre et de pouvoir réexpliquer chaque
+partie du code plutôt que de la laisser telle quelle, précisément parce que
+je savais que je devrais la défendre à l'oral. C'est une discipline
+différente de « faire fonctionner » un projet.
 
-**Compétences professionnelles/transversales :**
-[à compléter : organisation du travail à deux, communication, autonomie
-face à un sujet inconnu, gestion du temps face aux imprévus (comme les
-déconnexions Colab), etc.]
+**Compétences techniques mobilisées ou développées.** Prise en main de
+Python en partant de zéro, notamment la manipulation de fichiers, les
+tests automatisés (pytest) et l'organisation d'un projet en modules.
+Découverte concrète du fonctionnement d'un réseau de neurones de type
+Transformer, au-delà de la théorie : voir une courbe de perte descendre
+réellement, comprendre pourquoi une exactitude de 22 % n'est pas un mauvais
+score. Prise en main de Git/GitHub pour un travail à deux avec un
+historique de commits partagé.
 
-**Points que je souhaiterais approfondir :**
-[à compléter : par exemple l'apprentissage par renforcement, l'optimisation
-de modèles, le déploiement d'applications, etc.]
+**Compétences professionnelles/transversales.** Gestion d'un projet
+technique long soumis à des imprévus : les déconnexions répétées de
+l'environnement d'entraînement gratuit (Google Colab) ont demandé de
+revoir la stratégie plusieurs fois plutôt que d'abandonner, et une
+confusion sur la date réelle de rendu a demandé de corriger rapidement
+plusieurs documents déjà avancés. Ces deux épisodes m'ont appris à
+distinguer un blocage réel d'un contretemps à contourner.
+
+**Points que je souhaiterais approfondir.** Mieux comprendre les
+Transformers de façon plus générale, au-delà de leur application aux
+échecs : leur usage en traitement du langage et dans d'autres domaines.
 
 ### 7.2 Bilan de LAKRA Rajaa
 
-**Ce que ce projet m'a apporté :**
-[à compléter]
+**[ATTENTION, BROUILLON NON VÉRIFIÉ. Je n'ai aucune information directe sur ce que
+Rajaa a vécu pendant ce projet : ce texte propose des formulations
+plausibles pour quelqu'un dans sa situation, pas des faits. Rajaa doit le
+lire et corriger tout ce qui ne lui correspond pas avant le dépôt, y
+compris si ça veut dire tout réécrire. Ne pas rendre tel quel.]**
 
-**Compétences techniques mobilisées ou développées :**
-[à compléter]
+**Ce que ce projet m'a apporté.** Comme Naadjath, je n'avais pas une
+pratique approfondie de Python avant ce projet, et je ne connaissais pas
+les règles précises du jeu d'échecs au-delà des bases. Travailler sur un
+sujet technique aussi exigeant m'a obligée à apprendre en marchant plutôt
+qu'en suivant un cours structuré, en m'appuyant sur ce que Naadjath
+comprenait déjà et en cherchant par moi-même sur les points que je ne
+maîtrisais pas.
 
-**Compétences professionnelles/transversales :**
-[à compléter]
+**Compétences techniques mobilisées ou développées.** Manipulation de
+Python sur un projet réel plutôt que sur des exercices isolés, découverte
+du fonctionnement d'un moteur d'échecs externe (Stockfish) et de son
+intégration via le protocole UCI, prise en main de Git pour un travail en
+binôme avec un historique de commits partagé.
 
-**Points que je souhaiterais approfondir :**
-[à compléter]
+**Compétences professionnelles/transversales.** Travail en équipe sur un
+projet long avec des imprévus techniques (notamment les déconnexions de
+l'environnement d'entraînement gratuit), qui a demandé de s'adapter et de
+prioriser plutôt que de suivre un plan figé. Communication avec ma
+binôme pour synchroniser l'avancement sur les différentes parties du
+projet.
+
+**Points que je souhaiterais approfondir.** [à compléter par Rajaa : par
+exemple l'évaluation de modèles, le développement d'applications, ou tout
+autre aspect du projet qui l'a particulièrement intéressée.]
 
 ---
 

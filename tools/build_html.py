@@ -453,7 +453,21 @@ def markdown_to_html(source: str) -> tuple[str, str, list[tuple[str, str]]]:
                 item = re.match(r"^\s*([-*]|\d+\.)\s+(.*)$", lines[index])
                 if not item:
                     break
-                content = item.group(2)
+                content_lines = [item.group(2).strip()]
+                index += 1
+                # Une puce peut continuer sur les lignes suivantes (retour a
+                # la ligne du fichier source, sans marqueur de puce) : on les
+                # rattache au meme <li>, sinon elles atterrissent dans un
+                # paragraphe orphelin juste apres la liste.
+                while (
+                    index < len(lines)
+                    and lines[index].strip()
+                    and not re.match(r"^\s*([-*]|\d+\.)\s+", lines[index])
+                    and not re.match(r"^\s*(#{1,4}\s|>|\||```|-{3,}$)", lines[index])
+                ):
+                    content_lines.append(lines[index].strip())
+                    index += 1
+                content = " ".join(content_lines)
                 checkbox = re.match(r"^\[( |x|X)\]\s*(.*)$", content)
                 if checkbox:
                     checked = " checked" if checkbox.group(1).lower() == "x" else ""
@@ -463,7 +477,6 @@ def markdown_to_html(source: str) -> tuple[str, str, list[tuple[str, str]]]:
                     )
                 else:
                     items.append(f"<li>{_inline(content)}</li>")
-                index += 1
             tag = "ol" if ordered else "ul"
             out.append(f"<{tag}>{''.join(items)}</{tag}>")
             continue
@@ -473,21 +486,25 @@ def markdown_to_html(source: str) -> tuple[str, str, list[tuple[str, str]]]:
         # ligne force en Markdown (comme un <br>) : on le garde AVANT de
         # rogner les espaces, sinon deux lignes voulues distinctes (ex. les
         # lignes d'un bloc auteur) fusionnent silencieusement en une seule.
-        paragraph: list[str] = []
+        # Les lignes sont d'abord JOINTES en un seul texte (avec un
+        # marqueur pour les sauts forces), puis _inline() s'applique en une
+        # seule passe : sinon un **gras** ou un *italique* qui s'etale sur
+        # plusieurs lignes du fichier source ne serait jamais reconnu.
+        para_lines: list[str] = []
+        hard_breaks: list[bool] = []
         while index < len(lines) and lines[index].strip() and not re.match(
             r"^\s*(#{1,4}\s|[-*]\s|\d+\.\s|>|\||```|-{3,}$)", lines[index]
         ):
             raw = lines[index]
-            hard_break = raw.rstrip("\n").endswith("  ")
-            paragraph.append((raw.strip(), hard_break))
+            hard_breaks.append(raw.rstrip("\n").endswith("  "))
+            para_lines.append(raw.strip())
             index += 1
-        if paragraph:
-            pieces = []
-            for i, (text, hard_break) in enumerate(paragraph):
-                pieces.append(_inline(text))
-                if i < len(paragraph) - 1:
-                    pieces.append("<br>" if hard_break else " ")
-            out.append(f"<p>{''.join(pieces)}</p>")
+        if para_lines:
+            joined = para_lines[0]
+            for line, was_hard_break in zip(para_lines[1:], hard_breaks):
+                joined += ("\x01" if was_hard_break else " ") + line
+            rendered = _inline(joined).replace("\x01", "<br>")
+            out.append(f"<p>{rendered}</p>")
         else:
             index += 1
 
